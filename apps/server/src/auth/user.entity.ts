@@ -44,6 +44,13 @@ export class User {
     this._hashedToken = '';
   }
 
+  public async isValidToken(token: string): Promise<boolean> {
+    if (!this.hashedToken) {
+      return false;
+    }
+    return compare(token, this._hashedToken);
+  }
+
   public async setPassword(password: string, salt: number): Promise<void> {
     this._password = await hash(password, salt);
   }

@@ -8,7 +8,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { getJWTConfig } from '../configs/jwt.config';
 import { TokenService } from './token/token.service';
 import { PassportModule } from '@nestjs/passport';
-import { JwtAccessStrategy } from './strategies/jwt.strategy';
+import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
+import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 
 @Module({
   controllers: [AuthController],
@@ -22,6 +23,6 @@ import { JwtAccessStrategy } from './strategies/jwt.strategy';
       useFactory: getJWTConfig,
     }),
   ],
-  providers: [UserRepository, AuthService, TokenService, JwtAccessStrategy],
+  providers: [UserRepository, AuthService, TokenService, JwtAccessStrategy, JwtRefreshStrategy],
 })
 export class AuthModule {}
