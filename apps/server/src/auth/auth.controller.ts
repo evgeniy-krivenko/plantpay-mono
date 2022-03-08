@@ -1,8 +1,9 @@
-import { Body, Controller, Post, HttpCode, UsePipes, ValidationPipe, Res } from '@nestjs/common';
+import { Body, Controller, Post, HttpCode, UsePipes, ValidationPipe, Res, Get, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { SignInUserDto } from './dto/sign-in-user.dto';
+import { JwtAccessGuard } from './guards/jwt-access.guard';
 import { User } from './user.entity';
 
 @UsePipes(ValidationPipe)
@@ -22,5 +23,11 @@ export class AuthController {
     const { accessJWTCookies, refreshJWTCookies, user } = await this.authService.signIn(dto);
     response.setHeader('Set-Cookie', [accessJWTCookies, refreshJWTCookies]);
     return user;
+  }
+
+  @UseGuards(JwtAccessGuard)
+  @Get('/test')
+  test() {
+    return { message: 'Hello world' };
   }
 }
