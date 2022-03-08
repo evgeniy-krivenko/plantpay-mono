@@ -11,12 +11,12 @@ datasource db {
 }
 
 model UserModel {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  name     String @db.VarChar(30)
-  password String
-  isVendor  Boolean
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  name        String   @db.VarChar(30)
+  password    String
+  isVendor    Boolean
+  hashedToken String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
-

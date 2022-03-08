@@ -2,6 +2,7 @@
   "root": true,
   "ignorePatterns": ["**/*"],
   "plugins": ["@nrwl/nx"],
+  "extends": ["plugin:prettier/recommended"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -17,6 +18,17 @@
                 "onlyDependOnLibsWithTags": ["*"]
               }
             ]
+          }
+        ],
+        "prettier/prettier": [
+          "error",
+          {
+            "singleQuote": true,
+            "semi": true,
+            "trailingComma": "all",
+            "bracketSpacing": true,
+            "printWidth": 120,
+            "endOfLine": "auto"
           }
         ]
       }
