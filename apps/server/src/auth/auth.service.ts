@@ -3,25 +3,19 @@ import { UserRepository } from './repository/user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { SignInUserDto } from './dto/sign-in-user.dto';
-import { JwtService } from '@nestjs/jwt';
-import { TokenService } from './token/token.service';
-import { SignIn } from './types/sign-in.interface';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly userRepository: UserRepository,
-    private readonly jwtService: JwtService,
-    private readonly tokenService: TokenService,
-  ) {}
+  constructor(private readonly userRepository: UserRepository, private readonly configService: ConfigService) {}
 
-  async create(dto: CreateUserDto): Promise<void> {
+  async signUp(dto: CreateUserDto): Promise<void> {
     const user = new User(dto.name, dto.email);
     await user.setPassword(dto.password, 5);
     await this.userRepository.create(user);
   }
 
-  async signIn({ email, password }: SignInUserDto): Promise<SignIn> {
+  async signIn({ email, password }: SignInUserDto, token: string): Promise<User> {
     const user = await this.userRepository.findByEmail(email);
     if (!user) {
       throw new UnauthorizedException('Неверный email или пароль');
@@ -30,19 +24,23 @@ export class AuthService {
     if (!isValidPassword) {
       throw new UnauthorizedException('Неверный email или пароль');
     }
-    const payload = { email: user.email };
-    const accessJWTCookies = await this.tokenService.getCookiesWithJWTAccessToken(payload);
-    const { refreshJWTCookies, token } = await this.tokenService.getCookiesWithJWTRefreshToken(payload);
-    user.setHashedToken(token, 10);
+    const salt = Number(this.configService.get('SALT'));
+    user.setHashedToken(token, salt);
     await this.userRepository.updateToken(user);
-    return {
-      accessJWTCookies,
-      refreshJWTCookies,
-      user: {
-        email: user.email,
-        name: user.name,
-        isVendor: user.isVendor,
-      },
-    };
+    return user;
+  }
+
+  async refresh(email: string, refreshToken: string, newRefreshToken: string): Promise<void> {
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) {
+      throw new UnauthorizedException('Такой пользователь отсутствует');
+    }
+    const isValidToken = await user.isValidToken(refreshToken);
+    if (!isValidToken) {
+      throw new UnauthorizedException('Токен был использован ранее');
+    }
+    const salt = Number(this.configService.get('SALT'));
+    user.setHashedToken(newRefreshToken, salt);
+    await this.userRepository.updateToken(user);
   }
 }
