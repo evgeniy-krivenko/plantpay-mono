@@ -22,7 +22,7 @@ export class TokenService {
       secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET'),
       expiresIn: this.configService.get('JWT_REFRESH_TOKEN_EXPIRATION_TIME'),
     });
-    const refreshJWTCookies = `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+    const refreshJWTCookies = `Refresh=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
       'JWT_REFRESH_TOKEN_EXPIRATION_TIME',
     )}`;
     return {
