@@ -1,5 +1,3 @@
--- noinspection SqlResolveForFile @ column/"isAdmin"
-
 /*
   Warnings:
 
