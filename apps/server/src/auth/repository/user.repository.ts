@@ -5,8 +5,6 @@ import { UserMapper } from './user.mapper';
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserRepository {
-  private user: User;
-
   constructor(private readonly prismaServise: PrismaService) {}
 
   async create(user: User): Promise<User> {
@@ -23,13 +21,12 @@ export class UserRepository {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const userModel = await this.prismaServise.userModel.findFirst({
-      where: { email },
-    });
+    const userModel = await this.prismaServise.userModel.findUnique({ where: { email } });
     if (!userModel) {
       return null;
     }
-    return UserMapper.mapToDomain(userModel);
+    const userRoles = await this.prismaServise.roleModel.findMany({ where: { id: userModel.id } });
+    return UserMapper.mapToDomain(userModel, userRoles);
   }
 
   async updateToken(user: User): Promise<void> {

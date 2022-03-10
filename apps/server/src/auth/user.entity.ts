@@ -1,4 +1,6 @@
+import { RoleModel, RoleType } from '@prisma/client';
 import { compare, hash } from 'bcrypt';
+import { Role } from './role.entity';
 
 export class User {
   private _password: string;
@@ -10,6 +12,9 @@ export class User {
     private readonly _hashedPassword?: string,
     private readonly _id?: number,
     private _hashedToken?: string,
+    private readonly _createdAt?: Date,
+    private readonly _updatedAt?: Date,
+    private readonly _roles?: Role[],
   ) {}
 
   get name(): string {
@@ -28,12 +33,24 @@ export class User {
     return this._isVendor;
   }
 
+  get createdAt(): Date {
+    return this._createdAt;
+  }
+
+  get updatedAt(): Date {
+    return this._updatedAt;
+  }
+
   get password(): string {
-    return this._password;
+    return this._hashedPassword;
   }
 
   get hashedToken(): string {
     return this._hashedToken;
+  }
+
+  get roles(): Role[] {
+    return this._roles;
   }
 
   public async setHashedToken(token: string, salt: number): Promise<void> {
@@ -60,5 +77,9 @@ export class User {
       return false;
     }
     return await compare(password, this._hashedPassword);
+  }
+
+  public hasRoles(roles: RoleType[]): boolean {
+    return roles.every((role) => this._roles.some((r) => role === r.value));
   }
 }
