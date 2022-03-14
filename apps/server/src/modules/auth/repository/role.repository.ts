@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { RoleType } from '@prisma/client';
-import { PrismaService } from '../../../prisma/prisma.service';
+import { PrismaService } from '@plantpay-mono/prisma';
 import { Role } from '../role.entity';
 import { RoleMapper } from './role.mapper';
 
