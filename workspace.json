@@ -4,6 +4,7 @@
     "client": "apps/client",
     "client-e2e": "apps/client-e2e",
     "constants": "libs/constants",
+    "prisma": "libs/prisma",
     "server": "apps/server",
     "types": "libs/types"
   }

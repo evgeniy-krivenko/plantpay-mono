@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
-import { PrismaModule } from '../../prisma/prisma.module';
+import { PrismaModule } from '@plantpay-mono/prisma';
 import { UserRepository } from './repository/user.repository';
 import { AuthService } from './auth.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';

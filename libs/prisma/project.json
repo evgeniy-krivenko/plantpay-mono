@@ -1,0 +1,44 @@
+{
+  "root": "libs/prisma",
+  "sourceRoot": "libs/prisma/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/prisma/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/prisma"],
+      "options": {
+        "jestConfig": "libs/prisma/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+	"migration-save": {
+		"executor": "@nrwl/workspace:run-commands",
+		"options": {
+		  "command": "npx prisma migrate dev --name {args.name}",
+		  "cwd": "libs/prisma"
+		}
+	  },
+	  "migration-deploy": {
+		"executor": "@nrwl/workspace:run-commands",
+		"options": {
+		  "command": "npx prisma migrate deploy",
+		  "cwd": "libs/prisma"
+		}
+	  },
+	  "gen-client": {
+		"executor": "@nrwl/workspace:run-commands",
+		"options": {
+		  "command": "npx prisma generate --schema ./src/prisma/schema.prisma",
+		  "cwd": "libs/prisma"
+		}
+	  }
+  },
+  "tags": []
+}
