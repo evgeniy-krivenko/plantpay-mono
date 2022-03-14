@@ -1,21 +1,23 @@
-import { RoleModel, RoleType } from '@prisma/client';
+import { RoleType } from '@prisma/client';
 import { compare, hash } from 'bcrypt';
 import { Role } from './role.entity';
 
 export class User {
-  private _password: string;
-
   constructor(
     private readonly _name: string,
     private readonly _email: string,
     private readonly _isVendor = false,
-    private readonly _hashedPassword?: string,
+    private _password?: string,
     private readonly _id?: number,
     private _hashedToken?: string,
     private readonly _createdAt?: Date,
     private readonly _updatedAt?: Date,
     private readonly _roles?: Role[],
-  ) {}
+  ) {
+    if (!_roles) {
+      this._roles = [];
+    }
+  }
 
   get name(): string {
     return this._name;
@@ -42,7 +44,7 @@ export class User {
   }
 
   get password(): string {
-    return this._hashedPassword;
+    return this._password;
   }
 
   get hashedToken(): string {
@@ -73,13 +75,37 @@ export class User {
   }
 
   public async isValidPassword(password: string): Promise<boolean> {
-    if (!this._hashedPassword) {
+    if (!this._password) {
       return false;
     }
-    return await compare(password, this._hashedPassword);
+    return await compare(password, this._password);
   }
 
   public hasRoles(roles: RoleType[]): boolean {
-    return roles.every((role) => this._roles.some((r) => role === r.value));
+    return roles.every((role) => this._isContainRole(role));
+  }
+
+  public addRole(role: Role): void {
+    if (!this._isContainRole(role.value)) {
+      this._roles.push(role);
+    }
+  }
+
+  public getRoleByType(type: RoleType): Role | null {
+    let role: Role;
+    this.roles.forEach((r) => {
+      if (r.value === type) {
+        role = r;
+      }
+    });
+    return role || null;
+  }
+
+  public getAllRolesIds(): number[] {
+    return this._roles.map((r) => r.id);
+  }
+
+  private _isContainRole(roleType: RoleType): boolean {
+    return this._roles.some((r) => roleType === r.value);
   }
 }

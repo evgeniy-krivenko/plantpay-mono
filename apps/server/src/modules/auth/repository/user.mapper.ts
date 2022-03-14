@@ -1,6 +1,6 @@
 import { RoleModel, UserModel } from '@prisma/client';
-import { Role } from '../role.entity';
 import { User } from '../user.entity';
+import { RoleMapper } from './role.mapper';
 
 export class UserMapper {
   static mapToDomain(userModel: UserModel, roles?: RoleModel[]): User {
@@ -13,7 +13,7 @@ export class UserMapper {
       userModel.hashedToken,
       userModel.createdAt,
       userModel.updatedAt,
-      RoleMapper.mapToDomain(roles),
+      RoleMapper.mapToDomainRoles(roles),
     );
   }
 
@@ -28,11 +28,5 @@ export class UserMapper {
       updatedAt: user.updatedAt,
       isVendor: user.isVendor,
     };
-  }
-}
-
-export class RoleMapper {
-  static mapToDomain(roles: RoleModel[]): Role[] {
-    return roles.map((role) => new Role(role.id, role.value, role.description));
   }
 }

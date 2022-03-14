@@ -44,6 +44,7 @@
       "outputs": ["coverage/apps/server"],
       "options": {
         "jestConfig": "apps/server/jest.config.js",
+		"envFile": ".env.test",
         "passWithNoTests": true
       }
     }
