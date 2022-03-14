@@ -1,7 +1,11 @@
 import { RoleType } from '@prisma/client';
 
 export class Role {
-  constructor(private readonly _id: number, private readonly _value: RoleType, private readonly _description: string) {}
+  constructor(
+    private readonly _value: RoleType,
+    private readonly _description: string,
+    private readonly _id?: number,
+  ) {}
 
   get id(): number {
     return this._id;
