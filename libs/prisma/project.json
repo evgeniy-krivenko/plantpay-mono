@@ -25,12 +25,26 @@
 		  "cwd": "libs/prisma"
 		}
 	  },
+	  "migration-deploy-test": {
+		"executor": "@nrwl/workspace:run-commands",
+		"options": {
+		  "command": "npx prisma migrate deploy --schema ./src/prisma/schema.prisma",
+		  "cwd": "libs/prisma"
+		}
+	  },
 	  "migration-deploy": {
 		"executor": "@nrwl/workspace:run-commands",
 		"options": {
-		  "command": "npx prisma migrate deploy",
+		  "command": "npx prisma migrate deploy --schema ./src/prisma/schema.prisma",
 		  "cwd": "libs/prisma"
 		}
+	  },
+	  "seed": {
+		"executor": "@nrwl/workspace:run-commands",
+		"options": {
+			"command": "node src/seed.js",
+			"cwd": "libs/prisma"
+		  }
 	  },
 	  "gen-client": {
 		"executor": "@nrwl/workspace:run-commands",
