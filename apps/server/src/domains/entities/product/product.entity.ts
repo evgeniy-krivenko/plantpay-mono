@@ -1,5 +1,5 @@
-import CyrillicToTranslit from 'cyrillic-to-translit-js'
-import { v4 as uuidv4 } from 'uuid'
+import CyrillicToTranslit from 'cyrillic-to-translit-js';
+import { v4 as uuidv4 } from 'uuid';
 
 export type ProductId = string;
 
@@ -8,14 +8,14 @@ export const PRODUCT_ENTITY_STATUS = {
   MODERATE: 'MODERATE',
   PUBLISHED: 'PUBLISHED',
   ORDERED: 'ORDERED',
-  SOLD: 'SOLD'
+  SOLD: 'SOLD',
 } as const;
 
 export type PRODUCT_ENTITY_STATUS = keyof typeof PRODUCT_ENTITY_STATUS;
 
 export class ProductEntity {
   private readonly _slug: string;
-  private readonly _status: PRODUCT_ENTITY_STATUS
+  private readonly _status: PRODUCT_ENTITY_STATUS;
 
   constructor(
     private readonly _name: string,
@@ -24,7 +24,7 @@ export class ProductEntity {
     private readonly _id?: ProductId,
   ) {
     this._slug = ProductEntity.createSlug(_name);
-    this._status = PRODUCT_ENTITY_STATUS.DRAFT
+    this._status = PRODUCT_ENTITY_STATUS.DRAFT;
   }
 
   get slug(): string {
@@ -53,4 +53,3 @@ export class ProductEntity {
     return transiledName + '--' + uuidv4();
   }
 }
-

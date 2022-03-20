@@ -9,15 +9,14 @@ import { UserRepository } from '../repository/user.repository';
  */
 @Injectable()
 export class RoleGuard implements CanActivate {
-  constructor(private readonly userRepository: UserRepository, private readonly reflector: Reflector) {}
+  constructor(private readonly reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const roles = this.reflector.get<RoleType[]>('roles', context.getHandler());
     if (!roles) {
       return true;
     }
-    const { user: email } = context.switchToHttp().getRequest();
-    const user = await this.userRepository.findByEmail(email);
+    const { user } = context.switchToHttp().getRequest();
     if (!user) {
       return false;
     }

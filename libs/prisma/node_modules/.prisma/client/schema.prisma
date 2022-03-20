@@ -2,45 +2,89 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model UserModel {
-  id          Int            @id @default(autoincrement())
-  email       String         @unique
-  name        String         @db.VarChar(30)
-  password    String
-  isVendor    Boolean
-  hashedToken String?
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  roles       UsersOnRoles[]
+    id          Int            @id @default(autoincrement())
+    email       String         @unique
+    name        String         @db.VarChar(30)
+    password    String
+    isVendor    Boolean
+    hashedToken String?
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
+    roles       UsersOnRoles[]
+    products    ProductModel[]
 }
 
 model RoleModel {
-  id          Int            @id @default(autoincrement())
-  value       RoleType       
-  description String         @db.VarChar(140)
-  users       UsersOnRoles[]
+    id          Int            @id @default(autoincrement())
+    value       RoleType
+    description String         @db.VarChar(140)
+    users       UsersOnRoles[]
 }
 
 model UsersOnRoles {
-  user   UserModel @relation(fields: [userId], references: [id])
-  userId Int
-  role   RoleModel @relation(fields: [roleId], references: [id])
-  roleId Int
+    user   UserModel @relation(fields: [userId], references: [id])
+    userId Int
+    role   RoleModel @relation(fields: [roleId], references: [id])
+    roleId Int
 
-  @@id([userId, roleId])
+    @@id([userId, roleId])
 }
 
 enum RoleType {
-	ADMIN
-	BYIER
-	VENDOR
-	MODERATOR
+    ADMIN
+    BYIER
+    VENDOR
+    MODERATOR
+}
+
+model ProductModel {
+    id          String        @id
+    name        String        @db.Char(40)
+    description String
+    status      ProductStatus @default(DRAFT)
+    vendor      UserModel     @relation(fields: [vendorId], references: [id])
+    vendorId    Int
+    category    CategoryModel @relation(fields: [categoryId], references: [id])
+    categoryId  Int
+    slug        String        @unique
+    price       Decimal       @db.Decimal(9, 2)
+    amount      Int           @default(1)
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
+    images      ImageModel[]
+}
+
+enum ProductStatus {
+    DRAFT
+    MODERATION
+    WAITING
+    PUBLISHED
+    ORDERED
+    SOLD
+    ARCHIVED
+}
+
+model CategoryModel {
+    id       Int            @id @default(autoincrement())
+    name     String         @unique @db.Char(20)
+    icon     String
+    slug     String         @unique
+    products ProductModel[]
+}
+
+model ImageModel {
+    id        String       @id
+    url       String
+    isMain    Boolean      @default(false)
+    product   ProductModel @relation(fields: [productId], references: [id])
+    productId String
 }

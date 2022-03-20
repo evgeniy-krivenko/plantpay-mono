@@ -21,7 +21,8 @@
 	"migration-save": {
 		"executor": "@nrwl/workspace:run-commands",
 		"options": {
-		  "command": "npx prisma migrate dev --name {args.name}",
+      "envFile": "./apps/server/.env",
+		  "command": "npx prisma migrate dev --schema ./src/prisma/schema.prisma --name {args.name}",
 		  "cwd": "libs/prisma"
 		}
 	  },

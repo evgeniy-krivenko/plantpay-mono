@@ -3,7 +3,7 @@ services:
   postgres:
     image: postgres:13.3
     env_file:
-      - ./.env
+      - ./apps/server/.env
     environment:
       POSTGRES_DB: ${SQL_DATABASE}
       POSTGRES_USER: ${SQL_USER}

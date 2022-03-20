@@ -1,0 +1,32 @@
+import {
+  Controller,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Post,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { IImageElement } from '@plantpay-mono/types';
+import { JwtAccessGuard } from '../auth/guards/jwt-access.guard';
+import { Express } from 'express';
+import 'multer';
+import { FilesService } from './files.service';
+
+@Controller('files')
+export class FilesController {
+  constructor(private readonly filesService: FilesService) {}
+
+  @Post('product/upload')
+  @HttpCode(200)
+  @UseGuards(JwtAccessGuard)
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(@UploadedFile() file: Express.Multer.File): Promise<IImageElement> {
+    if (!file.mimetype.includes('image')) {
+      throw new HttpException('Wrong format file', HttpStatus.BAD_REQUEST);
+    }
+    return this.filesService.createImageFromBuffer(file.buffer, 'jpeg');
+  }
+}
