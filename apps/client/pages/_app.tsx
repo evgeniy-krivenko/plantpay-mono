@@ -1,18 +1,8 @@
+import React, { FC } from 'react';
 import { AppProps } from 'next/app';
-import Head from 'next/head';
-import './styles.css';
+import { wrapper } from '../store';
+// import '../styles/globals.scss';
 
-function CustomApp({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      <Head>
-        <title>Welcome to client!</title>
-      </Head>
-      <main className="app">
-        <Component {...pageProps} />
-      </main>
-    </>
-  );
-}
+const WrappedApp: FC<AppProps> = ({ Component, pageProps }) => <Component {...pageProps} />;
 
-export default CustomApp;
+export default wrapper.withRedux(WrappedApp);

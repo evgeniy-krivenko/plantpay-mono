@@ -1,4 +1,4 @@
-import { IImageElement } from '@plantpay-mono/types';
+import { IImageElement } from '../file/file-element.interface';
 import BigNumber from 'bignumber.js';
 
 export interface IProductForUsers {
