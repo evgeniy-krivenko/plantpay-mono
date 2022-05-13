@@ -1,0 +1,29 @@
+@import "global";
+
+.item {
+  display: flex;
+  justify-content: space-around;
+  justify-self: stretch;
+  align-self: center;
+  min-width: 64px;
+}
+
+.wrapper {
+  position: relative;
+  justify-self: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100%;
+  font-size: 12px;
+  line-height: 12px;
+  font-family: 'Open Sans', Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  color: $raisin-black;
+  svg {
+    margin: 4px 0 4px 0;
+  }
+}

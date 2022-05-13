@@ -4,8 +4,8 @@ import { IsInt } from 'class-validator';
 export class GetProductsQuery {
   @IsInt()
   @Type(() => Number)
-  limit: number;
+  limit?: number;
   @IsInt()
   @Type(() => Number)
-  offset: number;
+  offset?: number;
 }

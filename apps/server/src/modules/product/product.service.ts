@@ -31,12 +31,15 @@ export class ProductService {
     };
   }
 
-  async getAllForUsers(limit: number, offset: number): Promise<IProductForUsers[]> {
+  async getAllForUsers(limit = 20, offset = 0): Promise<IProductForUsers[]> {
     const productsGenerator = this.productRepository.getAllPublishedProducts(limit, offset);
     const productsForUser: IProductForUsers[] = [];
     for await (const product of productsGenerator) {
       const { id, name, description, images, categoryId, slug, price } = product;
-      productsForUser.push({ id, name, description, images, categoryId, slug, price });
+      // TODO: сделать выборку по isMain
+      const [image, ...otherImages] = images;
+      image.url = '/static/' + image.url;
+      productsForUser.push({ id, name, description, image, categoryId, slug, price });
     }
     return productsForUser;
   }

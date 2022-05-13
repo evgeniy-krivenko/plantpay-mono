@@ -17,6 +17,7 @@ export const fetchProducts = createAsyncThunk<
     const response = await $api.get('/products', { params });
     return response?.data;
   } catch (e: any) {
+    console.log(e);
     return thunkAPI.rejectWithValue('Что-то пошло не так, попробуйте позже');
   }
 });

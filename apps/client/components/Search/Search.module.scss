@@ -1,0 +1,23 @@
+@import 'global';
+
+.search {
+  grid-area: search;
+  position: relative;
+  max-width: 384px;
+
+  button {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+.input {
+  padding-left: 16px;
+  width: 100%;
+  height: 40px;
+  background-color: $cultured;
+  border-radius: 3px;
+  color: $cool-grey;
+  font-size: 14px;
+}

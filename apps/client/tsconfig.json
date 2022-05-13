@@ -21,8 +21,9 @@
     "**/*.tsx",
     "**/*.js",
     "**/*.jsx",
-    "next-env.d.ts"
-  ],
+    "next-env.d.ts",
+    "index.d.ts",
+    "../../webpack.config.js"  ],
   "exclude": [
     "node_modules"
   ]

@@ -2,11 +2,25 @@
   "root": "apps/client",
   "sourceRoot": "apps/client",
   "projectType": "application",
+  "architect": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "options": {
+        "webpackConfig": "./webpack.config.js",
+        "styles": ["libs/shared/styles/_global.scss"]
+      },
+      "stylePreprocessorOptions": {
+          "includePaths": [ "libs/shared/styles" ]
+      },
+      "extractCss": true
+      }
+    },
   "targets": {
     "build": {
       "executor": "@nrwl/next:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
+      "webpackConfig": "./webpack.config.js",
       "options": {
         "root": "apps/client",
         "outputPath": "dist/apps/client"
@@ -15,12 +29,26 @@
         "production": {}
       }
     },
+  
     "serve": {
       "executor": "@nrwl/next:server",
       "options": {
         "buildTarget": "client:build",
         "dev": true,
-        "proxyConfig": "apps/client/proxy.conf.json"
+        "proxyConfig": "apps/client/proxy.conf.json",
+        "webpackConfig": "./webpack.config.js",
+        "dependsOn": [
+          {
+            "target": "serve",
+            "projects": "ui"
+          }
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "libs/shared/styles",
+            "libs/ui"
+          ]
+        }
       },
       "configurations": {
         "production": {

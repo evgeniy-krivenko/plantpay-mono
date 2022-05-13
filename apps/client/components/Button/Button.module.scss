@@ -1,0 +1,48 @@
+@import "global";
+
+.button {
+  grid-area: button;
+  border-radius: 3px;
+  transition: .1s all;
+  font-family: 'Montserrat', serif;
+  font-size: 13px;
+}
+
+.primary {
+  background-color: $persian-green;
+  color: $white;
+  transition: 200ms all;
+  &:hover {
+    background-color: $teal-blue;
+  }
+}
+
+.ghost {
+  background-color: $cultured;
+  color: $persian-green;
+
+  &:hover {
+    background-color: $mediun-turquoise;
+    color: $white;
+  }
+}
+
+.white {
+  background-color: $white;
+  color: $persian-green;
+}
+
+.disabled {
+  background-color: $cultured;
+  color: $persian-green;
+  cursor: default;
+}
+
+.s {
+  padding: 8px;
+  height: 32px;
+}
+
+.m {
+  padding: 10px 24px;
+}

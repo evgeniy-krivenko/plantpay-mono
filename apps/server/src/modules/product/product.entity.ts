@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 import CyrillicToTranslit from 'cyrillic-to-translit-js';
 import { ImageElementDto } from '../files/dto/image-element.dto';
 import { ProductStatus } from '@prisma/client';
+import { User } from '../auth/user.entity';
 
 export class Product {
   constructor(
@@ -17,6 +18,7 @@ export class Product {
     private _slug?: string,
     private readonly _createdAt?: Date,
     private readonly _updatedAt?: Date,
+    private readonly _vendor?: User,
   ) {
     if (!_id) {
       this._id = uuid();
@@ -65,6 +67,10 @@ export class Product {
 
   get status(): ProductStatus {
     return this._status;
+  }
+
+  get vendor(): User | undefined {
+    return this._vendor;
   }
 
   public createSlug(): void {

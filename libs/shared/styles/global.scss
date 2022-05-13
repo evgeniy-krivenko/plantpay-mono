@@ -1,0 +1,63 @@
+
+
+// vars
+$raisin-black: #252A34;
+$cool-grey: #919AB6;
+$cool-grey-light: rgba(145, 154, 182, 0.5);
+$white: #FFFFFF;
+$cultured: #F0F0F0;
+$platinum: #EBEBEB;
+$persian-green: rgba(0, 150, 136, 1);
+$sizilling-red: #F2545B;
+$mediun-turquoise: #5BCBBF;
+$old-lavender: #685762;
+$teal-blue: #1E6F89;
+
+// global styles
+
+
+// .wrapper {
+//   display: flex;
+//   flex-direction: column;
+//   min-height: 100vh;
+// }
+
+// .main {
+//   flex: 1 1 auto;
+// }
+
+// .container {
+//   max-width: 1216px;
+//   margin: 0 auto;
+//   padding: 0 16px;
+// }
+
+// .container-fluid {
+//   max-width: 1900px;
+//   margin: 0 auto;
+//   padding: 0 16px;
+// }
+
+// mixins
+
+$breakpoints: (
+        "phone":        400px,
+        "phone-wide":   480px,
+        "phablet":      560px,
+        "tablet-small": 640px,
+        "tablet":       768px,
+        "tablet-wide":  1024px,
+        "desktop":      1248px,
+        "desktop-wide": 1440px
+);
+@mixin mq($width, $type: min) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+    @if $type == max {
+      $width: $width - 1px;
+    }
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}

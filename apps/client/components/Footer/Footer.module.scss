@@ -1,0 +1,43 @@
+@import "global";
+
+.footer {
+  background-color: $persian-green;
+  padding: 16px 0 33px;
+  &__wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.logo__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logo {
+  color: $white;
+  margin-bottom: 32px;
+  & svg {
+    fill: $white;
+  }
+}
+
+.info {
+  font-family: 'Montserrat', serif;
+  &__title {
+    font-family: 'Montserrat', serif;
+    color: $white;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  li {
+    padding: 4px 0;
+  }
+  &__link {
+    font-family: 'Montserrat', serif;
+    color: $white;
+    font-size: 12px;
+    line-height: 12px;
+  }
+}
