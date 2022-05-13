@@ -6,6 +6,8 @@
     "constants": "libs/constants",
     "prisma": "libs/prisma",
     "server": "apps/server",
-    "types": "libs/types"
+    "shared": "libs/shared",
+    "types": "libs/types",
+    "ui": "libs/ui"
   }
 }

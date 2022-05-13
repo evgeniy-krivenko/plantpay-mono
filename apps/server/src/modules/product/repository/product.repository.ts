@@ -35,11 +35,42 @@ export class ProductRepository {
     const productModels = await this.prismaService.productModel.findMany({
       take: limit,
       skip: offset,
-      where: { status: ProductStatus.DRAFT },
+      where: { status: ProductStatus.DRAFT }, // change PUBLISHED
       include: { images: true },
     });
     for (const productModel of productModels) {
       yield ProductMapper.mapToDomain(productModel);
     }
+  }
+
+  async *getManyByIds(ids: string[]): AsyncIterableIterator<Product> {
+    const productModels = await this.prismaService.productModel.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+      include: { images: true, vendor: true },
+    });
+    for (const productModel of productModels) {
+      yield ProductMapper.mapToDomain(productModel);
+    }
+  }
+
+  async getManyByCartId(cartId: string): Promise<Product[] | null> {
+    const productModels = await this.prismaService.productModel.findMany({
+      where: {
+        carts: {
+          every: {
+            cartId,
+          },
+        },
+      },
+      include: { images: true },
+    });
+    if (!productModels) {
+      return null;
+    }
+    return productModels.map((p) => ProductMapper.mapToDomain(p));
   }
 }

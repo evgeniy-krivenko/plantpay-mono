@@ -42,5 +42,6 @@
       }
     }
   },
-  "defaultProject": "client"
+  "defaultProject": "client",
+  "rollupConfig": "rollup.config.cjs"
 }

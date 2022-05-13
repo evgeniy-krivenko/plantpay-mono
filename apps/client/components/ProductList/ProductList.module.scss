@@ -1,0 +1,19 @@
+@import "global";
+
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(5, 2fr);
+  column-gap: 32px;
+  row-gap: 64px;
+  grid-area: catalog;
+  @include mq('desktop', 'max') {
+    grid-template-columns: repeat(4, 2fr);
+  }
+}
+
+.mainPage {
+  display: grid;
+  grid-template-columns: repeat(6, 2fr);
+  column-gap: 32px;
+  row-gap: 64px;
+}

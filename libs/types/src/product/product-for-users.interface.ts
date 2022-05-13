@@ -5,8 +5,12 @@ export interface IProductForUsers {
   id: string;
   name: string;
   description: string;
-  images: IImageElement[];
+  image: IImageElement;
   categoryId: number;
   slug: string;
   price: BigNumber;
+}
+
+export interface IProductWithCart extends IProductForUsers {
+  inCart: boolean;
 }
