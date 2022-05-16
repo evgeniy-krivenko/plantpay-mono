@@ -44,7 +44,8 @@
       "outputs": ["coverage/apps/server"],
       "options": {
         "jestConfig": "apps/server/jest.config.js",
-        "passWithNoTests": true
+        "passWithNoTests": true,
+        "color": true
       }
     },
     "test-e2e": {
@@ -52,20 +53,34 @@
       "outputs": ["coverage/apps/server"],
       "options": {
         "jestConfig": "apps/server/jest.config-e2e.js",
-        "passWithNoTests": true
+        "passWithNoTests": true,
+        "envFile": "apps/server/.test.env"
+      }
+    },
+    "test-e2e-container": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "npx nx test-docker:up server",
+          "npx nx db-push prisma",
+          "npx nx seed prisma",
+          "npx nx test-e2e server"
+        ],
+        "parallel": false,
+        "envFile": "apps/server/.test.env"
       }
     },
     "test-e2e-run": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "npx nx test-docker:up server && npx nx migration-deploy-test prisma && npx nx seed prisma && npx nx test-e2e server ; npx nx test-docker:down server",
+        "command": "env-cmd -f apps/server/.test.env npx nx test-e2e-container server ; npx nx test-docker:down server",
         "envFile": "apps/server/.test.env"
       }
     },
 	"test-docker:up": {
 		"executor": "@nrwl/workspace:run-commands",
 		"options": {
-		  "command": "docker run --name=plantpay-test -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -e POSTGRES_DB=test -p 5433:5432 -d --rm postgres:13.3"
+		  "command": "docker volume prune -f && docker run --name=plantpay-test -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -e POSTGRES_DB=test -p 5433:5432 -d --rm postgres:13.3"
 		}
 	  },
     "test-docker:down": {

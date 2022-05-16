@@ -16,3 +16,9 @@ export const authException = {
   TOKEN_HAS_BEEN_USED: 'Such token has been used',
   USER_IS_EXISTS: 'User with such email is exists',
 };
+
+export const cartException = {
+  CART_OR_PRODUCT_NOT_FOUND: 'Cart or product not found',
+};
+
+export const PLANTPAY_CART_ID = 'plantpay-cart-id';

@@ -29,6 +29,7 @@
 	  "migration-deploy-test": {
 		"executor": "@nrwl/workspace:run-commands",
 		"options": {
+      "envFile": "apps/server/.test.env",
 		  "command": "npx prisma migrate deploy --schema ./src/prisma/schema.prisma",
 		  "cwd": "libs/prisma"
 		}
@@ -40,11 +41,19 @@
 		  "cwd": "libs/prisma"
 		}
 	  },
+    "db-push": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx prisma db push --schema ./src/prisma/schema.prisma",
+        "cwd": "libs/prisma"
+      }
+    },
 	  "seed": {
 		"executor": "@nrwl/workspace:run-commands",
 		"options": {
 			"command": "node src/seed.js",
-			"cwd": "libs/prisma"
+			"cwd": "libs/prisma",
+      "envFile": "apps/server/.test.env"
 		  }
 	  },
 	  "gen-client": {

@@ -10,7 +10,7 @@ import { User } from '../user.entity';
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor(private readonly configService: ConfigService, private readonly userRepository: UserRepository) {
     super({
-      jwtFromRequest: tokenExtraction('Refresh'),
+      jwtFromRequest: tokenExtraction('Refresh-token'),
       ignoreExpiration: false,
       secretOrKey: configService.get('JWT_REFRESH_TOKEN_SECRET'),
     });

@@ -9,7 +9,11 @@ export type CartSearchParams = Record<'id', string> | Record<'userId', number>;
 
 @Injectable()
 export class CartRepository {
-  constructor(private readonly prismaService: PrismaService, private readonly productRepository: ProductRepository) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly productRepository: ProductRepository,
+    private readonly vendorRepository: VendorRepository,
+  ) {}
 
   async getCart(cartSearchParams: CartSearchParams): Promise<Cart | null> {
     const cartModel = await this.prismaService.cartModel.findUnique({ where: cartSearchParams });
@@ -17,11 +21,29 @@ export class CartRepository {
       return null;
     }
 
-    const products = (await this.productRepository.getManyByCartId(cartModel.id)) || [];
-    return CartMapper.MaptToDomain(cartModel, products);
+    const products = await this.productRepository.getManyByCartId(cartModel.id);
+    const vendorIds = products.map((product) => product.vendorId);
+    const vendors = await this.vendorRepository.getVendorsByIds(vendorIds);
+    return CartMapper.MaptToDomain(cartModel, products, vendors);
   }
 
-  async createCart(cart: Cart): Promise<void> {
-    await this.prismaService.cartModel.create({ data: { id: cart.id } });
+  async createCart(cart: Cart): Promise<Cart> {
+    const cartModel = await this.prismaService.cartModel.create({ data: { id: cart.id } });
+    return CartMapper.MaptToDomain(cartModel);
+  }
+
+  async addProduct(cartId: string, productId: string): Promise<void> {
+    await this.prismaService.cartOnProduct.create({ data: { cartId, productId } });
+  }
+
+  async deleteProduct(cartId: string, productId: string): Promise<void> {
+    await this.prismaService.cartOnProduct.delete({
+      where: {
+        cartId_productId: {
+          cartId,
+          productId,
+        },
+      },
+    });
   }
 }

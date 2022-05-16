@@ -13,10 +13,10 @@ const main = async () => {
     ],
   });
   const role = await prisma.roleModel.findFirst({
-    where: { type: 'BYIER' },
+    where: { value: 'BYIER' },
   });
   const salt = Number(process.env.SALT) || 10;
-  await prisma.userModel.create({
+  const user = await prisma.userModel.create({
     data: {
       email: 'vendor@email.com',
       name: 'vendor',
@@ -28,8 +28,10 @@ const main = async () => {
           },
         },
       },
+      isVendor: false,
     },
   });
+  return user;
 };
 
 main()

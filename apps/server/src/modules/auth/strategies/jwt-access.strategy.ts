@@ -10,7 +10,7 @@ import { User } from '../user.entity';
 export class JwtAccessStrategy extends PassportStrategy(Strategy, 'jwt-access') {
   constructor(private readonly configService: ConfigService, private readonly userRepository: UserRepository) {
     super({
-      jwtFromRequest: tokenExtraction('Authentication'),
+      jwtFromRequest: tokenExtraction('Access-token'),
       ignoreExpiration: false,
       secretOrKey: configService.get('JWT_ACCESS_TOKEN_SECRET'),
     });

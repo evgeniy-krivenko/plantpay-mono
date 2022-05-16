@@ -61,8 +61,8 @@ export class ProductRepository {
     const productModels = await this.prismaService.productModel.findMany({
       where: {
         carts: {
-          every: {
-            cartId,
+          some: {
+            cart: { id: cartId },
           },
         },
       },
