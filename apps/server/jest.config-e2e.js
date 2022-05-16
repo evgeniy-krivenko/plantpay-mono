@@ -13,4 +13,5 @@ module.exports = {
   testMatch: ['**/?(*.)+(e2e-spec).[jt]s'],
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/apps/server',
+  setupFilesAfterEnv: ['jest-expect-jwt'],
 };

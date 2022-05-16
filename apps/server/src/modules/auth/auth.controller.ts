@@ -33,8 +33,9 @@ export class AuthController {
   @Post('/sign-in')
   async signIn(@Body() dto: SignInUserDto, @Res({ passthrough: true }) res: Response): Promise<Partial<User>> {
     const payload = { email: dto.email };
-    const accessJWTCookies = await this.tokenService.getCookiesWithJWTAccessToken(payload);
-    const refreshToken = await this.tokenService.getRefreshToken(payload);
+    const accessToken = this.tokenService.getAccessToken(payload);
+    const accessJWTCookies = await this.tokenService.getCookiesWithJWTAccessToken(payload, accessToken);
+    const refreshToken = this.tokenService.getRefreshToken(payload);
     const refreshJWTCookies = await this.tokenService.getCookiesWithJWTRefreshToken(refreshToken);
     const { email, name, isVendor } = await this.authService.signIn(dto, refreshToken);
     res.setHeader('Set-Cookie', [accessJWTCookies, refreshJWTCookies]);
@@ -43,12 +44,19 @@ export class AuthController {
 
   @UseGuards(JwtRefreshGuard)
   @Get('/refresh')
-  async refresh(@Req() req: Request, @UserEmail() email: string): Promise<void> {
-    const refreshToken = req.cookies?.Refresh;
-    const accessJWTCookies = await this.tokenService.getCookiesWithJWTAccessToken({ email });
-    const newRefreshToken = await this.tokenService.getRefreshToken({ email });
+  async refresh(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+    @UserEmail() email: string,
+  ): Promise<any> {
+    const refreshToken = req.cookies['Refresh-token'];
+    const newAccessToken = this.tokenService.getAccessToken({ email });
+    const accessJWTCookies = await this.tokenService.getCookiesWithJWTAccessToken({ email }, newAccessToken);
+    const newRefreshToken = this.tokenService.getRefreshToken({ email });
+    const refreshJWTCookies = await this.tokenService.getCookiesWithJWTRefreshToken(refreshToken);
     await this.authService.refresh(email, refreshToken, newRefreshToken);
-    req.res.setHeader('Set-Cookie', [accessJWTCookies, newRefreshToken]);
+    res.setHeader('Set-Cookie', [accessJWTCookies, refreshJWTCookies]);
+    return { accessToken: newAccessToken, refreshToken: newRefreshToken };
   }
 
   @Post('/user/role')

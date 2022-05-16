@@ -40,7 +40,7 @@ export class AuthService {
       throw new UnauthorizedException(authException.INCORRECT_CREDENTIALS);
     }
     const salt = Number(this.configService.get('SALT'));
-    user.setHashedToken(token, salt);
+    await user.setHashedToken(token, salt);
     await this.userRepository.updateToken(user);
     return user;
   }
@@ -55,7 +55,7 @@ export class AuthService {
       throw new UnauthorizedException(authException.TOKEN_HAS_BEEN_USED);
     }
     const salt = Number(this.configService.get('SALT'));
-    user.setHashedToken(newRefreshToken, salt);
+    await user.setHashedToken(newRefreshToken, salt);
     await this.userRepository.updateToken(user);
   }
 

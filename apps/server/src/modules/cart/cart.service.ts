@@ -1,16 +1,17 @@
-import { Injectable } from '@nestjs/common';
-import { VendorRepository } from '../vendor/repository/vendor.repository';
-import { Cart, CartByVendors } from './cart.entity';
+import { HttpCode, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { cartException } from '@plantpay-mono/constants';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import { Cart } from './cart.entity';
+import { ProductIdDto } from './dto/add-product.dto';
 import { CartRepository } from './repository/cart.repository';
 
 @Injectable()
 export class CartService {
-  constructor(private readonly cartRepository: CartRepository, private readonly vendorRepository: VendorRepository) {}
+  constructor(private readonly cartRepository: CartRepository) {}
 
-  async getOrCreateCart(userId: number | undefined, cartId: string | undefined): Promise<CartByVendors | Cart> {
+  async getOrCreateCart(userId: number | undefined, cartId: string | undefined): Promise<Cart> {
     let userCart: Cart;
     let fromRequestCart: Cart;
-    let resultCart: Cart;
 
     if (userId) {
       userCart = await this.cartRepository.getCart({ userId });
@@ -22,24 +23,56 @@ export class CartService {
 
     const isMergeCarts = !!userCart && !!fromRequestCart;
     const isCreateNewCart = !userCart && !fromRequestCart;
+    const isAnonymous = fromRequestCart && !userCart;
+
+    if (isAnonymous) {
+      return fromRequestCart;
+    }
 
     if (isCreateNewCart) {
-      const newCart = new Cart({});
-      this.cartRepository.createCart(newCart);
+      const newCart = await this.cartRepository.createCart(new Cart());
+      console.log(newCart);
       return newCart;
     }
 
     if (isMergeCarts) {
       userCart.mergeProductsIntoCart(fromRequestCart.products);
-      const vendorIds = userCart.getVendorIds();
-      const vendors = await this.vendorRepository.getVendorsByIds(vendorIds);
-      const cardByVendors = new CartByVendors(userCart, vendors);
-      return cardByVendors;
     }
-    // мерджим корзину если надо
-    // создаем новую, если нужно
-    // дергаем всех вендоров и фильтруем по ним
 
-    return resultCart;
+    return userCart;
+  }
+
+  async addToCart(cartId: string, { productId }: ProductIdDto): Promise<Cart> {
+    try {
+      await this.cartRepository.addProduct(cartId, productId);
+    } catch (e) {
+      if (e instanceof PrismaClientKnownRequestError && e.code === 'P2003') {
+        throw new HttpException(cartException.CART_OR_PRODUCT_NOT_FOUND, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+    const cart = await this.cartRepository.getCart({ id: cartId });
+    if (!cart) {
+      throw new HttpException(cartException.CART_OR_PRODUCT_NOT_FOUND, HttpStatus.BAD_REQUEST);
+    }
+
+    return cart;
+  }
+
+  async deleteFromCart(cartId: string, { productId }: ProductIdDto): Promise<Cart> {
+    try {
+      await this.cartRepository.deleteProduct(cartId, productId);
+    } catch (e) {
+      if (e instanceof PrismaClientKnownRequestError && e.code === 'P2003') {
+        throw new HttpException(cartException.CART_OR_PRODUCT_NOT_FOUND, HttpStatus.BAD_REQUEST);
+      }
+    }
+
+    const cart = await this.cartRepository.getCart({ id: cartId });
+    if (!cart) {
+      throw new HttpException(cartException.CART_OR_PRODUCT_NOT_FOUND, HttpStatus.BAD_REQUEST);
+    }
+
+    return cart;
   }
 }
