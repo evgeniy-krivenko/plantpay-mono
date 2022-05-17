@@ -20,15 +20,21 @@ const ICON_MAP: Record<IconType, SVG> = {
 interface UserMenuItemProps {
   type: IconType;
   link?: string;
+  labelCount?: number;
 }
 
-export const UserMenuItem: FC<UserMenuItemProps> = ({ type, children, link }) => {
+export const UserMenuItem: FC<UserMenuItemProps> = ({ type, children, link, labelCount }) => {
   const Component = ICON_MAP[type];
 
   return (
     <Link href={link || '#'}>
       <a href="/" className={styles.item}>
         <div className={styles.wrapper}>
+          {labelCount > 0 && (
+            <div className={styles.label}>
+              <span>{labelCount}</span>
+            </div>
+          )}
           <Component />
           <span>{children}</span>
         </div>

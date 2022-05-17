@@ -1,0 +1,23 @@
+@import "global";
+
+.loader {
+  border: 4px solid transparent;
+  animation: spin 1s linear infinite;
+}
+
+.white {
+  border-left: 4px solid #fff;
+  border-right: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+}
+
+.primary {
+  border-left: 4px solid $persian-green;
+  border-right: 4px solid $persian-green;
+  border-bottom: 4px solid $persian-green;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg) }
+  to { transform: rotate(360deg) }
+}

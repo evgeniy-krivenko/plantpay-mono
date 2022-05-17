@@ -4,9 +4,11 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { AnyAction, Store } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import productReducer from './reducers/products/productReducer';
+import cartReducer from './reducers/cart/cartReducer';
 
 const rootReducer = combineReducers({
   products: productReducer,
+  inCart: cartReducer,
 });
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type

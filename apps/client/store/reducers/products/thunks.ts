@@ -3,11 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ParsedUrlQuery } from 'node:querystring';
 import $api from '../../../http';
 
-export type fetchProductParams = {
-  limit: string;
-  count: string;
-};
-
+// async actions
 export const fetchProducts = createAsyncThunk<
   IProductForUsers[],
   ParsedUrlQuery,

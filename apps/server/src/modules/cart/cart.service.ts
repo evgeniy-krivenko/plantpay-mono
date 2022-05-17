@@ -31,7 +31,6 @@ export class CartService {
 
     if (isCreateNewCart) {
       const newCart = await this.cartRepository.createCart(new Cart());
-      console.log(newCart);
       return newCart;
     }
 
@@ -55,7 +54,7 @@ export class CartService {
     if (!cart) {
       throw new HttpException(cartException.CART_OR_PRODUCT_NOT_FOUND, HttpStatus.BAD_REQUEST);
     }
-
+    console.log(cartId, productId);
     return cart;
   }
 
