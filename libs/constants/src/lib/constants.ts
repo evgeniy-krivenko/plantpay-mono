@@ -21,4 +21,4 @@ export const cartException = {
   CART_OR_PRODUCT_NOT_FOUND: 'Cart or product not found',
 };
 
-export const PLANTPAY_CART_ID = 'plantpay-cart-id';
+export const PLANTPAY_CART_ID = 'plantpayCartId';

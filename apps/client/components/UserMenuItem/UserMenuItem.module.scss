@@ -26,4 +26,23 @@
   svg {
     margin: 4px 0 4px 0;
   }
+
+  .label {
+    position: absolute;
+    bottom: 25%;
+    right: 25%;
+    width: 17px;
+    height: 17px;
+    background: red;
+    border-radius: 50px;
+    span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-55%) translateY(-50%);
+      font-size: 12px;
+      color: $white;
+      text-align: center;
+    }
+  }
 }

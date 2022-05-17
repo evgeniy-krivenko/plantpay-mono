@@ -35,7 +35,7 @@
 .disabled {
   background-color: $cultured;
   color: $persian-green;
-  cursor: default;
+  cursor: unset;
 }
 
 .s {
@@ -45,4 +45,13 @@
 
 .m {
   padding: 10px 24px;
+}
+
+.loading {
+  background-color: $mediun-turquoise;
+  cursor: progress;
+}
+
+.loader {
+  margin: -1px auto 0;
 }
