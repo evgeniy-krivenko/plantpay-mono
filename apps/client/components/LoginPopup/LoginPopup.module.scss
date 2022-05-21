@@ -1,0 +1,39 @@
+.container {
+  background-color: white;
+  width: 384px;
+}
+
+.form {
+  margin: 0 auto;
+}
+
+.input {
+  margin-bottom: 18px;
+  width: 256px;
+  height: 46px;
+}
+
+.input + .input {
+  margin-bottom: 24px;
+}
+
+.button {
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+  width: 256px;
+  height: 46px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.button + .button {
+  margin-top: 8px;
+}
+
+.error {
+  color: $sizilling-red;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 8px;
+  text-align: center;
+}

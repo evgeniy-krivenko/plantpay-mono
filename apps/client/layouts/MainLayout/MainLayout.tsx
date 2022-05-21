@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import styles from './MainLayout.module.scss';
+import GetParamsPopup from '../../components/GetParamsPopup/GetParamsPopup';
 
 interface MainLayoutProps {
   title: React.ReactNode | React.ReactChild;
@@ -20,6 +21,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children, title }) => {
           <div className="container">{children}</div>
         </main>
         <Footer />
+        <GetParamsPopup />
       </div>
     </>
   );

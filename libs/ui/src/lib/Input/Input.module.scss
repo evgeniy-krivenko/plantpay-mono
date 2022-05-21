@@ -1,0 +1,92 @@
+.input,
+.label {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.input {
+  width: 100%;
+  height: 100%;
+  border: 1.2px solid #C4C4C4;
+  border-radius: 3px;
+  padding: 2px 12px 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 14px;
+  transition: all .1s linear;
+  &:hover,
+  &:focus {
+    border: 1.2px solid transparent;
+    box-shadow: 0 0 0 2px #009688;
+  }
+  &:focus + .text,
+  &:active + .text,
+  &:-webkit-autofill + .text {
+    top: 9px;
+    left: 12px;
+    font-size: 11px;
+    line-height: 10px;
+    color: $raisin-black;
+  }
+}
+
+.inputError {
+  border: 1.2px solid transparent;
+  box-shadow: 0 0 0 2px $sizilling-red;
+}
+
+.label {
+  display: block;
+  position: relative;
+  &:hover .input {
+    border: 1.2px solid transparent;
+    box-shadow: 0 0 0 2px #009688;
+  }
+  &:hover .inputError {
+    border: 1.2px solid transparent;
+    box-shadow: 0 0 0 2px $sizilling-red;
+  }
+}
+
+.text {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  color: $dark-grey;
+  transform: translateY(-50%);
+  transition: all .1s linear;
+  cursor: text;
+}
+
+.textError {
+  color: $sizilling-red;
+}
+
+.filled {
+  top: 9px;
+  left: 12px;
+  font-size: 11px;
+  line-height: 10px;
+  color: $raisin-black;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background-color: transparent;
+  fill: $dark-grey;
+  &:hover {
+    fill: $persian-green;
+  }
+}
+
+.error {
+  position: absolute;
+  left: 8px;
+  bottom: -14px;
+  font-size: 11px;
+  color: $sizilling-red;
+}
