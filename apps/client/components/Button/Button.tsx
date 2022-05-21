@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { ButtonHTMLAttributes, DetailedHTMLProps, FC } from 'react';
 import styles from './Button.module.scss';
 import cn from 'classnames';
 import { Loader } from '../Loader/Loader';
 
-interface ButtonProps {
+interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   onClickButton?: () => void;
   className?: string;
   text: string;
@@ -21,6 +21,7 @@ const Button: FC<ButtonProps> = ({
   size = 's',
   isLoading = false,
   disabled = false,
+  ...otherProps
 }) => {
   if (isLoading) {
     return (
@@ -47,6 +48,7 @@ const Button: FC<ButtonProps> = ({
       })}
       onClick={onClickButton}
       disabled={disabled}
+      {...otherProps}
     >
       {text}
     </button>

@@ -12,6 +12,7 @@ import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import { RoleGuard } from './guards/role.guard';
 import { TokenService } from './token/token.service';
 import { User } from './user.entity';
+import { UserFromReq } from './decorators/user.decorator';
 
 @UsePipes(ValidationPipe)
 @Controller('auth')
@@ -57,6 +58,12 @@ export class AuthController {
     await this.authService.refresh(email, refreshToken, newRefreshToken);
     res.setHeader('Set-Cookie', [accessJWTCookies, refreshJWTCookies]);
     return { accessToken: newAccessToken, refreshToken: newRefreshToken };
+  }
+
+  @UseGuards(JwtAccessGuard)
+  @Get('/profile')
+  profile(@UserFromReq() { name, email, roles }: User | undefined): IUser {
+    return { name, email, roles };
   }
 
   @Post('/user/role')

@@ -1,0 +1,37 @@
+.container {
+  background-color: white;
+  padding: 8px 16px 32px;
+  max-height: 700px;
+  border-radius: 8px;
+  border: 1px solid rgba($color: #000000, $alpha: .08);
+  box-shadow: 0 10px 40px rgba($color: #000000, $alpha: .1);
+  z-index: 1;
+  transition: all .3s linear;
+  opacity: 0;
+  transform: scale(0.2);
+}
+
+.title {
+  padding: 16px 0 32px;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  text-align: center;
+  margin: 0 auto;
+  width: 340px;
+  z-index: 1;
+}
+
+.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.close {
+  margin-right: -8px;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: flex-end;
+}

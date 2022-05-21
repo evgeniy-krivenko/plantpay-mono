@@ -1,11 +1,10 @@
-@import "global";
-
 .item {
   display: flex;
   justify-content: space-around;
   justify-self: stretch;
   align-self: center;
   min-width: 64px;
+  cursor: pointer;
 }
 
 .wrapper {

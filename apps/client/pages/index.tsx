@@ -6,6 +6,7 @@ import { NextThunkDispatch, wrapper } from '../store';
 import { fetchInCart } from '../store/reducers/cart/thuks';
 import { productSelector } from '../store/reducers/products/selectors';
 import { fetchProducts } from '../store/reducers/products/thunks';
+import { fetchUser } from '../store/reducers/auth/thuks';
 import { PLANTPAY_CART_ID } from '@plantpay-mono/constants';
 import Cookies from 'cookies';
 
@@ -23,21 +24,19 @@ export function Index(): JSX.Element {
   );
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) =>
-    async ({ query, req, res }): Promise<any> => {
-      const dispatch = store.dispatch as NextThunkDispatch;
-      const isNeedParams = !('limit' in query && 'offset' in query);
-      if (isNeedParams) {
-        query.limit = '20';
-        query.offset = '0';
-      }
-      await dispatch(fetchProducts(query));
-      await dispatch(fetchInCart({ Cookie: req.headers.cookie }));
-      const state = store.getState();
-      const cookies = new Cookies(req, res);
-      cookies.set(PLANTPAY_CART_ID, state.inCart.cartId || '');
-    },
-);
+export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ query, req, res }): Promise<any> => {
+  const dispatch = store.dispatch as NextThunkDispatch;
+  const isNeedParams = !('limit' in query && 'offset' in query);
+  if (isNeedParams) {
+    query.limit = '20';
+    query.offset = '0';
+  }
+  await dispatch(fetchProducts(query));
+  await dispatch(fetchInCart({ Cookie: req.headers.cookie }));
+  await dispatch(fetchUser({ Cookie: req.headers.cookie }));
+  const state = store.getState();
+  const cookies = new Cookies(req, res);
+  cookies.set(PLANTPAY_CART_ID, state.inCart.cartId || '');
+});
 
 export default Index;

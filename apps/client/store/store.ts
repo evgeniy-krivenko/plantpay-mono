@@ -5,10 +5,12 @@ import { AnyAction, Store } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import productReducer from './reducers/products/productReducer';
 import cartReducer from './reducers/cart/cartReducer';
+import authReducer from './reducers/auth/authReducer';
 
 const rootReducer = combineReducers({
   products: productReducer,
   inCart: cartReducer,
+  auth: authReducer,
 });
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -25,7 +27,7 @@ export const reducer = (state, action) => {
   }
 };
 
-const makeStore = (context: Context) =>
+export const makeStore = () =>
   configureStore({
     reducer,
   });

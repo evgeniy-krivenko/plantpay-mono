@@ -4,6 +4,7 @@ import Burger from '../Burger/Burger';
 import Search from '../Search/Search';
 import UserMenu from '../UserMenu';
 import Link from 'next/link';
+import { useTypeSelector } from '../../hooks/useTypeSelector';
 
 const infoMenu = [
   { name: 'Как заказать', url: '/info/how-order' },
@@ -21,6 +22,8 @@ const auth = {
 };
 
 const Header = () => {
+  const { user, isAuth } = useTypeSelector((state) => state.auth);
+
   return (
     <header className={styles.header}>
       <div className="container">
@@ -28,7 +31,7 @@ const Header = () => {
           <Logo>Маркетплейс для растений</Logo>
           <Burger>Каталог</Burger>
           <Search placeholder="Я ищу..."></Search>
-          <UserMenu auth={auth} />
+          <UserMenu user={user} isAuth={isAuth} />
           <nav className={styles.info}>
             <ul>
               {infoMenu.map((el, index) => {
