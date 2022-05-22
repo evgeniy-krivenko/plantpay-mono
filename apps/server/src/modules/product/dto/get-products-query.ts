@@ -8,4 +8,5 @@ export class GetProductsQuery {
   @IsInt()
   @Type(() => Number)
   offset?: number;
+  category?: string;
 }

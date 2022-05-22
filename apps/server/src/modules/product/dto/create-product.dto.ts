@@ -6,7 +6,7 @@ export class CreateProductDto {
   @Length(3, 40, { message: dto.fieldLenMsg(3, 40) })
   name: string;
   @IsString()
-  desctiprion: string;
+  description: string;
   @IsNumber()
   categoryId: number;
   @IsPositive({ message: dto.PRICE_POSITIVE })
