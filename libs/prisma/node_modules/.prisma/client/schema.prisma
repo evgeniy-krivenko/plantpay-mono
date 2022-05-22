@@ -77,8 +77,10 @@ enum ProductStatus {
 
 model CategoryModel {
   id       Int            @id @default(autoincrement())
-  name     String         @unique @db.Char(20)
-  icon     String
+  name     String         @unique
+  icon     String?
+  bucket   String?
+  mime     String?
   slug     String         @unique
   products ProductModel[]
 }
