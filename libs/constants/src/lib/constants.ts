@@ -21,4 +21,9 @@ export const cartException = {
   CART_OR_PRODUCT_NOT_FOUND: 'Cart or product not found',
 };
 
+export const productRepositoryException = {
+  UNIQUE_CONSTRAINT_VIOLATION: 'There is a unique constraint violation, a new product cannot be created with this data',
+  WRONG_PARAMS: 'There is wrong search params',
+};
+
 export const PLANTPAY_CART_ID = 'plantpayCartId';

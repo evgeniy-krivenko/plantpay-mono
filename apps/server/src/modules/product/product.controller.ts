@@ -27,7 +27,6 @@ export class ProductController {
 
   @Get()
   getAllForUsers(@Query() queryParams: GetProductsQuery): Promise<IProductForUsers[]> {
-    const { limit, offset } = queryParams;
-    return this.productService.getAllForUsers(limit, offset);
+    return this.productService.getAllForUsers(queryParams);
   }
 }

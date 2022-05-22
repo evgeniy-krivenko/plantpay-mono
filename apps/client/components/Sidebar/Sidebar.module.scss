@@ -1,0 +1,40 @@
+@import "global";
+
+.wrapper {
+  grid-area: sidebar;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  color: $raisin-black;
+}
+
+.items {
+  margin-top: 16px;
+}
+
+.item {
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.link {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 14px;
+  color: $raisin-black;
+
+  &__active:before {
+    position: absolute;
+    top: -2px;
+    left: -4px;
+    content: "";
+    width: 80%;
+    height: 120%;
+    background: linear-gradient(90deg, rgba(0, 150, 128, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 3px;
+  }
+}
+

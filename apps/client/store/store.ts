@@ -1,16 +1,18 @@
 // create a makeStore function
-import { Context, createWrapper, HYDRATE } from 'next-redux-wrapper';
+import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { AnyAction, Store } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import productReducer from './reducers/products/productReducer';
 import cartReducer from './reducers/cart/cartReducer';
 import authReducer from './reducers/auth/authReducer';
+import categoriesReducer from './reducers/categories/categoriesReducer';
 
 const rootReducer = combineReducers({
   products: productReducer,
   inCart: cartReducer,
   auth: authReducer,
+  categories: categoriesReducer,
 });
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type

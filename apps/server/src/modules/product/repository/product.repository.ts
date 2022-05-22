@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService, ProductStatus } from '@plantpay-mono/prisma';
+import { Prisma } from '@prisma/client';
 import { Product } from '../product.entity';
 import { ProductMapper } from './product.mapper';
+import { productRepositoryException } from '@plantpay-mono/constants';
 
 @Injectable()
 export class ProductRepository {
@@ -9,37 +11,61 @@ export class ProductRepository {
 
   async create(product: Product): Promise<Product> {
     const { id, name, description, price, slug, categoryId, images, vendorId } = product;
-    const productModel = await this.prismaService.productModel.create({
-      data: {
-        id,
-        name,
-        description,
-        price: price.toFixed(2),
-        slug,
-        category: {
-          connect: { id: categoryId },
+    try {
+      const productModel = await this.prismaService.productModel.create({
+        data: {
+          id,
+          name,
+          description,
+          price: price.toFixed(2),
+          slug,
+          category: {
+            connect: { id: categoryId },
+          },
+          vendor: {
+            connect: { id: vendorId },
+          },
+          images: {
+            createMany: { data: images },
+          },
         },
-        vendor: {
-          connect: { id: vendorId },
-        },
-        images: {
-          createMany: { data: images },
-        },
-      },
-      include: { images: true },
-    });
-    return ProductMapper.mapToDomain(productModel);
+        include: { images: true },
+      });
+      return ProductMapper.mapToDomain(productModel);
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2002') {
+          throw new HttpException(productRepositoryException.UNIQUE_CONSTRAINT_VIOLATION, HttpStatus.BAD_REQUEST);
+        }
+      } else {
+        throw e;
+      }
+    }
   }
 
-  async *getAllPublishedProducts(limit = 0, offset = 0): AsyncIterableIterator<Product> {
-    const productModels = await this.prismaService.productModel.findMany({
-      take: limit,
-      skip: offset,
-      where: { status: ProductStatus.DRAFT }, // change PUBLISHED
-      include: { images: true },
-    });
-    for (const productModel of productModels) {
-      yield ProductMapper.mapToDomain(productModel);
+  async *getAllPublishedProducts(limit = 0, offset = 0, categorySlug?: string): AsyncIterableIterator<Product> {
+    const searchParams = { status: ProductStatus.DRAFT }; // TODO: change PUBLISHED
+    if (categorySlug) {
+      Object.assign(searchParams, { category: { slug: categorySlug } });
+    }
+    try {
+      const productModels = await this.prismaService.productModel.findMany({
+        take: limit,
+        skip: offset,
+        where: searchParams,
+        include: { images: true },
+      });
+      for (const productModel of productModels) {
+        yield ProductMapper.mapToDomain(productModel);
+      }
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2002') {
+          throw new HttpException(productRepositoryException.WRONG_PARAMS, HttpStatus.BAD_REQUEST);
+        }
+      } else {
+        throw e;
+      }
     }
   }
 

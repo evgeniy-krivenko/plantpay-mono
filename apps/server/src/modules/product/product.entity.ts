@@ -7,8 +7,8 @@ import { User } from '../auth/user.entity';
 
 export class Product {
   constructor(
-    readonly description: string,
     readonly name: string,
+    readonly description: string,
     readonly vendorId: number,
     public categoryId: number,
     public price: BigNumber,
