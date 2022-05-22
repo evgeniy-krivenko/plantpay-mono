@@ -31,9 +31,13 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
     query.limit = '20';
     query.offset = '0';
   }
+  /* below it's setting cookie from header
+   * because they are not throw from and to the server
+   * */
+  const cookiesFromReq = req.headers.cookie || '';
   await dispatch(fetchProducts(query));
-  await dispatch(fetchInCart({ Cookie: req.headers.cookie }));
-  await dispatch(fetchUser({ Cookie: req.headers.cookie }));
+  await dispatch(fetchInCart({ Cookie: cookiesFromReq }));
+  await dispatch(fetchUser({ Cookie: cookiesFromReq }));
   const state = store.getState();
   const cookies = new Cookies(req, res);
   cookies.set(PLANTPAY_CART_ID, state.inCart.cartId || '');
