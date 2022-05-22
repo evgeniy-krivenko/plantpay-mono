@@ -6,3 +6,4 @@ export * from './product/product-for-vendor.interface';
 export * from './product/product-for-users.interface';
 export * from './product/category';
 export * from './cart/cart';
+export * from './category';
