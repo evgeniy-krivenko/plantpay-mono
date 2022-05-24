@@ -1,0 +1,11 @@
+@import 'global';
+
+.logo {
+  grid-area: logo;
+  font-size: 12px;
+  line-height: 12px;
+  color: $cool-grey;
+  & svg {
+    fill: $persian-green;
+  }
+}

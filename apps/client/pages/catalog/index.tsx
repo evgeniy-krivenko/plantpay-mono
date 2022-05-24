@@ -1,21 +1,29 @@
-import { ProductList } from '../../components/ProductList/ProductList';
 import { useTypeSelector } from '../../hooks/useTypeSelector';
-import CatalogLayout from '../../layouts/CatalogLayout/CatalogLayout';
-import MainLayout from '../../layouts/MainLayout/MainLayout';
 import { productSelector } from '../../store/reducers/products/selectors';
 import { catalogSSP } from '../../ssr/catalogSSP';
+import MainLayout from '../../layouts/MainLayout/MainLayout';
+import ProductList from '../../components/ProductList';
+import HTag from '../../components/HTag';
+import Sidebar from '../../components/Sidebar';
 
 export function Catalog(): JSX.Element {
   const products = useTypeSelector((state) => productSelector(state));
+  const { categories } = useTypeSelector((state) => state.categories);
 
   return (
-    <>
-      <MainLayout title="Каталог">
-        <CatalogLayout h1="Каталог">
-          <ProductList type="catalog" products={products} />
-        </CatalogLayout>
-      </MainLayout>
-    </>
+    <MainLayout title="Каталог">
+      <div className="catalog__wrapper">
+        <Sidebar className="catalog__sidebar" categories={categories}>
+          Категории
+        </Sidebar>
+        <main className="catalog__main">
+          <HTag className="catalog__title" tag="h1">
+            Каталог
+          </HTag>
+          <ProductList className="catalog__items-list" type="catalog" products={products} />
+        </main>
+      </div>
+    </MainLayout>
   );
 }
 

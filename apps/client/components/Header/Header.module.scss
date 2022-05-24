@@ -7,13 +7,13 @@
 .wrapper {
   display: grid;
   grid-area: header;
-  grid-template: minmax(100px, auto) minmax(34px, auto) / repeat(2, minmax(auto, 176px)) repeat(2, minmax(278px, 384px));
+  grid-template: minmax(100px, auto) minmax(34px, auto) / repeat(2, minmax(176px, 176px)) repeat(2, minmax(278px, 384px));
   column-gap: 32px;
   align-items: center;
   grid-template-areas:
           "logo burger search user-menu"
           "logo info info contacts";
-  
+
 }
 
 .info {
