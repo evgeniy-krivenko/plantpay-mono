@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { DetailedHTMLProps, FC, HTMLAttributes } from 'react';
 import styles from './Sidebar.module.scss';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { ICategory } from '@plantpay-mono/types';
+import cn from 'classnames';
+import HTag from '../HTag';
 
-const Sidebar = ({ categories, children }) => {
+interface SidebarProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+  categories: ICategory[];
+}
+
+const Sidebar: FC<SidebarProps> = ({ categories, children, className }) => {
   const router = useRouter();
   return (
-    <div className={styles.wrapper}>
-      <h2 className={styles.title}>{children}</h2>
+    <div className={cn(styles.wrapper, className)}>
+      <HTag tag="h4">{children}</HTag>
       <ul className={styles.items}>
         {categories.map((c) => {
           return (

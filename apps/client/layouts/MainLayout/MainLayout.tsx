@@ -17,9 +17,9 @@ const MainLayout: FC<MainLayoutProps> = ({ children, title }) => {
       </Head>
       <div className={styles.wrapper}>
         <Header />
-        <main className={styles.main}>
+        <div className={styles.main}>
           <div className="container">{children}</div>
-        </main>
+        </div>
         <Footer />
         <GetParamsPopup />
       </div>

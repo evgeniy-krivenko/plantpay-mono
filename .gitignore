@@ -41,3 +41,4 @@ Thumbs.db
 .env
 .test.env
 /uploads
+/.adminjs/.entry.js
