@@ -1,0 +1,27 @@
+@import "global";
+
+.container {
+  width: 656px;
+  height: 548px;
+  background-color: $white;
+  z-index: 1;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.saver {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 14px;
+  color: $old-lavender;
+  background-color: transparent;
+  &:hover {
+    text-decoration: underline;
+  }
+}
