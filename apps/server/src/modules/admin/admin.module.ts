@@ -27,6 +27,14 @@ AdminJS.registerAdapter({ Database, Resource });
                 options: {},
               },
               {
+                resource: { model: dmmf.modelMap.RoleModel, client: prisma },
+                options: {},
+              },
+              {
+                resource: { model: dmmf.modelMap.UsersOnRoles, client: prisma },
+                options: {},
+              },
+              {
                 resource: { model: dmmf.modelMap.ProductModel, client: prisma },
                 options: {},
               },

@@ -1,9 +1,20 @@
-import { Body, Controller, Post, HttpCode, UsePipes, ValidationPipe, Res, Get, UseGuards, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  HttpCode,
+  UsePipes,
+  ValidationPipe,
+  Res,
+  Get,
+  UseGuards,
+  Req,
+  Logger,
+} from '@nestjs/common';
 import { IUser } from '@plantpay-mono/types';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { Roles } from './decorators/roles.decorator';
-import { UserEmail } from './decorators/user-email.decorator';
 import { AddRoleForUserDto } from './dto/add-role-for-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { SignInUserDto } from './dto/sign-in-user.dto';
@@ -48,8 +59,9 @@ export class AuthController {
   async refresh(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-    @UserEmail() email: string,
+    @UserFromReq() user: User,
   ): Promise<any> {
+    const { email } = user;
     const refreshToken = req.cookies['Refresh-token'];
     const newAccessToken = this.tokenService.getAccessToken({ email });
     const accessJWTCookies = await this.tokenService.getCookiesWithJWTAccessToken({ email }, newAccessToken);
@@ -57,12 +69,14 @@ export class AuthController {
     const refreshJWTCookies = await this.tokenService.getCookiesWithJWTRefreshToken(refreshToken);
     await this.authService.refresh(email, refreshToken, newRefreshToken);
     res.setHeader('Set-Cookie', [accessJWTCookies, refreshJWTCookies]);
-    return { accessToken: newAccessToken, refreshToken: newRefreshToken };
+    Logger.debug('Refresh Controller');
+    return { refresh_token: newRefreshToken, access_token: newAccessToken };
   }
 
   @UseGuards(JwtAccessGuard)
   @Get('/profile')
   profile(@UserFromReq() { name, email, roles }: User | undefined): IUser {
+    Logger.debug('User profile', email);
     return { name, email, roles };
   }
 
