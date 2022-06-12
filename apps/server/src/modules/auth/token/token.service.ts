@@ -11,8 +11,8 @@ export class TokenService {
   constructor(private readonly jwtService: JwtService, private readonly configService: ConfigService) {}
 
   async getCookiesWithJWTAccessToken(payload: TokenPayload, accessToken?: string): Promise<string> {
-    const token = accessToken || (await this.getAccessToken(payload));
-    return `Access-token=${token}; HttpOnly; Path=/; Max-Age=${HOUR}`;
+    const token = accessToken || this.getAccessToken(payload);
+    return `Access-token=${token}; Path=/; Max-Age=${HOUR}`;
   }
 
   async getCookiesWithJWTRefreshToken(token: string): Promise<string> {
