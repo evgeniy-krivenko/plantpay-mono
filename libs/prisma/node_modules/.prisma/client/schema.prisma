@@ -49,7 +49,7 @@ enum RoleType {
 
 model ProductModel {
   id          String          @id
-  name        String          @db.Char(40)
+  name        String          @db.VarChar(40)
   description String
   status      ProductStatus   @default(DRAFT)
   vendor      UserModel       @relation(fields: [vendorId], references: [id])

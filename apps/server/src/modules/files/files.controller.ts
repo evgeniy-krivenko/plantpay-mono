@@ -23,10 +23,13 @@ export class FilesController {
   @HttpCode(200)
   @UseGuards(JwtAccessGuard)
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File): Promise<IImageElement> {
+  async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<IImageElement> {
     if (!file.mimetype.includes('image')) {
       throw new HttpException('Wrong format file', HttpStatus.BAD_REQUEST);
     }
-    return this.filesService.createImageFromBuffer(file.buffer, 'jpeg');
+    const image = await this.filesService.createImageFromBuffer(file.buffer, 'jpeg');
+    // hardcode image prefix
+    image.url = '/static/' + image.url;
+    return image;
   }
 }

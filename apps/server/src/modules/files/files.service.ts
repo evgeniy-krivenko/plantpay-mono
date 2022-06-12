@@ -19,7 +19,7 @@ export class FilesService {
     const url = join(dataFolderName, fileName);
     const cropedBuffer = await this.cropProductImage(buffer, ext);
     await writeFile(savedFilePath, cropedBuffer);
-    return { url, id };
+    return { url, id, isMain: false };
   }
 
   private async cropProductImage(file: Buffer, ext: ImageExtension): Promise<Buffer> {

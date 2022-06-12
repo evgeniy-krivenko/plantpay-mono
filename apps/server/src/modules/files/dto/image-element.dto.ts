@@ -7,5 +7,5 @@ export class ImageElementDto implements IImageElement {
   id: string;
   @IsString()
   url: string;
-  isMain?: boolean;
+  isMain: boolean;
 }
