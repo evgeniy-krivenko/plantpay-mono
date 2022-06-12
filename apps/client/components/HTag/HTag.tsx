@@ -3,7 +3,7 @@ import styles from './HTag.module.scss';
 import cn from 'classnames';
 
 export interface HTagProps extends DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> {
-  tag: 'h1' | 'h2' | 'h3' | 'h4';
+  tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
 }
 
 const HTag = ({ tag, children, className: extraClassName, ...otherProps }: HTagProps): JSX.Element => {

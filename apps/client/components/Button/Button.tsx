@@ -42,13 +42,13 @@ const Button: FC<ButtonProps> = ({
         [styles.primary]: appearance === 'primary',
         [styles.ghost]: appearance === 'ghost',
         [styles.white]: appearance === 'white',
-        [styles.disabled]: appearance === 'disabled',
+        [styles.disabled]: disabled,
         [styles.s]: size === 's',
         [styles.m]: size === 'm',
       })}
+      {...otherProps}
       onClick={onClickButton}
       disabled={disabled}
-      {...otherProps}
     >
       {text}
     </button>

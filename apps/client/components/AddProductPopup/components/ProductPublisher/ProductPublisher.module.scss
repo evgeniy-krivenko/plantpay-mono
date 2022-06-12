@@ -1,0 +1,30 @@
+.form {
+  padding: 24px 0 24px;
+  width: 285px;
+}
+
+.input {
+  margin-bottom: 22px;
+  height: 46px;
+}
+
+.area {
+  height: 84px;
+  resize: none;
+}
+
+.price {
+  //width: 120px;
+  text-align: left;
+  margin-left: 0;
+  position: relative;
+  font-family: 'Open Sans', sans-serif;
+
+  &:after {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 8px;
+    content: "₽";
+  }
+}

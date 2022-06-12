@@ -1,0 +1,41 @@
+@import "global";
+
+.item {
+  max-width: 100%;
+}
+
+.link {
+  display: flex;
+  justify-content: space-between;
+}
+.info {
+
+  color: $raisin-black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.createdAt {
+  font-size: 10px;
+  line-height: 10px;
+  color: $dark-grey;
+}
+
+.price {
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.imageBox {
+  min-width: 80px;
+  height: 80px;
+  margin-right: 16px;
+}
+
+.image {
+  border-radius: 3px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

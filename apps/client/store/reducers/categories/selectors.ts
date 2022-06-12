@@ -1,8 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
+import { ICategory } from '@plantpay-mono/types';
 
 const selectSelf = (state: RootState): RootState => state;
-export const productSelector = createSelector(
+export const categorySelector = createSelector(
   selectSelf,
-  (state: RootState) => state.products.products,
+  (state: RootState): ICategory[] => state.categories.categories,
 );

@@ -1,0 +1,23 @@
+{
+  "root": "libs/svg",
+  "sourceRoot": "libs/svg/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/svg/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/svg"],
+      "options": {
+        "jestConfig": "libs/svg/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

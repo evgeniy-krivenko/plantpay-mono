@@ -34,8 +34,12 @@
 
 .disabled {
   background-color: $cultured;
-  color: $persian-green;
-  cursor: unset;
+  color: $cool-grey-light;
+  cursor: not-allowed;
+  &:hover {
+    background-color: $cultured;
+    color: $cool-grey-light;
+  }
 }
 
 .s {

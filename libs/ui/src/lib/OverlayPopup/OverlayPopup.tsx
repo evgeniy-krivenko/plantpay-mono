@@ -5,9 +5,10 @@ import styles from './OverlayPopup.module.scss';
 interface OverlaingPopupProps {
   isOpened: boolean;
   onClose?: () => void;
+  overlaid?: boolean;
 }
 
-export const OverlaingPopup: FC<OverlaingPopupProps> = ({ children, isOpened, onClose }) => {
+export const OverlaingPopup: FC<OverlaingPopupProps> = ({ children, isOpened, onClose, overlaid = true }) => {
   if (!isOpened) {
     return null;
   }
@@ -15,7 +16,7 @@ export const OverlaingPopup: FC<OverlaingPopupProps> = ({ children, isOpened, on
   return (
     <Portal>
       <div className={styles.container} role="dialog">
-        <div className={styles.overlay} role="button" tabIndex={0} onClick={onClose} />
+        {overlaid && <div className={styles.overlay} role='button' tabIndex={0} onClick={onClose} />}
         {children}
       </div>
     </Portal>

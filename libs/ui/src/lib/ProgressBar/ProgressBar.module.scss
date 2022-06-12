@@ -1,0 +1,18 @@
+@import "global";
+
+.container {
+  position: relative;
+  background-color: #FFFFFF;
+  border-radius: 4px;
+  padding: 2px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  display: block;
+  position: relative;
+  background-color: $persian-green;
+  border-radius: 4px 0 0 4px;
+  overflow: hidden;
+}
