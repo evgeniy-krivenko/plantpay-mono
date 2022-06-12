@@ -8,6 +8,7 @@ import { CartModule } from './modules/cart/cart.module';
 import { VendorModule } from './modules/vendor/vendor.module';
 import { CategoryModule } from './modules/category/category.module';
 import { AdminNestModule } from './modules/admin/admin.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AdminNestModule } from './modules/admin/admin.module';
     CategoryModule,
     PrismaModule,
     AdminNestModule,
+    DashboardModule,
   ],
   controllers: [],
   providers: [],
