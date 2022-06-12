@@ -5,10 +5,10 @@ export interface IProductForUsers {
   id: string;
   name: string;
   description: string;
-  image: IImageElement;
+  images: IImageElement[];
   categoryId: number;
   slug: string;
-  price: BigNumber;
+  price: number;
 }
 
 export interface IProductWithCart extends IProductForUsers {

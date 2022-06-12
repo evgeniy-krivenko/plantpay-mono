@@ -3,6 +3,7 @@ import { IProductForUsers } from '@plantpay-mono/types';
 import { ProductRepository, ProductWhereInput } from './repository/product.repository';
 import { GetProductsQuery } from './dto/get-products-query';
 import { ProductStatus } from '@prisma/client';
+import { ProductForUsersDto } from './dto/product-for-users.dto';
 
 @Injectable()
 export class ProductService {
@@ -16,11 +17,7 @@ export class ProductService {
     const productsGenerator = this.productRepository.getAllPublishedProducts(limit, offset, whereInput);
     const productsForUser: IProductForUsers[] = [];
     for await (const product of productsGenerator) {
-      const { id, name, description, images, categoryId, slug, price } = product;
-      // TODO: сделать выборку по isMain
-      const [image] = images;
-      image.url = '/static/' + image.url;
-      productsForUser.push({ id, name, description, image, categoryId, slug, price });
+      productsForUser.push(new ProductForUsersDto({ ...product }));
     }
     return productsForUser;
   }

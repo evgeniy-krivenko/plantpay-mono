@@ -1,8 +1,21 @@
-import { Controller, Get, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Query,
+  SerializeOptions,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { IProductForUsers } from '@plantpay-mono/types';
 import { GetProductsQuery } from './dto/get-products-query';
 import { ProductService } from './product.service';
 
+@UseInterceptors(ClassSerializerInterceptor)
+@SerializeOptions({
+  strategy: 'excludeAll',
+})
 @UsePipes(
   new ValidationPipe({
     transform: true,
