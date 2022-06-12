@@ -5,6 +5,8 @@ import { Product } from '../product.entity';
 import { ProductMapper } from './product.mapper';
 import { productRepositoryException } from '@plantpay-mono/constants';
 
+export type ProductWhereInput = Prisma.ProductModelWhereInput;
+
 @Injectable()
 export class ProductRepository {
   constructor(private readonly prismaService: PrismaService) {}
@@ -43,16 +45,16 @@ export class ProductRepository {
     }
   }
 
-  async *getAllPublishedProducts(limit = 0, offset = 0, categorySlug?: string): AsyncIterableIterator<Product> {
-    const searchParams = { status: ProductStatus.DRAFT }; // TODO: change PUBLISHED
-    if (categorySlug) {
-      Object.assign(searchParams, { category: { slug: categorySlug } });
-    }
+  async *getAllPublishedProducts(
+    limit = 20,
+    offset = 0,
+    wereInputs?: ProductWhereInput,
+  ): AsyncIterableIterator<Product> {
     try {
       const productModels = await this.prismaService.productModel.findMany({
         take: limit,
         skip: offset,
-        where: searchParams,
+        where: wereInputs,
         include: { images: true },
       });
       for (const productModel of productModels) {
