@@ -4,9 +4,9 @@ import { ParsedUrlQuery } from 'node:querystring';
 import $api from '../../../http';
 
 // async actions
-export const fetchProducts = createAsyncThunk<IProductForUsers[], ParsedUrlQuery, { rejectValue: string }>(
+export const fetchProducts = createAsyncThunk<IProductForUsers[], ParsedUrlQuery | null, { rejectValue: string }>(
   'products/fetchProducts',
-  async (params, thunkAPI) => {
+  async (params = {}, thunkAPI) => {
     try {
       const response = await $api.get('/products', { params });
       return response?.data;

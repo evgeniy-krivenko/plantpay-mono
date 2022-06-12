@@ -4,9 +4,11 @@
     "client": "apps/client",
     "client-e2e": "apps/client-e2e",
     "constants": "libs/constants",
+    "helpers": "libs/helpers",
     "prisma": "libs/prisma",
     "server": "apps/server",
     "shared": "libs/shared",
+    "svg": "libs/svg",
     "types": "libs/types",
     "ui": "libs/ui"
   }

@@ -1,0 +1,150 @@
+@import "global";
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 37px;
+  background-color: $cultured;
+  cursor: pointer;
+  margin-bottom: 22px;
+}
+
+.loaderSmall {
+  cursor: pointer;
+}
+
+.input {
+  display: none;
+}
+
+.inputContainer {
+  margin-top: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 74px;
+  padding-bottom: 68px;
+  width: 100%;
+  height: 100%;
+  background-color: $white;
+  border-radius: 5px;
+}
+
+.onDrop {
+  width: 630px;
+  height: 522px;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: $cultured;
+  outline: dashed 1px $persian-green;
+  border-radius: 8px;
+
+  & svg {
+    position: relative;
+    right: 16px;
+  }
+}
+
+.text {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24px;
+  color: $persian-green;
+  max-width: 185px;
+  text-align: center;
+}
+
+.imagesWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.images {
+  padding-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(2, 96px);
+  grid-template-rows: 1fr;
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+  width: 208px;
+}
+
+.image {
+  width: 96px;
+  height: 96px;
+  position: relative;
+  cursor: pointer;
+
+  &.loading:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($white, .6);
+    border-radius: 3px;
+    cursor: not-allowed;
+  }
+
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 3px;
+    transition: all .1s ease;
+  }
+
+  & img.active {
+    outline-offset: 4px;
+    outline: $persian-green solid 2px;
+  }
+}
+
+.imageMock {
+  width: 240px;
+  height: 300px;
+  background-color: $cultured;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress {
+  position: absolute;
+  width: 95%;
+  height: 12px;
+  top: 50%;
+  transform: translate(-50%);
+  left: 50%;
+  z-index: 5;
+}
+
+.mainImageContainer {
+  margin-top: -58px;
+}
+
+.mainImageText {
+  margin-bottom: 22px;
+  font-size: 15px;
+  line-height: 15px;
+  color: $old-lavender;
+}
+
+.mainImage {
+  width: 240px;
+  height: 300px;
+  background-color: $cultured;
+  border-radius: 3px;
+}
+
+

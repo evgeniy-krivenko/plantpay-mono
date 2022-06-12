@@ -7,12 +7,16 @@ import productReducer from './reducers/products/productReducer';
 import cartReducer from './reducers/cart/cartReducer';
 import authReducer from './reducers/auth/authReducer';
 import categoriesReducer from './reducers/categories/categoriesReducer';
+import vendorProductReducer from './reducers/vendorProducts/vendorProductReducer';
+import productLoaderReducer from './reducers/productLoader/photoLoaderReducer';
 
 const rootReducer = combineReducers({
   products: productReducer,
   inCart: cartReducer,
   auth: authReducer,
   categories: categoriesReducer,
+  vendorProducts: vendorProductReducer,
+  productLoader: productLoaderReducer,
 });
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type

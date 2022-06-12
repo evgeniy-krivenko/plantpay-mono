@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect } from 'react';
 import { BackIcon, OverlaingPopup } from '@plantpay-mono/ui';
 import { checkExecutionCtx } from '@plantpay-mono/helpers';
-import { PhotoLoader, CategorySelector, ProductPublisher } from './components';
+import { PhotoLoader, CategorySelector, ProductPublisher, SuccessScreen } from './components';
 import { createMachine } from 'xstate';
 import { useMachine } from '@xstate/react';
 import styles from './AddProductPopup.module.scss';
@@ -17,12 +17,13 @@ export interface ScreenProps {
   onNextButtonClick?: () => void;
 }
 
-type ScreenType = 'firstScreen' | 'secondScreen' | 'thirdScreen';
+type ScreenType = 'firstScreen' | 'secondScreen' | 'thirdScreen' | 'fourthScreen';
 
 const screenMap: Record<ScreenType, FC<ScreenProps>> = {
   firstScreen: PhotoLoader,
   secondScreen: CategorySelector,
   thirdScreen: ProductPublisher,
+  fourthScreen: SuccessScreen,
 };
 
 type ScreenTypeEvents = { type: 'NEXT' } | { type: 'PREV' };
@@ -42,7 +43,10 @@ const screenMachine = createMachine<undefined, ScreenTypeEvents, ScreenTypeState
       on: { NEXT: 'thirdScreen', PREV: 'firstScreen' },
     },
     thirdScreen: {
-      on: { PREV: 'secondScreen' },
+      on: { NEXT: 'fourthScreen', PREV: 'secondScreen' },
+    },
+    fourthScreen: {
+      on: { NEXT: 'firstScreen' },
     },
   },
 });

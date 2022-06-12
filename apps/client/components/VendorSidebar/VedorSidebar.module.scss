@@ -1,0 +1,49 @@
+@import 'global';
+
+.link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: $raisin-black;
+  margin-bottom: 24px;
+  transition: all .1s ease;
+  &:hover {
+    color: $dark-grey;
+    svg {
+      stroke: $dark-grey;
+    }
+  }
+}
+
+.activeLink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  color: $persian-green;
+  svg {
+    stroke: $persian-green;
+  }
+}
+
+.label {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  background: $persian-green;
+  border-radius: 50px;
+  span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-55%) translateY(-50%);
+    font-size: 11px;
+    color: $white;
+    text-align: center;
+  }
+}
+
+.p {
+  margin-left: 16px;
+  margin-right: 8px;
+}

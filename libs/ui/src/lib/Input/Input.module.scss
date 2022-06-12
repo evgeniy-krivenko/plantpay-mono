@@ -12,11 +12,14 @@
   height: 100%;
   border: 1.2px solid #C4C4C4;
   border-radius: 3px;
-  padding: 2px 12px 0;
+  padding: 0 12px 0;
   font-weight: 400;
   font-size: 14px;
   line-height: 14px;
   transition: all .1s linear;
+  &:-webkit-autofill {
+    background-color: $white;
+  }
   &:hover,
   &:focus {
     border: 1.2px solid transparent;
@@ -25,17 +28,34 @@
   &:focus + .text,
   &:active + .text,
   &:-webkit-autofill + .text {
-    top: 9px;
+    top: -2px;
     left: 12px;
     font-size: 11px;
     line-height: 10px;
     color: $raisin-black;
+    background-color: $white;
+  }
+
+  &:focus + .textArea,
+  &:active + .textArea,
+  &:-webkit-autofill + .textArea {
+    top: -7px;
   }
 }
 
 .inputError {
   border: 1.2px solid transparent;
   box-shadow: 0 0 0 2px $sizilling-red;
+  &:focus,
+  &:active {
+    border: 1.2px solid transparent;
+    box-shadow: 0 0 0 2px $sizilling-red;
+  }
+}
+
+.inputArea {
+  resize: none;
+  padding: 6px 12px;
 }
 
 .label {
@@ -54,11 +74,20 @@
 .text {
   position: absolute;
   top: 50%;
-  left: 16px;
+  left: 14px;
   color: $dark-grey;
   transform: translateY(-50%);
   transition: all .1s linear;
   cursor: text;
+  padding: 0 2px;
+}
+
+.textArea {
+  top: 12px;
+  transform: translateY(0);
+  &.filled {
+    top: -7px;
+  }
 }
 
 .textError {
@@ -66,11 +95,12 @@
 }
 
 .filled {
-  top: 9px;
+  top: -2px;
   left: 12px;
   font-size: 11px;
   line-height: 10px;
   color: $raisin-black;
+  background-color: $white;
 }
 
 .icon {
@@ -86,9 +116,11 @@
 }
 
 .error {
-  position: absolute;
-  left: 8px;
-  bottom: -14px;
-  font-size: 11px;
+  //position: absolute;
+  //left: 8px;
+  //bottom: -14px;
+  //font-size: 11px;
   color: $sizilling-red;
+  text-wrap: none;
+  //width: 150%;
 }

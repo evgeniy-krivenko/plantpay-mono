@@ -1,0 +1,55 @@
+@import 'global';
+
+.wrapper {
+  padding: 22px 56px 0;
+  position: relative;
+  min-height: 452px;
+}
+
+.title {
+  margin-bottom: 12px;
+}
+
+.subheader {
+  font-size: 15px;
+  line-height: 24px;
+  color: $old-lavender;
+  margin-bottom: 68px;
+}
+
+.categories {
+  margin-top: 48px;
+}
+
+.category {
+  margin-bottom: 6px;
+  font-size: 14px;
+  line-height: 24px;
+  color: $raisin-black;
+  cursor: pointer;
+  transition: all .1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 220px;
+
+  &.active {
+    color: $persian-green;
+    font-weight: 600;
+  }
+
+  &:hover {
+    color: $persian-green;
+  }
+}
+
+.btn {
+  position: absolute;
+  right: 56px;
+  bottom: 0;
+  width: 240px;
+  height: 48px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+}

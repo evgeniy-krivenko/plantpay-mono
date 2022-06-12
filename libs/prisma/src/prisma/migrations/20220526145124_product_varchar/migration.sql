@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "ProductModel" ALTER COLUMN "name" SET DATA TYPE VARCHAR(40);

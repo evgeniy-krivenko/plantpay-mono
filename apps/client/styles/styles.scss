@@ -1,1 +1,9 @@
 @import "catalog-page";
+@import "vendor-product";
+@import "global";
+
+.divider {
+  background-color: $medium-grey;
+  width: 100%;
+  height: 1px;
+}
