@@ -1,5 +1,4 @@
 import { ProductStatus } from '@prisma/client';
-import { BigNumber } from 'bignumber.js';
 import { IImageElement } from '../file/file-element.interface';
 
 export interface IProductForVendor {
@@ -10,7 +9,7 @@ export interface IProductForVendor {
   categoryId: number;
   vendorId: number;
   slug: string;
-  price: BigNumber;
+  price: number;
   status: ProductStatus;
   createdAt: Date;
   updatedAt: Date;

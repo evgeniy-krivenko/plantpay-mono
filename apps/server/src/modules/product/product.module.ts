@@ -8,6 +8,6 @@ import { ProductRepository } from './repository/product.repository';
   imports: [PrismaModule],
   controllers: [ProductController],
   providers: [ProductService, ProductRepository],
-  exports: [ProductRepository],
+  exports: [ProductRepository, ProductService],
 })
 export class ProductModule {}
