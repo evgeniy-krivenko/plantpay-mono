@@ -27,10 +27,12 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
     removeFromCart({ productId: product.id, cartId });
   }, [removeFromCart, product.id, cartId]);
 
+  const [imageUrl] = product.images;
+
   return (
     <div className={styles.item}>
       <a href="/" className={styles.image}>
-        <img src={product.image.url} alt={product.name} />
+        <img src={imageUrl?.url} alt={product.name} />
       </a>
       <a href="/" className={styles.name}>
         {product.name}
@@ -45,12 +47,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
             <Loader className={styles.loader} pixelSize={20} color="primary" />
           ) : (
             <>
-              <Button
-                text="В корзине"
-                className={styles.btn}
-                appearance="disabled"
-                disabled={true}
-              />
+              <Button text="В корзине" className={styles.btn} appearance="disabled" disabled={true} />
               <Trash className={styles.trash} onClick={remove} />
             </>
           )}
