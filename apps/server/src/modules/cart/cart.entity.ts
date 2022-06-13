@@ -27,7 +27,7 @@ export class Cart {
     }
   }
 
-  public getProductsByVendors(): Vendor[] {
+  public getVendorsWithProducts(): Vendor[] {
     return this.vendors.map((vendor) => {
       vendor.products = this.products.filter((product) => product.vendorId === vendor.id);
       return vendor;

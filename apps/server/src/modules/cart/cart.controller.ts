@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -7,12 +8,14 @@ import {
   Put,
   Req,
   Res,
+  SerializeOptions,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { PLANTPAY_CART_ID } from '@plantpay-mono/constants';
-import { InCart } from '@plantpay-mono/types';
+import { InCart, IVendorWithProduct } from '@plantpay-mono/types';
 import { Request, Response } from 'express';
 import { getExpireDate } from '../../helps/get-expire-date';
 import { Public } from '../auth/decorators/public.decorator';
@@ -21,7 +24,12 @@ import { JwtAccessGuard } from '../auth/guards/jwt-access.guard';
 import { User } from '../auth/user.entity';
 import { CartService } from './cart.service';
 import { ProductIdDto } from './dto/add-product.dto';
+import { VendorWithProductDto } from './dto/vendor-with-product.dto';
 
+@UseInterceptors(ClassSerializerInterceptor)
+@SerializeOptions({
+  strategy: 'excludeAll',
+})
 @UseGuards(JwtAccessGuard)
 @Controller('cart')
 export class CartController {
@@ -29,7 +37,7 @@ export class CartController {
 
   @Get('/')
   @Public()
-  async getCart(
+  async getInCart(
     @UserFromReq() user: User | undefined,
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
@@ -53,10 +61,28 @@ export class CartController {
   }
 
   @Public()
+  @UsePipes(ValidationPipe)
   @Delete('/:cartId')
   async deleteFromCart(@Param('cartId') cartId: string, @Body() deleteProductDto: ProductIdDto): Promise<string[]> {
     const cart = await this.cartService.deleteFromCart(cartId, deleteProductDto);
-    console.log(cart.getProductIds());
     return cart.getProductIds();
+  }
+
+  @Get('/all')
+  @Public()
+  async getAllCart(
+    @UserFromReq() user: User | undefined,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<IVendorWithProduct[]> {
+    const cart = await this.cartService.getOrCreateCart(user?.id, req.cookies[PLANTPAY_CART_ID]);
+    res.cookie('plantpayCart', cart.id, {
+      expires: getExpireDate(30),
+      httpOnly: true,
+      sameSite: 'lax',
+      path: '/',
+    });
+    const vendorsWithProducts = cart.getVendorsWithProducts();
+    return vendorsWithProducts.map((vendor) => new VendorWithProductDto({ ...vendor }));
   }
 }
