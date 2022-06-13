@@ -26,7 +26,7 @@ model UserModel {
 
 model RoleModel {
   id          Int            @id @default(autoincrement())
-  value       RoleType
+  value       RoleType       @unique
   description String         @db.VarChar(140)
   users       UsersOnRoles[]
 }
