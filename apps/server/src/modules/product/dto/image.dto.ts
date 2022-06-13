@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 
 export class ImageDto {
   @Expose()
@@ -6,5 +6,16 @@ export class ImageDto {
   @Expose()
   isMain: boolean;
   @Expose()
+  @Transform(({ value }: { value: string }) => {
+    if (value.split('/').includes('static')) {
+      return value;
+    } else {
+      return '/static/' + value;
+    }
+  })
   url: string;
+
+  constructor(partial: Partial<ImageDto>) {
+    Object.assign(this, partial);
+  }
 }

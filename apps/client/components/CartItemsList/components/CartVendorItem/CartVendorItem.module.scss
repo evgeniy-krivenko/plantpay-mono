@@ -1,0 +1,25 @@
+@import "global";
+
+.item {
+  margin-bottom: 24px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  background-color: $cultured;
+  border-radius: 4px;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  margin-left: 26px;
+  margin-right: 58px;
+  background-color: $white;
+}
+
+.name {
+  margin-left: 104px;
+}

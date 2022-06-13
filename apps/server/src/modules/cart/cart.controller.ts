@@ -3,7 +3,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Delete,
-  Get,
+  Get, Logger,
   Param,
   Put,
   Req,
@@ -25,11 +25,8 @@ import { User } from '../auth/user.entity';
 import { CartService } from './cart.service';
 import { ProductIdDto } from './dto/add-product.dto';
 import { VendorWithProductDto } from './dto/vendor-with-product.dto';
+import { InCartDto } from './dto/in-cart.dto';
 
-@UseInterceptors(ClassSerializerInterceptor)
-@SerializeOptions({
-  strategy: 'excludeAll',
-})
 @UseGuards(JwtAccessGuard)
 @Controller('cart')
 export class CartController {
@@ -43,13 +40,14 @@ export class CartController {
     @Res({ passthrough: true }) res: Response,
   ): Promise<InCart> {
     const cart = await this.cartService.getOrCreateCart(user?.id, req.cookies[PLANTPAY_CART_ID]);
-    res.cookie('plantpayCart', cart.id, {
+    res.cookie(PLANTPAY_CART_ID, cart.id, {
       expires: getExpireDate(30),
       httpOnly: true,
       sameSite: 'lax',
       path: '/',
     });
-    return { inCart: cart.getProductIds(), cartId: cart.id };
+    Logger.debug({ inCart: cart.getProductIds(), cartId: cart.id });
+    return new InCartDto({ inCart: cart.getProductIds(), cartId: cart.id });
   }
 
   @Public()
@@ -68,6 +66,11 @@ export class CartController {
     return cart.getProductIds();
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
+  @SerializeOptions({
+    strategy: 'excludeAll',
+    enableImplicitConversion: true,
+  })
   @Get('/all')
   @Public()
   async getAllCart(
@@ -76,7 +79,7 @@ export class CartController {
     @Res({ passthrough: true }) res: Response,
   ): Promise<IVendorWithProduct[]> {
     const cart = await this.cartService.getOrCreateCart(user?.id, req.cookies[PLANTPAY_CART_ID]);
-    res.cookie('plantpayCart', cart.id, {
+    res.cookie(PLANTPAY_CART_ID, cart.id, {
       expires: getExpireDate(30),
       httpOnly: true,
       sameSite: 'lax',

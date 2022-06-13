@@ -12,7 +12,7 @@ import productLoaderReducer from './reducers/productLoader/photoLoaderReducer';
 
 const rootReducer = combineReducers({
   products: productReducer,
-  inCart: cartReducer,
+  cart: cartReducer,
   auth: authReducer,
   categories: categoriesReducer,
   vendorProducts: vendorProductReducer,

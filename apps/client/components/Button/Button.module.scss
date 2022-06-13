@@ -5,7 +5,6 @@
   border-radius: 3px;
   transition: .1s all;
   font-family: 'Montserrat', serif;
-  font-size: 13px;
 }
 
 .primary {
@@ -45,10 +44,17 @@
 .s {
   padding: 8px;
   height: 32px;
+  font-size: 13px;
 }
 
 .m {
   padding: 10px 24px;
+  font-size: 16px;
+}
+
+.l {
+  height: 48px;
+  font-size: 18px;
 }
 
 .loading {
