@@ -10,23 +10,16 @@ export class ProductForUsersDto implements IProductForUsers {
   description: string;
   @Expose()
   id: string;
-  @Expose()
-  @Type(() => ImageDto)
   /**
    * Select main image
    * if image url has not 'static' in path
    * add it
    */
+  @Expose()
   @Transform(({ value }) => {
-    const mainImg = value.filter((image: IImageElement) => image.isMain);
-    return mainImg.map((imageElem: IImageElement) => {
-      if (imageElem.url.split('/').includes('static')) {
-        return imageElem;
-      } else {
-        return { ...imageElem, url: '/static/' + imageElem.url };
-      }
-    });
+    return value.filter((image: IImageElement) => image.isMain);
   })
+  @Type(() => ImageDto)
   images: IImageElement[];
   @Expose()
   name: string;

@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import { IProductForUsers } from '@plantpay-mono/types';
 import { FC } from 'react';
-import { ReactComponent as Trash } from './trash.svg';
 import styles from './ProductItem.module.scss';
 import Button from '../Button/Button';
 import { useActions } from '../../hooks/useActions';
 import { useTypeSelector } from '../../hooks/useTypeSelector';
 import { inCartSelector, isLoadingSelector } from '../../store/reducers/cart/selectors';
 import { Loader } from '../Loader/Loader';
+import { TrashSvg } from '@plantpay-mono/svg';
 
 export interface ProductItemProps {
   product: IProductForUsers;
@@ -16,7 +16,7 @@ export interface ProductItemProps {
 const ProductItem: FC<ProductItemProps> = ({ product }) => {
   const { addInCart, removeFromCart } = useActions();
   const inCart = useTypeSelector((state) => inCartSelector(state, product.id));
-  const { cartId } = useTypeSelector((state) => state.inCart);
+  const { cartId } = useTypeSelector((state) => state.cart);
   const isLoading = useTypeSelector((state) => isLoadingSelector(state, product.id));
 
   const add = useCallback(() => {
@@ -48,7 +48,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
           ) : (
             <>
               <Button text="В корзине" className={styles.btn} appearance="disabled" disabled={true} />
-              <Trash className={styles.trash} onClick={remove} />
+              <TrashSvg className={styles.trash} onClick={remove} />
             </>
           )}
         </div>

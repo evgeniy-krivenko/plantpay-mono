@@ -6,9 +6,9 @@ import { Loader } from '../Loader/Loader';
 interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   onClickButton?: () => void;
   className?: string;
-  text: string;
+  text?: string;
   appearance: 'primary' | 'white' | 'ghost' | 'disabled';
-  size?: 's' | 'm';
+  size?: 's' | 'm' | 'l';
   disabled?: boolean;
   isLoading?: boolean;
 }
@@ -21,16 +21,23 @@ const Button: FC<ButtonProps> = ({
   size = 's',
   isLoading = false,
   disabled = false,
+  children,
   ...otherProps
 }) => {
   if (isLoading) {
     return (
       <button
         disabled
-        className={cn(styles.button, className, styles.loading, {
-          [styles.s]: size === 's',
-          [styles.m]: size === 'm',
-        })}
+        className={cn(
+          styles.button,
+          styles.loading,
+          {
+            [styles.s]: size === 's',
+            [styles.m]: size === 'm',
+            [styles.l]: size === 'l',
+          },
+          className,
+        )}
       >
         <Loader className={styles.loader} pixelSize={20} color="white" />
       </button>
@@ -50,7 +57,7 @@ const Button: FC<ButtonProps> = ({
       onClick={onClickButton}
       disabled={disabled}
     >
-      {text}
+      {text || children}
     </button>
   );
 };

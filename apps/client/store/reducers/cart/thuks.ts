@@ -1,4 +1,4 @@
-import { InCart } from '@plantpay-mono/types';
+import { InCart, IVendorWithProduct } from '@plantpay-mono/types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosRequestHeaders } from 'axios';
 import { ParsedUrlQuery } from 'node:querystring';
@@ -10,6 +10,7 @@ export const fetchInCart = createAsyncThunk<InCart, AxiosRequestHeaders, { rejec
   async (headers, thunkAPI) => {
     try {
       const response = await $api.get('/cart', { headers });
+      console.log(response?.data)
       return response?.data;
     } catch (e: any) {
       return thunkAPI.rejectWithValue('Что-то пошло не так, попробуйте позже');
@@ -45,3 +46,16 @@ export const removeFromCart = createAsyncThunk<string[], AddInCartArgs, { reject
     }
   },
 );
+
+export const fetchVendorsWithItems = createAsyncThunk<
+  IVendorWithProduct[],
+  AxiosRequestHeaders,
+  { rejectValue: string }
+>('cart/fetchVendorsWithItems', async (headers, thunkAPI) => {
+  try {
+    const response = await $api.get('/cart/all', { headers });
+    return response?.data;
+  } catch (e: any) {
+    return thunkAPI.rejectWithValue('Что-то пошло не так, попробуйте позже');
+  }
+});
