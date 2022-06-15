@@ -1,14 +1,16 @@
 import { useTypeSelector } from '../../hooks/useTypeSelector';
-import { productSelector } from '../../store/reducers/products/selectors';
+import { productPaginationSelector, productSelector } from '../../store/reducers/products/selectors';
 import { catalogSSP } from '../../ssr/catalogSSP';
 import MainLayout from '../../layouts/MainLayout/MainLayout';
 import ProductList from '../../components/ProductList';
 import HTag from '../../components/HTag';
 import Sidebar from '../../components/Sidebar';
+import { usePagination } from '../../hooks/usePagination';
 
 export function Catalog(): JSX.Element {
   const products = useTypeSelector((state) => productSelector(state));
   const { categories } = useTypeSelector((state) => state.categories);
+  usePagination(productPaginationSelector);
 
   return (
     <MainLayout title="Каталог">

@@ -1,14 +1,18 @@
 import { useTypeSelector } from '../../hooks/useTypeSelector';
-import { productSelector } from '../../store/reducers/products/selectors';
+import { productPaginationSelector, productSelector } from '../../store/reducers/products/selectors';
 import { catalogSSP } from '../../ssr/catalogSSP';
 import ProductList from '../../components/ProductList';
 import MainLayout from '../../layouts/MainLayout/MainLayout';
 import Sidebar from '../../components/Sidebar';
 import HTag from '../../components/HTag';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { usePagination } from '../../hooks/usePagination';
 
 export function Category(): JSX.Element {
   const products = useTypeSelector((state) => productSelector(state));
   const { categories } = useTypeSelector((state) => state.categories);
+  usePagination(productPaginationSelector);
 
   return (
     <MainLayout title="Каталог">
