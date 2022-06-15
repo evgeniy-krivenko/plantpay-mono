@@ -8,3 +8,4 @@ export * from './product/category';
 export * from './product/create-product';
 export * from './cart/cart';
 export * from './category';
+export * from './common/data-pagination.interface';

@@ -8,7 +8,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { IProductForUsers } from '@plantpay-mono/types';
+import { IDataPagination, IProductForUsers } from '@plantpay-mono/types';
 import { GetProductsQuery } from './dto/get-products-query';
 import { ProductService } from './product.service';
 
@@ -29,7 +29,7 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  getAllForUsers(@Query() queryParams: GetProductsQuery): Promise<IProductForUsers[]> {
-    return this.productService.getAllForUsers(queryParams);
+  getAllForUsers(@Query() query: GetProductsQuery): Promise<IDataPagination<IProductForUsers>> {
+    return this.productService.getAllForUsers(query);
   }
 }

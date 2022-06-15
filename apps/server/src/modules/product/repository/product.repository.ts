@@ -45,15 +45,21 @@ export class ProductRepository {
     }
   }
 
+  async getProductCount(wereInputs?: ProductWhereInput): Promise<number> {
+    return this.prismaService.productModel.count({
+      where: wereInputs,
+    });
+  }
+
   async *getAllPublishedProducts(
-    limit = 20,
-    offset = 0,
+    take,
+    skip,
     wereInputs?: ProductWhereInput,
   ): AsyncIterableIterator<Product> {
     try {
       const productModels = await this.prismaService.productModel.findMany({
-        take: limit,
-        skip: offset,
+        take,
+        skip,
         where: wereInputs,
         include: { images: true },
       });

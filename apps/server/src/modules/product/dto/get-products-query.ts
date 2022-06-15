@@ -1,10 +1,9 @@
 import { Type } from 'class-transformer';
-import { IsInt } from 'class-validator';
 
 export class GetProductsQuery {
   @Type(() => Number)
-  limit?: number;
+  page?: number | undefined;
   @Type(() => Number)
-  offset?: number;
-  category?: string;
+  per_page?: number | undefined;
+  category?: string | undefined;
 }
