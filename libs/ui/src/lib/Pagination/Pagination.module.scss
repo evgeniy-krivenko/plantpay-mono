@@ -1,0 +1,28 @@
+@import "global";
+
+.pagination {
+
+}
+
+.link {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0.2px solid $cool-grey;
+  border-radius: 2px;
+  color: $cool-grey;
+  font-weight: 600;
+  font-size: 18px;
+
+  &.active {
+    background-color: $persian-green;
+    border: none;
+    color: $white;
+  }
+
+  &:hover:not(.active) {
+    background-color: $platinum;
+  }
+}
