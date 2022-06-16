@@ -1,15 +1,13 @@
 import { RootState } from '../store';
 import { IPagination } from '@plantpay-mono/types';
 import { useTypeSelector } from './useTypeSelector';
-import { useRouter } from 'next/router';
+import { NextRouter } from 'next/router';
 import { useEffect } from 'react';
 
 type UsePaginationSelector = (state: RootState) => IPagination;
 
-export const usePagination = (selector: UsePaginationSelector): IPagination => {
+export const usePagination = (selector: UsePaginationSelector, router: NextRouter): IPagination => {
   const { page, perPage, totalPages } = useTypeSelector(selector);
-  const router = useRouter();
-  console.log(router.query)
 
   useEffect(() => {
     // Always do navigations after the first render
