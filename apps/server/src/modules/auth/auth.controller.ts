@@ -11,7 +11,7 @@ import {
   Req,
   Logger,
 } from '@nestjs/common';
-import { IUser } from '@plantpay-mono/types';
+import { IRefresh, IUser } from '@plantpay-mono/types';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { Roles } from './decorators/roles.decorator';
@@ -60,7 +60,7 @@ export class AuthController {
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
     @UserFromReq() user: User,
-  ): Promise<any> {
+  ): Promise<IRefresh> {
     const { email } = user;
     const refreshToken = req.cookies['Refresh-token'];
     const newAccessToken = this.tokenService.getAccessToken({ email });

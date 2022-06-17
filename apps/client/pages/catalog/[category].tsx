@@ -18,14 +18,14 @@ export function Category(): JSX.Element {
   const { page, perPage, totalPages } = usePagination(productPaginationSelector, router);
 
   return (
-    <MainLayout title={activeCategory.name ?? 'Каталог'}>
+    <MainLayout title={activeCategory?.name ?? 'Каталог'}>
       <div className="catalog__wrapper">
         <Sidebar className="catalog__sidebar" categories={categories} router={router}>
           Категории
         </Sidebar>
         <main className="catalog__main">
           <HTag className="catalog__title" tag="h1">
-            {activeCategory.name ?? 'Каталог'}
+            {activeCategory?.name ?? 'Каталог'}
           </HTag>
           <ProductList className="catalog__items-list" type="catalog" products={products} />
           <Pagination

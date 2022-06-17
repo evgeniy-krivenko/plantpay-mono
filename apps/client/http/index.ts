@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { BASE_URL, BASE_SERVER_URL } from '../configs/urls';
+import { BASE_SERVER_URL } from '../configs/urls';
 import { makeStore } from '../store';
 import { authActions } from '../store/reducers/auth/authReducer';
 import { checkExecutionCtx } from '@plantpay-mono/helpers';
 import cookie from 'cookie';
+import { IRefresh } from '@plantpay-mono/types';
 
 let accessToken: string;
 
@@ -13,26 +14,34 @@ const $api = axios.create({
   baseURL: BASE_SERVER_URL,
 });
 
+/**
+ * If there isn't token in closes
+ * extract from cookie (server and client)
+ */
 $api.interceptors.request.use(async (req) => {
-  const isServer = checkExecutionCtx();
+  if (accessToken) {
+    req.headers.Authorization = `Bearer ${accessToken}`;
+    return req;
+  }
 
-  if (!accessToken && !isServer) {
-    const cookies = cookie.parse(document.cookie);
+  let cookiesForParse;
+
+  const isServer = checkExecutionCtx();
+  if (isServer) {
+    cookiesForParse = req.headers?.cookie;
+  } else {
+    cookiesForParse = document.cookie;
+  }
+
+  if (!accessToken && typeof cookiesForParse === 'string') {
+    const cookies = cookie.parse(cookiesForParse);
     const accessTokenFromCookie = cookies['Access-token'];
     if (accessTokenFromCookie) {
       accessToken = accessTokenFromCookie;
+      req.headers.Authorization = `Bearer ${accessToken}`;
     }
   }
-  if (!accessToken) {
-    axios
-      .get(`${BASE_URL}/api/refresh`, {
-        headers: req.headers,
-      })
-      .then(({ data }) => {
-        accessToken = data.access_token;
-      });
-  }
-  req.headers.Authorization = `Bearer ${accessToken}`;
+
   return req;
 });
 
@@ -46,11 +55,12 @@ $api.interceptors.response.use(
     if (error.response?.status === 401 && error.config && !originalRequest._isRetry) {
       originalRequest._isRetry = true;
       try {
-        const { data } = await axios.get<any>(`${BASE_URL}/api/refresh`, {
+        const { data, headers } = await $api.get<IRefresh>(`/auth/refresh`, {
           headers: originalRequest.headers,
         });
         originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
         accessToken = data.access_token;
+        $api.defaults.headers['setCookie'] = headers['set-cookie'];
         return await $api.request(originalRequest);
       } catch (e) {
         let message: string;

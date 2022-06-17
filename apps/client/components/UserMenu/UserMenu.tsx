@@ -1,5 +1,5 @@
 import styles from './UserMenu.module.scss';
-import { SIGN_IN_URL } from '../../configs/popups';
+import { GET_PARAMS, POPUPS_QUERY, SIGN_IN_URL } from '../../configs/popups';
 import { useRouter } from 'next/router';
 import { UserMenuItem } from '../UserMenuItem';
 import { useTypeSelector } from '../../hooks/useTypeSelector';
@@ -13,9 +13,11 @@ interface UserMenuProps {
 }
 
 const UserMenu: FC<UserMenuProps> = ({ user, isAuth }) => {
-  const { pathname } = useRouter();
+  const { pathname, query } = useRouter();
   const productsInCartCount = useTypeSelector((state) => inCartCount(state));
-  const loginPopupLink = isAuth ? '/profile' : pathname + SIGN_IN_URL;
+  const loginPopupLink = isAuth
+    ? '/profile'
+    : { pathname, query: { ...query, [GET_PARAMS.popup]: POPUPS_QUERY.popup.signIn } };
   const loginText = isAuth ? user.name : 'Войти';
 
   return (
@@ -23,13 +25,13 @@ const UserMenu: FC<UserMenuProps> = ({ user, isAuth }) => {
       <UserMenuItem type="login" link={loginPopupLink}>
         {loginText}
       </UserMenuItem>
-      <UserMenuItem type="order" link="order">
+      <UserMenuItem type="order" link="/order">
         Заказы
       </UserMenuItem>
-      <UserMenuItem type="favorite" link="favorite">
+      <UserMenuItem type="favorite" link="/favorite">
         Избранное
       </UserMenuItem>
-      <UserMenuItem type="cart" labelCount={productsInCartCount} link="cart">
+      <UserMenuItem type="cart" labelCount={productsInCartCount} link="/cart">
         Корзина
       </UserMenuItem>
     </div>

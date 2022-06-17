@@ -34,7 +34,7 @@ export const LoginPopup: FC<LoginPopupProps> = ({ isOpened }) => {
   }, [router]);
 
   const onClosePopup = useCallback(() => {
-    router.push(router.pathname);
+    router.back();
   }, [router]);
 
   useEffect(() => {
