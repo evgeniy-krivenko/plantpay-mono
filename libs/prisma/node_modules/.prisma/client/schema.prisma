@@ -11,17 +11,18 @@ datasource db {
 }
 
 model UserModel {
-  id          Int            @id @default(autoincrement())
-  email       String         @unique
-  name        String         @db.VarChar(30)
-  password    String
-  isVendor    Boolean
-  hashedToken String?
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  roles       UsersOnRoles[]
-  products    ProductModel[]
-  cart        CartModel?
+  id               Int            @id @default(autoincrement())
+  email            String         @unique
+  name             String         @db.VarChar(30)
+  password         String
+  isVendor         Boolean
+  hashedToken      String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  roles            UsersOnRoles[]
+  products         ProductModel[]
+  cart             CartModel?
+  isEmailConfirmed Boolean?
 }
 
 model RoleModel {
