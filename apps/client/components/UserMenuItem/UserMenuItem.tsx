@@ -5,6 +5,7 @@ import { ReactComponent as OrderSvg } from './order.svg';
 import { ReactComponent as FavoriteSvg } from './favorite.svg';
 import { ReactComponent as CartSvg } from './cart.svg';
 import Link from 'next/link';
+import { UrlObject } from 'url';
 
 type IconType = 'login' | 'order' | 'favorite' | 'cart';
 
@@ -19,7 +20,7 @@ const ICON_MAP: Record<IconType, SVG> = {
 
 interface UserMenuItemProps {
   type: IconType;
-  link: string;
+  link: string | UrlObject;
   labelCount?: number;
   onClick?: () => void;
 }
@@ -29,7 +30,7 @@ export const UserMenuItem: FC<UserMenuItemProps> = ({ type, children, link, labe
 
   return (
     <Link href={link} shallow onClick={onClick}>
-      <a href={link}>
+      <a>
         <div className={styles.item}>
           <div className={styles.wrapper}>
             {labelCount > 0 && (

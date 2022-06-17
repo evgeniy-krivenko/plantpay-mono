@@ -1,7 +1,7 @@
 {
   "/backend": {
     "target": "http://localhost:3333",
-    "secure": false
+    "secure": true
   },
   "/static": {
     "target": "http://localhost:3333",

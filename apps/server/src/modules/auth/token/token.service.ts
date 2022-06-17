@@ -12,7 +12,8 @@ export class TokenService {
 
   async getCookiesWithJWTAccessToken(payload: TokenPayload, accessToken?: string): Promise<string> {
     const token = accessToken || this.getAccessToken(payload);
-    return `Access-token=${token}; Path=/; Max-Age=${HOUR}`;
+    const maxAge = Number(this.configService.get('JWT_ACCESS_TOKEN_EXPIRATION_DAY')) * SECONDS_PER_DAY;
+    return `Access-token=${token}; Max-Age=${maxAge};`;
   }
 
   async getCookiesWithJWTRefreshToken(token: string): Promise<string> {
