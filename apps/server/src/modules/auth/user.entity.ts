@@ -13,6 +13,7 @@ export class User {
     private readonly _createdAt?: Date,
     private readonly _updatedAt?: Date,
     private readonly _roles?: Role[],
+    readonly isEmailConfirmed?: boolean,
   ) {
     if (!_roles) {
       this._roles = [];

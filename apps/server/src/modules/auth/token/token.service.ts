@@ -1,4 +1,4 @@
-import { Injectable, Scope } from '@nestjs/common';
+import { BadRequestException, Injectable, Scope } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { TokenPayload } from './token-payload.interface';
@@ -33,5 +33,22 @@ export class TokenService {
       secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET'),
       expiresIn: this.configService.get('JWT_REFRESH_TOKEN_EXPIRATION_TIME'),
     });
+  }
+
+  public async decodeEmailConfirmationToken(token: string): Promise<string> {
+    try {
+      const payload = await this.jwtService.verify(token, {
+        secret: this.configService.get('JWT_VERIFICATION_TOKEN_SECRET'),
+      });
+      if (typeof payload === 'object' && 'email' in payload) {
+        return payload.email;
+      }
+      throw new BadRequestException();
+    } catch (error) {
+      if (error?.name === 'TokenExpiredError') {
+        throw new BadRequestException('Email confirmation token expired');
+      }
+      throw new BadRequestException('Bad confirmation token');
+    }
   }
 }

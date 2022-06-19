@@ -6,6 +6,9 @@ import { AppModule } from '../app.module';
 import { CreateUserDto } from '../modules/auth/dto/create-user.dto';
 import { SignInUserDto } from '../modules/auth/dto/sign-in-user.dto';
 import getCookiesFromResponse from '../helps/get-cookies';
+import { EmailService } from '../modules/email/email.service';
+import Mail from 'nodemailer/lib/mailer';
+import { CONFIRM_EMAIL_TEXT } from '@plantpay-mono/constants';
 
 const testingUser: CreateUserDto = {
   name: 'test',
@@ -21,6 +24,7 @@ const correctUser: SignInUserDto = {
 describe('ProductController', () => {
   let app: INestApplication;
   let cookies: Record<string, any>;
+  let token: string;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -32,7 +36,13 @@ describe('ProductController', () => {
     await app.init();
   });
 
-  it('Signup user: POST /auth/sign-up', async () => {
+  it('Signup user, get and confirm email: POST /auth/sign-up', async () => {
+    const email = await app.get(EmailService);
+    let emailText;
+    jest.spyOn(email, 'sendMail').mockImplementation(({ text }: Mail.Options) => {
+      emailText = text as string;
+      return Promise.resolve();
+    });
     const response = await request(app.getHttpServer()).post('/auth/sign-up').send(testingUser).expect(201);
     expect(response.body).toMatchObject({
       name: testingUser.name,
@@ -44,9 +54,18 @@ describe('ProductController', () => {
         },
       ],
     });
+    const [urlFromEmail] = emailText.split(' ').reverse();
+    token = new URL(urlFromEmail).searchParams.get('token');
+
+    expect(emailText).toContain(CONFIRM_EMAIL_TEXT);
+
+    await request(app.getHttpServer()).post('/auth/confirm-email').send({ token }).expect(201);
+    const resp: Response = await request(app.getHttpServer()).post('/auth/sign-in').send(testingUser).expect(200);
+
+    expect('isEmailConfirmed' in resp.body && resp.body.isEmailConfirmed).toBeTruthy();
   });
 
-  it('Signip user and correct token in cookies: POST /auth/sign-ip', async () => {
+  it('Sign-in user and correct token in cookies: POST /auth/sign-in', async () => {
     const resp: Response = await request(app.getHttpServer()).post('/auth/sign-in').send(correctUser).expect(200);
     cookies = getCookiesFromResponse(resp);
     expect(cookies['Access-token']).toBeTokenContaining({ email: correctUser.email });

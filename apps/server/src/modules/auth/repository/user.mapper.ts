@@ -14,6 +14,7 @@ export class UserMapper {
       userModel.createdAt,
       userModel.updatedAt,
       RoleMapper.mapToDomainRoles(roles),
+      userModel.isEmailConfirmed,
     );
   }
 
@@ -27,6 +28,7 @@ export class UserMapper {
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
       isVendor: user.isVendor,
+      isEmailConfirmed: user.isEmailConfirmed,
     };
   }
 }
