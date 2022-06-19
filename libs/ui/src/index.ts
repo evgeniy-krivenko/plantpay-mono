@@ -6,3 +6,4 @@ export * from './lib/BackIcon';
 export * from './lib/ProgressBar';
 export * from './lib/Checkbox';
 export * from './lib/Pagination';
+export * from './lib/Preloader';

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchUser, signIn } from './thuks';
+import { fetchUser, signIn, signUp } from './thuks';
 import { IUser } from '@plantpay-mono/types';
 
 export interface IAuth {
@@ -13,6 +13,8 @@ export const initialState = {
   authError: '',
   isLoading: false,
   signInError: '',
+  signUpError: '',
+  isSignUpFulfilled: false,
 };
 
 export const authSlice = createSlice({
@@ -57,6 +59,21 @@ export const authSlice = createSlice({
     });
     builder.addCase(signIn.rejected, (state, action) => {
       authSlice.caseReducers.setErrorSignIn(state, action);
+    });
+    builder.addCase(signUp.fulfilled, (state) => {
+      state.isLoading = false;
+      state.isSignUpFulfilled = true;
+      state.signUpError = '';
+    });
+    builder.addCase(signUp.pending, (state) => {
+      state.isLoading = true;
+      state.isSignUpFulfilled = false;
+      state.signUpError = '';
+    });
+    builder.addCase(signUp.rejected, (state, action) => {
+      state.signUpError = action.payload;
+      state.isLoading = false;
+      state.isSignUpFulfilled = false;
     });
   },
 });

@@ -1,4 +1,4 @@
-import { ISignIn, IUser } from '@plantpay-mono/types';
+import { ISignIn, ISignUp, IUser } from '@plantpay-mono/types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosRequestHeaders } from 'axios';
 import $api from '../../../http';
@@ -30,3 +30,19 @@ export const signIn = createAsyncThunk<IUser, ISignIn, { rejectValue: string }>(
     }
   },
 );
+
+export const signUp = createAsyncThunk<IUser, ISignUp, { rejectValue: string }>(
+  'auth/signUp',
+  async (data, thunkAPI) => {
+    try {
+      const response = await $api.post('/auth/sign-up', data);
+      return response?.data;
+    } catch (e: any) {
+      if (e.response?.status === 400) {
+        return thunkAPI.rejectWithValue('Вы указали неверные данные');
+      }
+      return thunkAPI.rejectWithValue('Что-то пошло не так. Попробуйте позже');
+    }
+  },
+);
+

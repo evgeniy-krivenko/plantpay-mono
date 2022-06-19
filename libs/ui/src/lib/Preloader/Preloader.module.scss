@@ -1,0 +1,44 @@
+@import "global";
+
+.wrapper {}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+}
+
+.spin4 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  width: 80px;
+  height: 80px;
+  border: 10px solid $persian-green;
+  border-radius: 50%;
+  border-top-color: #DDD;
+  border-bottom-color: #DDD;
+  animation-name: spin;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.hide {
+  display: none;
+}

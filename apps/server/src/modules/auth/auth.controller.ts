@@ -88,6 +88,7 @@ export class AuthController {
   @Post('/confirm-email')
   async confirmEmail(@Body() { token }: ConfirmEmailDto): Promise<void> {
     const email = await this.tokenService.decodeEmailConfirmationToken(token);
+    Logger.debug('token', token)
     await this.authService.confirmEmail(email);
   }
 

@@ -14,6 +14,7 @@ model UserModel {
   id               Int            @id @default(autoincrement())
   email            String         @unique
   name             String         @db.VarChar(30)
+  surname          String?
   password         String
   isVendor         Boolean
   hashedToken      String?
