@@ -5,6 +5,7 @@ import { Role } from './role.entity';
 export class User {
   constructor(
     private readonly _name: string,
+    readonly surname: string,
     private readonly _email: string,
     private readonly _isVendor = false,
     private _password?: string,

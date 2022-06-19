@@ -6,6 +6,7 @@ export class UserMapper {
   static mapToDomain(userModel: UserModel, roles?: RoleModel[]): User {
     return new User(
       userModel.name,
+      userModel.surname,
       userModel.email,
       userModel.isVendor,
       userModel.password,
@@ -21,6 +22,7 @@ export class UserMapper {
   static mapToModel(user: User): UserModel {
     return {
       name: user.name,
+      surname: user.surname,
       email: user.email,
       id: user.id,
       hashedToken: user.hashedToken,

@@ -1,9 +1,14 @@
 import { MainPopup } from '@plantpay-mono/ui';
-import { FC, useCallback, useRef } from 'react';
+import { FC, useCallback, useEffect, useRef } from 'react';
 import styles from './SignUpPopup.module.scss';
 import { Input } from '@plantpay-mono/ui';
 import Button from '../Button/Button';
 import { useRouter } from 'next/router';
+import { useActions } from '../../hooks/useActions';
+import { useForm } from 'react-hook-form';
+import { ISignUp } from '@plantpay-mono/types';
+import { SIGN_IN_URL } from '../../configs/popups';
+import { useTypeSelector } from '../../hooks/useTypeSelector';
 
 interface LoginPopupProps {
   isOpened: boolean;
@@ -11,13 +16,32 @@ interface LoginPopupProps {
 }
 
 export const SignUpPopup: FC<LoginPopupProps> = ({ isOpened }) => {
+  const { signUp } = useActions();
   const router = useRouter();
-  const ref = useRef();
-  const passwordRef = useRef();
+  const { isLoading, isSignUpFulfilled, signUpError: error } = useTypeSelector((state) => state.auth);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ISignUp>();
+
+  const onSubmit = (data: ISignUp): void => {
+    signUp(data);
+  };
+
+  const goOnSignInPopup = useCallback(() => {
+    router.push(SIGN_IN_URL);
+  }, [router]);
 
   const onClosePopup = useCallback(() => {
     router.push(router.pathname);
   }, [router]);
+
+  useEffect(() => {
+    if (isSignUpFulfilled) {
+      onClosePopup();
+    }
+  }, [isSignUpFulfilled]);
 
   return (
     <MainPopup
@@ -26,20 +50,63 @@ export const SignUpPopup: FC<LoginPopupProps> = ({ isOpened }) => {
       title="Войдите или зарегистрируйтесь"
       onClose={onClosePopup}
     >
-      <form className={styles.form}>
-        <Input className={styles.input} id="name" name="name" placeholder="Имя *" type="text" ref={ref} />
-        <Input className={styles.input} id="surname" name="surname" placeholder="Фамилия *" type="text" ref={ref} />
-        <Input className={styles.input} id="email" name="email" placeholder="Почта *" type="email" ref={ref} />
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          className={styles.input}
+          id="name"
+          name="name"
+          placeholder="Имя *"
+          type="text"
+          error={errors.name}
+          {...register('name', {
+            required: { value: true, message: '* Обязательное поле' },
+          })}
+        />
+        <Input
+          className={styles.input}
+          id="surname"
+          name="surname"
+          placeholder="Фамилия *"
+          type="text"
+          error={errors.surname}
+          {...register('surname', {
+            required: { value: true, message: '* Обязательное поле' },
+          })}
+        />
+        <Input
+          className={styles.input}
+          id="email"
+          name="email"
+          placeholder="Почта *"
+          type="email"
+          error={errors.email}
+          {...register('email', {
+            required: { value: true, message: '* Обязательное поле' },
+            pattern: { value: /.+@.+\..+/i, message: 'Введите валидный e-mail' },
+          })}
+        />
         <Input
           className={styles.input}
           id="password"
           name="password"
           placeholder="Придумайте пароль *"
           type="password"
-          ref={passwordRef}
+          error={errors.password}
+          {...register('password', {
+            required: { value: true, message: '* Обязательное поле' },
+            minLength: { value: 8, message: 'Минимум 8 символов' },
+          })}
         />
-        <Button className={styles.button} text="Регистрация" size="m" appearance="primary" />
-        <Button className={styles.button} text="Войти" size="m" appearance="white" onClickButton={router.back} />
+        <Button
+          className={styles.button}
+          text="Регистрация"
+          size="m"
+          type="submit"
+          appearance="primary"
+          isLoading={isLoading}
+        />
+        <Button className={styles.button} text="Войти" size="m" appearance="white" onClickButton={goOnSignInPopup} />
+        {error && <div className={styles.error}>{error}</div>}
       </form>
     </MainPopup>
   );

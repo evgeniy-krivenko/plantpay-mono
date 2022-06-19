@@ -1,0 +1,28 @@
+@import "global";
+
+.confirm-email {
+
+  &__success-icon {
+    margin: 0 auto 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid $persian-green;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+  }
+
+  &__text {
+    margin: 120px auto 0;
+    font-size: 18px;
+    line-height: 26px;
+    max-width: 400px;
+    //margin-top: 120px;
+    text-align: center;
+  }
+
+  &__link {
+    color: $persian-green;
+  }
+}

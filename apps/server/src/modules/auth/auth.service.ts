@@ -17,13 +17,13 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  async signUp(dto: CreateUserDto): Promise<User> {
-    const candidate = await this.userRepository.findByEmail(dto.email);
+  async signUp({ name, surname, email, password }: CreateUserDto): Promise<User> {
+    const candidate = await this.userRepository.findByEmail(email);
     if (candidate) {
       throw new BadRequestException(authException.USER_IS_EXISTS);
     }
-    const user = new User(dto.name, dto.email);
-    await user.setPassword(dto.password, 5);
+    const user = new User(name, surname, email);
+    await user.setPassword(password, 5);
     const role = await this.roleRepository.getRoleByType(RoleType.BYIER);
     user.addRole(role);
     await this.userRepository.create(user);
