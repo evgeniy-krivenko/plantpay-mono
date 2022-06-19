@@ -9,6 +9,7 @@ import { VendorModule } from './modules/vendor/vendor.module';
 import { CategoryModule } from './modules/category/category.module';
 import { AdminNestModule } from './modules/admin/admin.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { EmailModule } from './modules/email/email.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     PrismaModule,
     AdminNestModule,
     DashboardModule,
+    EmailModule,
   ],
   controllers: [],
   providers: [],

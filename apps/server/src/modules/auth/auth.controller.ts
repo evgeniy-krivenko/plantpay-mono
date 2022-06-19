@@ -24,16 +24,23 @@ import { RoleGuard } from './guards/role.guard';
 import { TokenService } from './token/token.service';
 import { User } from './user.entity';
 import { UserFromReq } from './decorators/user.decorator';
+import { EmailService } from '../email/email.service';
+import { ConfirmEmailDto } from './dto/confirm-email.dto';
 
 @UsePipes(ValidationPipe)
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService, private readonly tokenService: TokenService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly tokenService: TokenService,
+    private readonly emailService: EmailService,
+  ) {}
 
   @HttpCode(201)
   @Post('/sign-up')
   async signUp(@Body() dto: CreateUserDto): Promise<IUser> {
     const { name, email, roles } = await this.authService.signUp(dto);
+    await this.emailService.sendVerificationEmail(email);
     return {
       name,
       email,
@@ -43,15 +50,20 @@ export class AuthController {
 
   @HttpCode(200)
   @Post('/sign-in')
-  async signIn(@Body() dto: SignInUserDto, @Res({ passthrough: true }) res: Response): Promise<Partial<User>> {
+  async signIn(@Body() dto: SignInUserDto, @Res({ passthrough: true }) res: Response): Promise<IUser> {
     const payload = { email: dto.email };
     const accessToken = this.tokenService.getAccessToken(payload);
     const accessJWTCookies = await this.tokenService.getCookiesWithJWTAccessToken(payload, accessToken);
     const refreshToken = this.tokenService.getRefreshToken(payload);
     const refreshJWTCookies = await this.tokenService.getCookiesWithJWTRefreshToken(refreshToken);
-    const { email, name, isVendor } = await this.authService.signIn(dto, refreshToken);
+    const { email, name, isVendor, roles, isEmailConfirmed } = await this.authService.signIn(dto, refreshToken);
     res.setHeader('Set-Cookie', [accessJWTCookies, refreshJWTCookies]);
-    return { email, name, isVendor };
+    return {
+      email,
+      name,
+      roles: roles.map(({ value, description }) => ({ value, description })),
+      isEmailConfirmed,
+    };
   }
 
   @UseGuards(JwtRefreshGuard)
@@ -73,11 +85,17 @@ export class AuthController {
     return { refresh_token: newRefreshToken, access_token: newAccessToken };
   }
 
+  @Post('/confirm-email')
+  async confirmEmail(@Body() { token }: ConfirmEmailDto): Promise<void> {
+    const email = await this.tokenService.decodeEmailConfirmationToken(token);
+    await this.authService.confirmEmail(email);
+  }
+
   @UseGuards(JwtAccessGuard)
   @Get('/profile')
-  profile(@UserFromReq() { name, email, roles }: User | undefined): IUser {
+  profile(@UserFromReq() { name, email, roles, isEmailConfirmed }: User | undefined): IUser {
     Logger.debug('User profile', email);
-    return { name, email, roles };
+    return { name, email, roles, isEmailConfirmed };
   }
 
   @Post('/user/role')

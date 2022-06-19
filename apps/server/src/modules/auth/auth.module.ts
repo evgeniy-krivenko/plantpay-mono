@@ -13,6 +13,7 @@ import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
 import { RoleGuard } from './guards/role.guard';
 import { RoleRepository } from './repository/role.repository';
 import { JwtAccessGuard } from './guards/jwt-access.guard';
+import { EmailModule } from '../email/email.module';
 
 @Module({
   controllers: [AuthController],
@@ -20,6 +21,7 @@ import { JwtAccessGuard } from './guards/jwt-access.guard';
     PrismaModule,
     ConfigModule,
     PassportModule,
+    EmailModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

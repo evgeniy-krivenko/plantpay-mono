@@ -2,6 +2,7 @@ export interface IUser {
   name: string;
   email: string;
   roles: IRole[];
+  isEmailConfirmed?: boolean;
 }
 
 export interface IRole {

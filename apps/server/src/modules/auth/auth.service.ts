@@ -59,6 +59,14 @@ export class AuthService {
     await this.userRepository.updateToken(user);
   }
 
+  async confirmEmail(email: string) {
+    const user = await this.userRepository.findByEmail(email);
+    if (user.isEmailConfirmed) {
+      throw new BadRequestException('Email already confirmed');
+    }
+    await this.userRepository.update(user, { isEmailConfirmed: true });
+  }
+
   async addRoleForUser({ email, role: roleType }: AddRoleForUserDto): Promise<User> {
     const user = await this.userRepository.findByEmail(email);
     if (!user) {

@@ -15,6 +15,7 @@ export const authException = {
   USER_IS_NOT_EXISTS: 'Such user is not exists',
   TOKEN_HAS_BEEN_USED: 'Such token has been used',
   USER_IS_EXISTS: 'User with such email is exists',
+  TOKEN_INCORRECT: 'Token format incorrect',
 };
 
 export const cartException = {

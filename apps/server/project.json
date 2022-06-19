@@ -64,7 +64,7 @@
           "npx nx test-docker:up server",
           "npx nx db-push prisma",
           "npx nx seed prisma",
-          "npx nx test-e2e server"
+          "npx nx test-e2e server --output-style=dynamic --verbose"
         ],
         "parallel": false,
         "envFile": "apps/server/.test.env"

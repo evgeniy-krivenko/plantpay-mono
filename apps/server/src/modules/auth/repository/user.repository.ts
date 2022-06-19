@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { RoleType, UserModel } from '@prisma/client';
+import { RoleType, UserModel, Prisma } from '@prisma/client';
 import { PrismaService } from '@plantpay-mono/prisma';
 import { User } from '../user.entity';
 import { UserMapper } from './user.mapper';
@@ -40,10 +40,21 @@ export class UserRepository {
     return UserMapper.mapToDomain(userModel, userRoles);
   }
 
-  async updateToken(user: User): Promise<UserModel> {
-    return this.prismaServise.userModel.update({
+  async updateToken(user: User): Promise<User> {
+    const userModel = await this.prismaServise.userModel.update({
       where: { email: user.email },
       data: { hashedToken: user.hashedToken },
+    });
+    const userRoles = await this.prismaServise.roleModel.findMany({
+      where: { users: { some: { userId: userModel.id } } },
+    });
+    return UserMapper.mapToDomain(userModel, userRoles);
+  }
+
+  async update(user: User, data: Prisma.UserModelUpdateInput): Promise<UserModel> {
+    return this.prismaServise.userModel.update({
+      where: { email: user.email },
+      data,
     });
   }
 
