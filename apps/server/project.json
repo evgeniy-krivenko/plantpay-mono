@@ -56,8 +56,7 @@
       "outputs": ["coverage/apps/server"],
       "options": {
         "jestConfig": "apps/server/jest.config-e2e.js",
-        "passWithNoTests": true,
-        "envFile": "apps/server/.test.env"
+        "passWithNoTests": true
       }
     },
     "test-e2e-container": {

@@ -22,7 +22,7 @@ const correctUser: SignInUserDto = {
   password: 'vendor123',
 };
 
-describe('ProductController', () => {
+describe('Api tests for /auth', () => {
   let app: INestApplication;
   let cookies: Record<string, any>;
   let token: string;
