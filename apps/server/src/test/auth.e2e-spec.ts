@@ -12,6 +12,7 @@ import { CONFIRM_EMAIL_TEXT } from '@plantpay-mono/constants';
 
 const testingUser: CreateUserDto = {
   name: 'test',
+  surname: 'surname',
   email: 'eqwer@empty.com',
   password: 'querty12456',
 };

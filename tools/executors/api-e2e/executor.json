@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "api-e2e": {
+      "implementation": "./impl",
+      "schema": "./schema.json",
+      "description": "Runs `e2e` (to test executors out)."
+    }
+  }
+}

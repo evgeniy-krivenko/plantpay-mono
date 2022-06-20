@@ -1,0 +1,15 @@
+name: CI
+on:
+  push:
+    branches:
+      - feature/*
+jobs:
+  api-e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.push.head.sha }}
+      - run: npm ci --audit=false
+
+      - run: npx nx run server:api-e2e
