@@ -7,5 +7,6 @@ import { PrismaModule } from '@plantpay-mono/prisma';
   imports: [PrismaModule],
   controllers: [CategoryController],
   providers: [CategoryService],
+  exports: [CategoryService],
 })
 export class CategoryModule {}

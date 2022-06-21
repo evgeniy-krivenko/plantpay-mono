@@ -3,11 +3,11 @@ import { Expose } from 'class-transformer';
 
 export class PaginationDto implements IPagination {
   @Expose()
-  page!: number;
+  page: number;
   @Expose()
-  perPage!: number;
+  perPage: number;
   @Expose()
-  totalPages!: number;
+  totalPages: number;
 
   constructor(pagination: Partial<PaginationDto>) {
     Object.assign(this, pagination);

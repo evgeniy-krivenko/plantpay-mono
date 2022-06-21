@@ -6,6 +6,7 @@ import { ProductMapper } from './product.mapper';
 import { productRepositoryException } from '@plantpay-mono/constants';
 
 export type ProductWhereInput = Prisma.ProductModelWhereInput;
+export type ProductWhereUniqueInput = Prisma.ProductModelWhereUniqueInput;
 
 @Injectable()
 export class ProductRepository {
@@ -51,11 +52,15 @@ export class ProductRepository {
     });
   }
 
-  async *getAllPublishedProducts(
-    take,
-    skip,
-    wereInputs?: ProductWhereInput,
-  ): AsyncIterableIterator<Product> {
+  async getOne(whereInputs?: ProductWhereUniqueInput): Promise<Product> {
+    const productModel = await this.prismaService.productModel.findUnique({
+      where: whereInputs,
+      include: { images: true },
+    });
+    return ProductMapper.mapToDomain(productModel);
+  }
+
+  async *getAllPublishedProducts(take, skip, wereInputs?: ProductWhereInput): AsyncIterableIterator<Product> {
     try {
       const productModels = await this.prismaService.productModel.findMany({
         take,

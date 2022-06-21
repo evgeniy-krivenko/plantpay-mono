@@ -3,12 +3,15 @@ import { ProductRepository, ProductWhereInput } from '../product/repository/prod
 import { CreateProductDto } from './dto/create-product.dto';
 import { User } from '../auth/user.entity';
 import { Product } from '../product/product.entity';
-import BigNumber from 'bignumber.js';
 import { ProductForVendorDto } from './dto/product-for-vendor.dto';
+import { CategoryService } from '../category/category.service';
 
 @Injectable()
 export class DashboardService {
-  constructor(private readonly productRepository: ProductRepository) {}
+  constructor(
+    private readonly productRepository: ProductRepository,
+    private readonly categoryService: CategoryService,
+  ) {}
 
   async getProducts(vendorId: number): Promise<ProductForVendorDto[]> {
     const whereInput: ProductWhereInput = { vendor: { id: vendorId } };
@@ -20,10 +23,9 @@ export class DashboardService {
     return productForVendorItems;
   }
 
-  async createProduct(dto: CreateProductDto, user: User): Promise<Product> {
-    const decimalPrice = new BigNumber(dto.price);
-    const product = new Product(dto.name, dto.description, user.id, dto.categoryId, decimalPrice, dto.images);
-    product.createSlug();
+  async createProduct({ name, description, price, images, categoryId }: CreateProductDto, user: User): Promise<Product> {
+    const category = await this.categoryService.getCategoryById(categoryId);
+    const product = new Product({ name, description, price, category, categoryId, images, vendorId: user.id });
     return this.productRepository.create(product);
   }
 }
