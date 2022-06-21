@@ -20,6 +20,7 @@ const main = async () => {
     data: {
       email: 'vendor@email.com',
       name: 'vendor',
+      surname: 'vendor surname',
       password: hashSync('vendor123', salt),
       roles: {
         create: {

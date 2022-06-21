@@ -48,13 +48,15 @@
         "color": true
       }
     },
+    "api-e2e": {
+      "executor": "./tools/executors/api-e2e:api-e2e"
+    },
     "test-e2e": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/server"],
       "options": {
         "jestConfig": "apps/server/jest.config-e2e.js",
-        "passWithNoTests": true,
-        "envFile": "apps/server/.test.env"
+        "passWithNoTests": true
       }
     },
     "test-e2e-container": {
@@ -73,7 +75,7 @@
     "test-e2e-run": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "env-cmd -f apps/server/.test.env npx nx test-e2e-container server ; npx nx test-docker:down server",
+        "command": "env-cmd -f apps/server/.test.env npx nx test-e2e-container server",
         "envFile": "apps/server/.test.env"
       }
     },

@@ -1,12 +1,13 @@
 import AdminJS from 'adminjs';
 // без этого `@adminjs/nestjs` по какой-то причине "не видит" `@aminjs/express`, необходимый ему для работы
 // import '@adminjs/express';
-import { AdminModule } from '@adminjs/nestjs';
+import { AdminModule, AdminModuleOptions } from '@adminjs/nestjs';
 import { Database, Resource } from '@adminjs/prisma';
 import { DMMFClass } from '@prisma/client/runtime';
 import { Module } from '@nestjs/common';
 import { PrismaModule, PrismaService } from '@plantpay-mono/prisma';
 import uploadFeature from '@adminjs/upload';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 AdminJS.registerAdapter({ Database, Resource });
 
@@ -14,11 +15,12 @@ AdminJS.registerAdapter({ Database, Resource });
   imports: [
     PrismaModule,
     AdminModule.createAdminAsync({
-      imports: [PrismaModule],
-      inject: [PrismaService],
-      useFactory: async (prisma: PrismaService) => {
+      imports: [PrismaModule, ConfigModule],
+      inject: [PrismaService, ConfigService],
+      useFactory: async (prisma: PrismaService, configService: ConfigService): Promise<AdminModuleOptions> => {
         const dmmf = (prisma as any)._dmmf as DMMFClass;
         return {
+          shouldBeInitialized: false,
           adminJsOptions: {
             rootPath: '/admin',
             resources: [
@@ -58,7 +60,9 @@ AdminJS.registerAdapter({ Database, Resource });
                 },
                 features: [
                   uploadFeature({
-                    provider: { local: { bucket: 'uploads' } },
+                    provider: configService.get('CLI_TESTING')
+                      ? { local: { bucket: 'tools' } }
+                      : { local: { bucket: 'uploads' } },
                     properties: {
                       key: 'icon',
                       bucket: 'bucket',

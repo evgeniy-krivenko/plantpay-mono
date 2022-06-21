@@ -52,8 +52,7 @@
 		"executor": "@nrwl/workspace:run-commands",
 		"options": {
 			"command": "node src/seed.js",
-			"cwd": "libs/prisma",
-      "envFile": "apps/server/.test.env"
+			"cwd": "libs/prisma"
 		  }
 	  },
 	  "gen-client": {

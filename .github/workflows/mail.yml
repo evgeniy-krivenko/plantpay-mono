@@ -1,0 +1,67 @@
+name: CI
+on:
+  push:
+  pull_request:
+    types: [opened]
+    branches:
+      - main
+jobs:
+  api-e2e-tests:
+    runs-on: ubuntu-latest
+    container: node:16
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres:13.3
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Cache node modules
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install --no-shrinkwrap --legacy-peer-deps
+
+      - name: Prisma db migrare
+        run: npx nx db-push prisma
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@postgres:5432/test?schema=public
+
+      - name: Prisma seed
+        run: npx nx seed prisma
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@postgres:5432/test?schema=public
+
+      - name: Run e2e api test
+        run: npx nx run server:test-e2e
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@postgres:5432/test?schema=public
+          CLI_TESTING: true
+          JWT_ACCESS_TOKEN_SECRET: asdfiusd3823qhf39hqfd823nbajksdfuaoqh83
+          JWT_ACCESS_TOKEN_EXPIRATION_TIME: 1h
+          JWT_REFRESH_TOKEN_SECRET: asdfiusd3823qhf39hqfd823nbajksdfuaoqh94
+          JWT_REFRESH_TOKEN_EXPIRATION_TIME: 14d
+          JWT_REFRESH_TOKEN_EXPIRATION_DAY: 14
+          SALT: 10
+          BASE_URL: http://localhost:4200/
+          JWT_VERIFICATION_TOKEN_SECRET: 7AnEd5epLmdaJfUrokkR
+          JWT_VERIFICATION_TOKEN_EXPIRATION_TIME: 21600
+          EMAIL_CONFIRMATION_URL: http://localhost:4200/confirm-email
+          JWT_SECRET: akdjfsdkfsdf
