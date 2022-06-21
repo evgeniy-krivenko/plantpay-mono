@@ -9,4 +9,8 @@ export class CategoryService {
   async getAll(): Promise<CategoryModel[]> {
     return this.prismaService.categoryModel.findMany({});
   }
+
+  async getCategoryById(id: number): Promise<CategoryModel> {
+    return this.prismaService.categoryModel.findUnique({ where: { id } });
+  }
 }

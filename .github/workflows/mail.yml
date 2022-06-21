@@ -1,4 +1,4 @@
-name: CI
+name: Testing backend job
 on:
   push:
   pull_request:
@@ -28,16 +28,13 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
-      - name: Cache node modules
-        id: cache
-        uses: actions/cache@v3
+      - uses: actions/setup-node@v3
         with:
-          path: node_modules
-          key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+          node-version: 16
+          cache: 'npm'
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install --no-shrinkwrap --legacy-peer-deps
+        run: npm ci  --legacy-peer-deps
 
       - name: Prisma db migrare
         run: npx nx db-push prisma
@@ -48,6 +45,9 @@ jobs:
         run: npx nx seed prisma
         env:
           DATABASE_URL: postgresql://postgres:postgres@postgres:5432/test?schema=public
+
+      - name: Run unit tests
+        run: npx nx run server:test
 
       - name: Run e2e api test
         run: npx nx run server:test-e2e

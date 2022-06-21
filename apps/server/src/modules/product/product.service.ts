@@ -5,6 +5,7 @@ import { GetProductsQuery } from './dto/get-products-query';
 import { ProductStatus } from '@prisma/client';
 import { ProductForUsersDto } from './dto/product-for-users.dto';
 import { ProductPaginationDto } from './dto/product-pagination.dto';
+import { Product } from './product.entity';
 
 @Injectable()
 export class ProductService {
@@ -42,5 +43,9 @@ export class ProductService {
     }
     const pagination: IPagination = { page, perPage, totalPages };
     return new ProductPaginationDto({ data: productsForUser, pagination });
+  }
+
+  async getOne(slug: string): Promise<Product> {
+    return this.productRepository.getOne({ slug });
   }
 }

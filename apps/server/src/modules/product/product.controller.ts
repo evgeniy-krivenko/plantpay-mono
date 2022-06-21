@@ -2,6 +2,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  Param,
   Query,
   SerializeOptions,
   UseInterceptors,
@@ -11,6 +12,7 @@ import {
 import { IDataPagination, IProductForUsers } from '@plantpay-mono/types';
 import { GetProductsQuery } from './dto/get-products-query';
 import { ProductService } from './product.service';
+import { ProductForUsersDto } from './dto/product-for-users.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @SerializeOptions({
@@ -31,5 +33,11 @@ export class ProductController {
   @Get()
   getAllForUsers(@Query() query: GetProductsQuery): Promise<IDataPagination<IProductForUsers>> {
     return this.productService.getAllForUsers(query);
+  }
+
+  @Get('/:slug')
+  async getOne(@Param('slug') slug: string): Promise<IProductForUsers> {
+    const product = await this.productService.getOne(slug);
+    return new ProductForUsersDto({ ...product });
   }
 }
