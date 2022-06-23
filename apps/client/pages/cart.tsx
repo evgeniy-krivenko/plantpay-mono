@@ -5,10 +5,10 @@ import { useTypeSelector } from '../hooks/useTypeSelector';
 import { inCartCount, productsPriceSelector, vendorsWithProductsSelector } from '../store/reducers/cart/selectors';
 import { NextThunkDispatch, wrapper } from '../store';
 import { AxiosRequestHeaders } from 'axios';
-import { fetchVendorsWithItems } from '../store/reducers/cart/thuks';
 import { commonServerProps } from '../ssr/commonServerProps';
 import cn from 'classnames';
 import Button from '../components/Button/Button';
+import { fetchVendorsWithProduct } from '../store/reducers/cart/cartApi';
 
 export function Cart(): JSX.Element {
   const vendorsWithProducts = useTypeSelector(vendorsWithProductsSelector);
@@ -58,7 +58,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
   const dispatch = store.dispatch as NextThunkDispatch;
   const headers = req.headers as AxiosRequestHeaders;
   await commonServerProps(store)({ req, res });
-  await dispatch(fetchVendorsWithItems(headers));
+  await dispatch(fetchVendorsWithProduct.initiate(headers));
 });
 
 export default Cart;

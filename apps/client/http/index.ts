@@ -1,10 +1,11 @@
-import axios from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { BASE_SERVER_URL } from '../configs/urls';
 import { makeStore } from '../store';
 import { authActions } from '../store/reducers/auth/authReducer';
 import { checkExecutionCtx } from '@plantpay-mono/helpers';
 import cookie from 'cookie';
 import { IRefresh } from '@plantpay-mono/types';
+import { config } from 'rxjs';
 
 let accessToken: string;
 
@@ -47,12 +48,17 @@ $api.interceptors.request.use(async (req) => {
 
 export default $api;
 
+interface CustomAxiosError extends AxiosRequestConfig {
+  _isRetry?: boolean;
+}
+
 $api.interceptors.response.use(
   (config) => config,
-  async (error) => {
-    const originalRequest = error.config;
+  async (error: AxiosError) => {
+    const originalRequest = error.config as CustomAxiosError;
     const store = makeStore();
-    if (error.response?.status === 401 && error.config && !originalRequest._isRetry) {
+    const isAuthRequest = error.config.url === '/auth/sign-in';
+    if (error.response?.status === 401 && error.config && !originalRequest._isRetry && !isAuthRequest) {
       originalRequest._isRetry = true;
       try {
         const { data, headers } = await $api.get<IRefresh>(`/auth/refresh`, {
@@ -69,7 +75,7 @@ $api.interceptors.response.use(
         } else {
           message = 'Что-то пошло не так';
         }
-        store.dispatch(authActions.setErrorAuth(message));
+        return Promise.reject(e);
       }
     }
     throw error;

@@ -9,6 +9,7 @@ import authReducer from './reducers/auth/authReducer';
 import categoriesReducer from './reducers/categories/categoriesReducer';
 import vendorProductReducer from './reducers/vendorProducts/vendorProductReducer';
 import productLoaderReducer from './reducers/productLoader/photoLoaderReducer';
+import { api } from './api';
 
 const rootReducer = combineReducers({
   products: productReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   categories: categoriesReducer,
   vendorProducts: vendorProductReducer,
   productLoader: productLoaderReducer,
+  [api.reducerPath]: api.reducer,
 });
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -36,6 +38,7 @@ export const reducer = (state, action) => {
 export const makeStore = () =>
   configureStore({
     reducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat([api.middleware]),
   });
 
 export type RootState = ReturnType<typeof rootReducer>;
