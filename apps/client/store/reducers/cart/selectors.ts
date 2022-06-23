@@ -2,7 +2,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 import { IVendorWithProduct } from '@plantpay-mono/types';
 
-const selectInCart = (state: RootState) => state.cart.inCart;
+export const selectInCart = (state: RootState) => state.cart.inCart;
 export const inCartSelector = createSelector(
   selectInCart,
   (state, productId: string) => productId,
@@ -13,7 +13,9 @@ const selectIsLoading = (state: RootState) => state.cart.isLoadingById;
 export const isLoadingSelector = createSelector(
   selectIsLoading,
   (_, productId: string) => productId,
-  (isLoadingById: string[], productId: string) => isLoadingById.some((id) => id === productId),
+  (isLoadingById: string[], productId: string) => {
+    return isLoadingById.some((id) => id === productId);
+  },
 );
 
 export const inCartCount = createSelector([selectInCart], (inCart: string[]) => inCart.length);
