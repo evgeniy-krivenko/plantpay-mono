@@ -7,8 +7,9 @@ import { useRouter } from 'next/router';
 import { SIGN_UP_URL } from '../../configs/popups';
 import { useForm } from 'react-hook-form';
 import { ISignIn } from '@plantpay-mono/types';
-import { useActions } from '../../hooks/useActions';
 import { useTypeSelector } from '../../hooks/useTypeSelector';
+import { useSignInMutation } from '../../store/reducers/auth/authApi';
+import { authSelector } from '../../store/reducers/auth/authReducer';
 
 interface LoginPopupProps {
   isOpened: boolean;
@@ -17,8 +18,8 @@ interface LoginPopupProps {
 
 export const LoginPopup: FC<LoginPopupProps> = ({ isOpened }) => {
   const router = useRouter();
-  const { signIn } = useActions();
-  const { isLoading, signInError: error, isAuth } = useTypeSelector((state) => state.auth);
+  const [signIn, { isLoading, error }] = useSignInMutation();
+  const { isAuth } = useTypeSelector(authSelector);
   const {
     register,
     handleSubmit,
@@ -87,7 +88,7 @@ export const LoginPopup: FC<LoginPopupProps> = ({ isOpened }) => {
           onClickButton={goOnSigUpPopup}
           role="link"
         />
-        {error && <div className={styles.error}>{error}</div>}
+        {error && <div className={styles.error}>{error.message}</div>}
       </form>
     </MainPopup>
   );
