@@ -4,11 +4,10 @@ import styles from './SignUpPopup.module.scss';
 import { Input } from '@plantpay-mono/ui';
 import Button from '../Button/Button';
 import { useRouter } from 'next/router';
-import { useActions } from '../../hooks/useActions';
 import { useForm } from 'react-hook-form';
 import { ISignUp } from '@plantpay-mono/types';
 import { SIGN_IN_URL } from '../../configs/popups';
-import { useTypeSelector } from '../../hooks/useTypeSelector';
+import { useSignUpMutation } from '../../store/reducers/auth/authApi';
 
 interface LoginPopupProps {
   isOpened: boolean;
@@ -16,9 +15,9 @@ interface LoginPopupProps {
 }
 
 export const SignUpPopup: FC<LoginPopupProps> = ({ isOpened }) => {
-  const { signUp } = useActions();
+  const [signUp, { isLoading, error, isSuccess }] = useSignUpMutation();
   const router = useRouter();
-  const { isLoading, isSignUpFulfilled, signUpError: error } = useTypeSelector((state) => state.auth);
+
   const {
     register,
     handleSubmit,
@@ -38,10 +37,10 @@ export const SignUpPopup: FC<LoginPopupProps> = ({ isOpened }) => {
   }, [router]);
 
   useEffect(() => {
-    if (isSignUpFulfilled) {
+    if (isSuccess) {
       onClosePopup();
     }
-  }, [isSignUpFulfilled]);
+  }, [isSuccess]);
 
   return (
     <MainPopup

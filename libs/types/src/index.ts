@@ -11,3 +11,4 @@ export * from './product/create-product';
 export * from './cart/cart';
 export * from './category';
 export * from './common/data-pagination.interface';
+export * from './common/api-error.intarface';

@@ -2,11 +2,12 @@ import { NextThunkDispatch } from '../store';
 import { AxiosRequestHeaders } from 'axios';
 import Cookies from 'cookies';
 import { PLANTPAY_CART_ID } from '@plantpay-mono/constants';
-import { fetchInCart } from '../store/reducers/cart/thuks';
-import { fetchUser } from '../store/reducers/auth/thuks';
 import { IncomingMessage, ServerResponse } from 'http';
 import $api from '../http';
 import { getExpireDate } from '../get-expire-date';
+import { fetchInCart } from '../store/reducers/cart/cartApi';
+import { getRunningOperationPromises } from '../store/api';
+import { fetchAuthUser } from '../store/reducers/auth/authApi';
 
 interface CommonServerProps {
   req: IncomingMessage;
@@ -19,7 +20,7 @@ export const commonServerProps =
     const dispatch = store.dispatch as NextThunkDispatch;
     const headers = req.headers as AxiosRequestHeaders;
 
-    await Promise.all([dispatch(fetchInCart(headers)), dispatch(fetchUser(headers))]);
+    await Promise.all([dispatch(fetchInCart.initiate(headers)), dispatch(fetchAuthUser.initiate(headers))]);
 
     const cookiesWithTokens = $api.defaults.headers['setCookie'];
     if (cookiesWithTokens) {
@@ -36,4 +37,6 @@ export const commonServerProps =
         httpOnly: false,
       });
     }
+
+    await Promise.all(getRunningOperationPromises());
   };

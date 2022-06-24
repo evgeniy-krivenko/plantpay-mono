@@ -1,5 +1,4 @@
-import { NextThunkDispatch, wrapper } from '../store';
-import { AxiosRequestHeaders } from 'axios';
+import { wrapper } from '../store';
 import { commonServerProps } from '../ssr/commonServerProps';
 import MainLayout from '../layouts/MainLayout/MainLayout';
 import { ReactNode, useEffect, useState } from 'react';
@@ -9,7 +8,7 @@ import { useTypeSelector } from '../hooks/useTypeSelector';
 import { isEmailConfirmedSelector } from '../store/reducers/auth/selectors';
 import Link from 'next/link';
 import Image from 'next/image';
-import Preloader from '../../../libs/ui/src/lib/Preloader';
+import { Preloader } from '@plantpay-mono/ui';
 
 const SuccessMessage = (): JSX.Element => (
   <>
@@ -35,7 +34,6 @@ function ConfirmEmail(): JSX.Element {
       setResponse('Ваш электронный адрес уже подтвержден');
       return;
     }
-    // console.log(query);
 
     if ('token' in query) {
       const { token } = query;
