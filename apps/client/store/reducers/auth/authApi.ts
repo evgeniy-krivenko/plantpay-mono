@@ -38,5 +38,3 @@ export const authApi = api.injectEndpoints({
 export const { useSignInMutation, useSignUpMutation } = authApi;
 
 export const { fetchAuthUser } = authApi.endpoints;
-
-export type ServerSideQueryEndpoint = typeof fetchAuthUser;
