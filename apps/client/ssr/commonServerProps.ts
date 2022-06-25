@@ -38,5 +38,5 @@ export const commonServerProps =
       });
     }
 
-    await Promise.all(getRunningOperationPromises());
+    // await Promise.all(getRunningOperationPromises());
   };

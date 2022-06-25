@@ -15,3 +15,14 @@ export const activeCategorySelector = createSelector(
     return null;
   },
 );
+
+export const categorySlugSelector = createSelector(
+  [categoriesSelector, (state: RootState, categoryId: number): number => categoryId],
+  (categories, categoryId): string | undefined => {
+    for (const category of categories) {
+      if (category.id === categoryId) {
+        return category.slug;
+      }
+    }
+  },
+);

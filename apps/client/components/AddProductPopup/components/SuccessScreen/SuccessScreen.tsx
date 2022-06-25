@@ -3,7 +3,7 @@ import { ScreenProps } from '../../AddProductPopup';
 import styles from './SuccessScreen.module.scss';
 import HTag from '../../../HTag';
 import Image from 'next/image';
-import Button from '../../../Button/Button';
+import { Button } from '@plantpay-mono/ui';
 import { useRouter } from 'next/router';
 import { useActions } from '../../../../hooks/useActions';
 

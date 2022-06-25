@@ -3,7 +3,7 @@ import { ScreenProps } from '../../AddProductPopup';
 import styles from './CategorySelector.module.scss';
 import Image from 'next/image';
 import { useTypeSelector } from '../../../../hooks/useTypeSelector';
-import { categorySelector } from '../../../../store/reducers/categories/selectors';
+import { categoriesSelector } from '../../../../store/reducers/categories/selectors';
 import { useActions } from '../../../../hooks/useActions';
 import { categoryIdSelector, isCategoryIdSelector } from '../../../../store/reducers/productLoader/selectors';
 import cn from 'classnames';
@@ -12,7 +12,7 @@ import { AddProductScreenContentWrapper } from '../AddProductScreenContentWrappe
 export interface CategorySelectorProps extends ScreenProps {}
 
 export const CategorySelector: FC<CategorySelectorProps> = ({ onNextButtonClick }) => {
-  const categories = useTypeSelector(categorySelector);
+  const categories = useTypeSelector(categoriesSelector);
   const isCategoryId = useTypeSelector(isCategoryIdSelector);
   const categoryId = useTypeSelector(categoryIdSelector);
   const { setCategoryId } = useActions();

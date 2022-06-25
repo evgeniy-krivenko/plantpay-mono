@@ -7,7 +7,7 @@ import { NextThunkDispatch, wrapper } from '../store';
 import { AxiosRequestHeaders } from 'axios';
 import { commonServerProps } from '../ssr/commonServerProps';
 import cn from 'classnames';
-import Button from '../components/Button/Button';
+import { Button } from '@plantpay-mono/ui';
 import { fetchVendorsWithProduct } from '../store/reducers/cart/cartApi';
 
 export function Cart(): JSX.Element {
