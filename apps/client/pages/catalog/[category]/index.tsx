@@ -1,14 +1,14 @@
-import { useTypeSelector } from '../../hooks/useTypeSelector';
-import { productPaginationSelector, productSelector } from '../../store/reducers/products/selectors';
-import { catalogSSP } from '../../ssr/catalogSSP';
-import ProductList from '../../components/ProductList';
-import MainLayout from '../../layouts/MainLayout/MainLayout';
-import Sidebar from '../../components/Sidebar';
-import HTag from '../../components/HTag';
-import { usePagination } from '../../hooks/usePagination';
+import { useTypeSelector } from '../../../hooks/useTypeSelector';
+import { productPaginationSelector, productSelector } from '../../../store/reducers/products/selectors';
+import { catalogSSP } from '../../../ssr/catalogSSP';
+import ProductList from '../../../components/ProductList';
+import MainLayout from '../../../layouts/MainLayout/MainLayout';
+import Sidebar from '../../../components/Sidebar';
+import HTag from '../../../components/HTag';
+import { usePagination } from '../../../hooks/usePagination';
 import { useRouter } from 'next/router';
 import { Pagination } from '@plantpay-mono/ui';
-import { activeCategorySelector, categoriesSelector } from '../../store/reducers/categories/selectors';
+import { activeCategorySelector, categoriesSelector } from '../../../store/reducers/categories/selectors';
 
 export function Category(): JSX.Element {
   const router = useRouter();

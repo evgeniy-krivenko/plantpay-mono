@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import HTag from '../../components/HTag';
 import MainLayout from '../../layouts/MainLayout/MainLayout';
 import VendorSidebar from '../../components/VendorSidebar/VendorSidebar';
-import Button from '../../components/Button/Button';
+import { Button } from '@plantpay-mono/ui';
 import VendorProductList from '../../components/VendorProductList';
 import { NextThunkDispatch, wrapper } from '../../store';
 import { fetchCategories } from '../../store/reducers/categories/thunks';

@@ -7,3 +7,7 @@ export * from './lib/ProgressBar';
 export * from './lib/Checkbox';
 export * from './lib/Pagination';
 export * from './lib/Preloader';
+export * from './lib/VendorInfo';
+export * from './lib/Button';
+export * from './lib/Loader';
+export * from './lib/ProductCartPart';

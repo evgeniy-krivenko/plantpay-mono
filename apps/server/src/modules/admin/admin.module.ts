@@ -20,7 +20,7 @@ AdminJS.registerAdapter({ Database, Resource });
       useFactory: async (prisma: PrismaService, configService: ConfigService): Promise<AdminModuleOptions> => {
         const dmmf = (prisma as any)._dmmf as DMMFClass;
         return {
-          shouldBeInitialized: false,
+          shouldBeInitialized: !configService.get('CLI_TESTING'),
           adminJsOptions: {
             rootPath: '/admin',
             resources: [

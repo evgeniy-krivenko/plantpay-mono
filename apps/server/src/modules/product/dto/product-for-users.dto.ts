@@ -16,9 +16,12 @@ export class ProductForUsersDto implements IProductForUsers {
    * add it
    */
   @Expose()
-  @Transform(({ value }) => {
-    return value.filter((image: IImageElement) => image.isMain);
-  })
+  @Transform(
+    ({ value }) => {
+      return value.filter((image: IImageElement) => image.isMain);
+    },
+    { groups: ['products'] },
+  )
   @Type(() => ImageDto)
   images: IImageElement[];
   @Expose()

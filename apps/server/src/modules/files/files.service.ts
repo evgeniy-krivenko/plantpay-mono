@@ -23,6 +23,6 @@ export class FilesService {
   }
 
   private async cropProductImage(file: Buffer, ext: ImageExtension): Promise<Buffer> {
-    return sharp(file).resize({ width: 400 }).toFormat(ext).toBuffer();
+    return sharp(file).resize({ width: 624 }).toFormat(ext).toBuffer();
   }
 }

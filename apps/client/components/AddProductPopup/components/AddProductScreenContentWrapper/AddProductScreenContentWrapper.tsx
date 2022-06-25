@@ -1,7 +1,7 @@
 import React, { DetailedHTMLProps, FC, HTMLAttributes } from 'react';
 import styles from './AddProductScreenContentWrapper.module.scss';
 import HTag from '../../../HTag';
-import Button from '../../../Button/Button';
+import { Button } from '@plantpay-mono/ui';
 
 export interface AddProductScreenContentWrapperProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

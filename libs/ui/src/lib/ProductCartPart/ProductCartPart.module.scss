@@ -1,0 +1,19 @@
+@import "global";
+
+.buttonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.trash {
+  cursor: pointer;
+  & path {
+    stroke: $cool-grey-light;
+  }
+}
+
+.loader {
+  margin: 0 auto;
+}
+

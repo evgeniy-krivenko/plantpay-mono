@@ -1,0 +1,71 @@
+@import "global";
+
+.wrapper {
+  padding: 16px 0;
+  display: flex;
+}
+
+.image {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin-right: 14px;
+
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.imageMock {
+  width: 100%;
+  height: 100%;
+  background-color: $cultured;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  border-radius: 50%;
+  color: $persian-green;
+}
+
+.nickname {
+  margin-bottom: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  line-height: 12px;
+
+  &::before {
+    display: inline-block;
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: $cool-grey-light;
+    margin-right: 6px;
+    margin-left: 2px;
+  }
+
+  &.online::before {
+    background-color: $persian-green;
+  }
+}
+
+.location {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  line-height: 12px;
+  margin-bottom: 24px;
+  color: $cool-grey;
+  display: flex;
+
+  svg {
+    margin-right: 4px;
+  }
+}
+
+.btn {
+  width: 128px;
+  color: $raisin-black;
+}

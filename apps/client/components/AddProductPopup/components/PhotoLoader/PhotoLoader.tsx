@@ -214,12 +214,9 @@ export const PhotoLoader: FC<PhotoLoaderProps> = ({ onNextButtonClick }) => {
               <div className={styles.mainImageContainer}>
                 <div className={styles.mainImageText}>Главное фото</div>
                 {mainImage ? (
-                  <img
-                    className={styles.mainImage}
-                    src={mainImage?.url || ''}
-                    width="240"
-                    height="300"
-                  />
+                  <div className={styles.mainImage}>
+                    <img src={mainImage?.url || ''} />
+                  </div>
                 ) : (
                   <div className={styles.imageMock}>
                     <MainImageSvg />

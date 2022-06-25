@@ -31,6 +31,7 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
+  @SerializeOptions({ groups: ['products'] })
   getAllForUsers(@Query() query: GetProductsQuery): Promise<IDataPagination<IProductForUsers>> {
     return this.productService.getAllForUsers(query);
   }

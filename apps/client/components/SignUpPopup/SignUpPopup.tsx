@@ -2,7 +2,7 @@ import { MainPopup } from '@plantpay-mono/ui';
 import { FC, useCallback, useEffect, useRef } from 'react';
 import styles from './SignUpPopup.module.scss';
 import { Input } from '@plantpay-mono/ui';
-import Button from '../Button/Button';
+import { Button } from '@plantpay-mono/ui';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { ISignUp } from '@plantpay-mono/types';

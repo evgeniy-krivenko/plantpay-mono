@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps, FC } from 'react';
 import styles from './Button.module.scss';
 import cn from 'classnames';
-import { Loader } from '../Loader/Loader';
+import { Loader } from '../Loader';
 
 interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   onClickButton?: () => void;
@@ -13,7 +13,7 @@ interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonE
   isLoading?: boolean;
 }
 
-const Button: FC<ButtonProps> = ({
+export const Button: FC<ButtonProps> = ({
   onClickButton,
   text,
   className,
@@ -61,5 +61,3 @@ const Button: FC<ButtonProps> = ({
     </button>
   );
 };
-
-export default Button;
