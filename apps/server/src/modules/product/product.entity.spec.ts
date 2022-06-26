@@ -14,7 +14,7 @@ describe('Test creating new Product entity', () => {
     category = instance(categoryMock);
     id = 'asdfasdfkjsdfahsdf';
     price = anyNumber();
-    name = 'product';
+    name = 'Product';
   });
 
   it('Creating correct slug when call new Product entity', () => {
@@ -22,28 +22,26 @@ describe('Test creating new Product entity', () => {
       name,
       description: anyString(),
       id,
-      category,
       categoryId: anyNumber(),
       images: [],
       price,
       vendorId: anyNumber(),
     });
-    expect(product.slug).toEqual(`/sukkuleny/${name}-${id}`);
+    expect(product.slug).toEqual(`${name.toLowerCase()}-${id}`);
   });
 
-  it('Throw error when creating product without slug and category', () => {
-    expect(
-      () =>
-        new Product({
-          name,
-          description: anyString(),
-          id,
-          categoryId: anyNumber(),
-          images: [],
-          price,
-          vendorId: anyNumber(),
-        }),
-    ).toThrowError('Must be a category for create slug');
+  it('Slug without category slug with category', () => {
+    const product = new Product({
+      name,
+      description: anyString(),
+      category,
+      id,
+      categoryId: anyNumber(),
+      images: [],
+      price,
+      vendorId: anyNumber(),
+    });
+    expect(product.slug).toEqual(`${name.toLowerCase()}-${id}`);
   });
 
   it('Can instance class with slug and without category', () => {

@@ -48,10 +48,7 @@ export class Product {
 
     if (!this.slug) {
       const transiledName = CyrillicToTranslit().transform(this.name, '-');
-      if (!this.category) {
-        throw new Error('Must be a category for create slug');
-      }
-      this.slug = `/${this.category.slug}/${transiledName.toLocaleLowerCase()}-${this.id}`;
+      this.slug = `${transiledName.toLocaleLowerCase()}-${this.id}`;
     }
   }
 }
