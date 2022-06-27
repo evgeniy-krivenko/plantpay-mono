@@ -20,10 +20,10 @@ const $api = axios.create({
  * extract from cookie (server and client)
  */
 $api.interceptors.request.use(async (req) => {
-  if (accessToken) {
-    req.headers.Authorization = `Bearer ${accessToken}`;
-    return req;
-  }
+  // if (accessToken) {
+  //   req.headers.Authorization = `Bearer ${accessToken}`;
+  //   return req;
+  // }
 
   let cookiesForParse;
 
@@ -38,8 +38,7 @@ $api.interceptors.request.use(async (req) => {
     const cookies = cookie.parse(cookiesForParse);
     const accessTokenFromCookie = cookies['Access-token'];
     if (accessTokenFromCookie) {
-      accessToken = accessTokenFromCookie;
-      req.headers.Authorization = `Bearer ${accessToken}`;
+      req.headers.Authorization = `Bearer ${accessTokenFromCookie}`;
     }
   }
 
@@ -61,11 +60,11 @@ $api.interceptors.response.use(
     if (error.response?.status === 401 && error.config && !originalRequest._isRetry && !isAuthRequest) {
       originalRequest._isRetry = true;
       try {
-        const { data, headers } = await $api.get<IRefresh>(`/auth/refresh`, {
+        const { data, headers } = await axios.get<IRefresh>(`/auth/refresh`, {
           headers: originalRequest.headers,
         });
-        originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
-        accessToken = data.access_token;
+        originalRequest.headers.Authorization = `bearer ${data.access_token}`;
+        // accessToken = data.access_token;
         $api.defaults.headers['setCookie'] = headers['set-cookie'];
         return await $api.request(originalRequest);
       } catch (e) {

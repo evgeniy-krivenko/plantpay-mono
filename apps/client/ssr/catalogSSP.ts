@@ -2,6 +2,7 @@ import { NextThunkDispatch, wrapper } from '../store';
 import { fetchCategories } from '../store/reducers/categories/thunks';
 import { fetchProducts } from '../store/reducers/products/thunks';
 import { commonServerProps } from './commonServerProps';
+import { getRunningOperationPromises } from '../store/api';
 
 export const catalogSSP = wrapper.getServerSideProps((store) => async ({ query, req, res }): Promise<any> => {
   const dispatch = store.dispatch as NextThunkDispatch;
@@ -13,4 +14,7 @@ export const catalogSSP = wrapper.getServerSideProps((store) => async ({ query, 
     dispatch(fetchCategories()),
     dispatch(fetchProducts(query)),
   ]);
+
+  await Promise.all(getRunningOperationPromises());
+  return { props: {} };
 });
