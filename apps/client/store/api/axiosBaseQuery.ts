@@ -8,7 +8,7 @@ interface CustomQueryArgs extends AxiosRequestConfig {
   onSuccess?: (dispatch: AppDispatch, data) => Promise<void>;
 }
 
-export const axiosBaseQuery: BaseQueryFn<CustomQueryArgs, unknown, IApiError> = async (
+export const axiosBaseQuery: BaseQueryFn<CustomQueryArgs, unknown, unknown> = async (
   { onSuccess, ...args },
   { dispatch },
   extraOptions,
@@ -29,7 +29,7 @@ export const axiosBaseQuery: BaseQueryFn<CustomQueryArgs, unknown, IApiError> = 
   } catch (axiosError) {
     const err = axiosError as AxiosError;
     return {
-      error: err.response?.data as IApiError,
+      error: err.response?.data || 'Internal error',
     };
   }
 };
