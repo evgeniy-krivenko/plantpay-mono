@@ -13,12 +13,12 @@ export class TokenService {
   async getCookiesWithJWTAccessToken(payload: TokenPayload, accessToken?: string): Promise<string> {
     const token = accessToken || this.getAccessToken(payload);
     const maxAge = Number(this.configService.get('JWT_ACCESS_TOKEN_EXPIRATION_DAY')) * SECONDS_PER_DAY;
-    return `Access-token=${token}; Max-Age=${maxAge};`;
+    return `Access-token=${token}; Path=/; samesite=lax; Max-Age=${maxAge};`;
   }
 
   async getCookiesWithJWTRefreshToken(token: string): Promise<string> {
     const maxAge = Number(this.configService.get('JWT_REFRESH_TOKEN_EXPIRATION_DAY')) * SECONDS_PER_DAY;
-    return `Refresh-token=${token}; HttpOnly; Path=/; Max-Age=${maxAge}`;
+    return `Refresh-token=${token}; HttpOnly; Path=/; samesite=lax; Max-Age=${maxAge}`;
   }
 
   getAccessToken(payload: TokenPayload): string {

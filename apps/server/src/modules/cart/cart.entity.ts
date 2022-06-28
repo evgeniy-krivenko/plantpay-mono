@@ -20,17 +20,25 @@ export class Cart {
     return this.products.map((product) => product.id);
   }
 
-  // TODO: covarage unit tests
   public mergeProductsIntoCart(products: Product[]): void {
     for (const product of products) {
       this.products.every((p) => p.id !== product.id) && this.products.push(product);
     }
   }
 
-  public getVendorsWithProducts(): Vendor[] {
-    return this.vendors.map((vendor) => {
-      vendor.products = this.products.filter((product) => product.vendorId === vendor.id);
-      return vendor;
+  public getVendorsWithProducts(productIdsForFilter?: string[]): Vendor[] {
+    const filterProduct =
+      (vendorId: number) =>
+      (product: Product): boolean => {
+        if (productIdsForFilter) {
+          return product.vendorId === vendorId && productIdsForFilter.includes(product.id);
+        }
+        return product.vendorId === vendorId;
+      };
+
+    return this.vendors.filter((vendor) => {
+      vendor.products = this.products.filter(filterProduct(vendor.id));
+      return vendor.products.length > 0;
     });
   }
 }
