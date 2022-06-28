@@ -1,20 +1,26 @@
-import MainLayout from '../layouts/MainLayout/MainLayout';
-import HTag from '../components/HTag';
-import CartItemsList from '../components/CartItemsList';
-import { useTypeSelector } from '../hooks/useTypeSelector';
-import { inCartCount, productsPriceSelector, vendorsWithProductsSelector } from '../store/reducers/cart/selectors';
-import { NextThunkDispatch, wrapper } from '../store';
+import MainLayout from '../../layouts/MainLayout/MainLayout';
+import HTag from '../../components/HTag';
+import CartItemsList from '../../components/CartItemsList';
+import { useTypeSelector } from '../../hooks/useTypeSelector';
+import { inCartCount, productsPriceSelector, vendorsWithProductsSelector } from '../../store/reducers/cart/selectors';
+import { NextThunkDispatch, wrapper } from '../../store';
 import { AxiosRequestHeaders } from 'axios';
-import { commonServerProps } from '../ssr/commonServerProps';
+import { commonServerProps } from '../../ssr/commonServerProps';
 import cn from 'classnames';
 import { Button } from '@plantpay-mono/ui';
-import { fetchVendorsWithProduct } from '../store/reducers/cart/cartApi';
+import { fetchVendorsWithProduct } from '../../store/reducers/cart/cartApi';
+import { useRouter } from 'next/router';
 
 export function Cart(): JSX.Element {
+  const router = useRouter();
   const vendorsWithProducts = useTypeSelector(vendorsWithProductsSelector);
   const productPrice = useTypeSelector(productsPriceSelector);
   const productCount = useTypeSelector(inCartCount);
   const sale = 10;
+
+  const onClick = () => {
+    router.push('/cart/create-order', undefined, { shallow: true });
+  };
 
   return (
     <MainLayout title="Корзина">
@@ -45,7 +51,7 @@ export function Cart(): JSX.Element {
                 <span className="cart__total">Общая стоимость</span>
                 <span className="cart__total-price">{productPrice} ₽</span>
               </div>
-              <Button className="cart__submit-btn" disabled={productPrice <= 0} appearance="primary" size="l">Продолжить оформление</Button>
+              <Button onClickButton={onClick} className="cart__submit-btn" disabled={productPrice <= 0} appearance="primary" size="l">Продолжить оформление</Button>
             </aside>
           </div>
         </div>
