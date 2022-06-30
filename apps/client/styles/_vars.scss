@@ -1,5 +1,3 @@
-
-
 // vars
 $raisin-black: #252A34;
 $cool-grey: #919AB6;
@@ -8,6 +6,7 @@ $white: #FFFFFF;
 $cultured: #F0F0F0;
 $platinum: #EBEBEB;
 $dark-grey: #8F8F8F;
+$silver: #C4C4C4;
 $persian-green: rgba(0, 150, 136, 1);
 $sizilling-red: #F2545B;
 $mediun-turquoise: #5BCBBF;
@@ -18,15 +17,16 @@ $medium-grey: rgba(196, 196, 196, 0.6);
 // mixins
 
 $breakpoints: (
-        "phone":        400px,
-        "phone-wide":   480px,
-        "phablet":      560px,
-        "tablet-small": 640px,
-        "tablet":       768px,
-        "tablet-wide":  1024px,
-        "desktop":      1248px,
-        "desktop-wide": 1440px
+  "phone":        400px,
+  "phone-wide":   480px,
+  "phablet":      560px,
+  "tablet-small": 640px,
+  "tablet":       768px,
+  "tablet-wide":  1024px,
+  "desktop":      1248px,
+  "desktop-wide": 1440px
 );
+
 @mixin mq($width, $type: min) {
   @if map_has_key($breakpoints, $width) {
     $width: map_get($breakpoints, $width);

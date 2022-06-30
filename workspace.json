@@ -7,7 +7,6 @@
     "helpers": "libs/helpers",
     "prisma": "libs/prisma",
     "server": "apps/server",
-    "shared": "libs/shared",
     "svg": "libs/svg",
     "types": "libs/types",
     "ui": "libs/ui"

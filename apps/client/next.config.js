@@ -12,7 +12,8 @@ const nextConfig = {
     svgr: true,
   },
   sassOptions: {
-    includePaths: [path.join(__dirname, '../../libs/shared/styles')],
+    includePaths: [path.join(__dirname, 'styles')],
+    prependData: `@import "_vars.scss";`,
   },
   images: {
     domains: ['localhost'],
