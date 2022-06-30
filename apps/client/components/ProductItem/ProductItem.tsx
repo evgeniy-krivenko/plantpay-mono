@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { IImageElement, IProductForUsers } from '@plantpay-mono/types';
 import { FC } from 'react';
 import styles from './ProductItem.module.scss';

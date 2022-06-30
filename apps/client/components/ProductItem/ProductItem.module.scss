@@ -1,7 +1,4 @@
-@import "global";
-
 .item {
-  max-height: 306px;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: minmax(232px, 234px) 1fr minmax(24px, auto) minmax(32px, auto);
