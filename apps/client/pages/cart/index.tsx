@@ -6,21 +6,13 @@ import { inCartCount, productsPriceSelector, vendorsWithProductsSelector } from 
 import { NextThunkDispatch, wrapper } from '../../store';
 import { AxiosRequestHeaders } from 'axios';
 import { commonServerProps } from '../../ssr/commonServerProps';
-import cn from 'classnames';
-import { Button } from '@plantpay-mono/ui';
 import { fetchVendorsWithProduct } from '../../store/reducers/cart/cartApi';
-import { useRouter } from 'next/router';
+import { CheckoutMenu } from '../../components/CheckoutMenu';
 
 export function Cart(): JSX.Element {
-  const router = useRouter();
   const vendorsWithProducts = useTypeSelector(vendorsWithProductsSelector);
   const productPrice = useTypeSelector(productsPriceSelector);
   const productCount = useTypeSelector(inCartCount);
-  const sale = 10;
-
-  const onClick = () => {
-    router.push('/cart/create-order', undefined, { shallow: true });
-  };
 
   return (
     <MainLayout title="Корзина">
@@ -29,30 +21,15 @@ export function Cart(): JSX.Element {
           <HTag className="cart__title" tag="h1">{`Позиций в корзине ${productCount} шт.`}</HTag>
           <div className="cart__vendor-list-wrapper">
             <CartItemsList vendorsWithProducts={vendorsWithProducts} />
-            <aside className="cart__side-info">
-              <HTag className="cart__info-title" tag="h3">
-                Ваша корзина
-              </HTag>
-              <div className="cart__items-block">
-                <span className="cart__items">{`Товары (${productCount})`}</span>
-                <span className="cart__items-price">{productPrice} ₽</span>
-              </div>
-              <div className="cart__sale-block">
-                <span className="cart__sale">Скидка</span>
-                <span
-                  className={cn('cart__sale-price', {
-                    ['red']: sale > 0,
-                  })}
-                >
-                  -{sale} ₽
-                </span>
-              </div>
-              <div className="cart__total-block">
-                <span className="cart__total">Общая стоимость</span>
-                <span className="cart__total-price">{productPrice} ₽</span>
-              </div>
-              <Button onClickButton={onClick} className="cart__submit-btn" disabled={productPrice <= 0} appearance="primary" size="l">Продолжить оформление</Button>
-            </aside>
+            <CheckoutMenu className="cart__side-info" bordered>
+              <CheckoutMenu.Title>Ваша корзина</CheckoutMenu.Title>
+              <CheckoutMenu.Items itemName="Товары" itemCount={productCount} itemPrice={productPrice} />
+              <CheckoutMenu.Sale sale={10} />
+              <CheckoutMenu.Total totalPrice={productPrice} />
+              <CheckoutMenu.Link appearance="primary" href="/cart/create-order" shallow={true}>
+                Продолжить оформление
+              </CheckoutMenu.Link>
+            </CheckoutMenu>
           </div>
         </div>
       </div>

@@ -6,9 +6,7 @@
   "rollupConfig": "./rollup.config.cjs",
   "webpackConfig": ".webpack.config.js",
   "stylePreprocessorOptions": {
-    "includePaths": [
-      "libs/shared/styles"
-    ]
+    "includePaths": ["libs/shared/styles"]
   },
   "targets": {
     "lint": {
