@@ -18,13 +18,14 @@
   &:-webkit-autofill {
     background-color: $white;
   }
-  &:hover,
+  //&:hover,
   &:focus {
     border: 1.2px solid transparent;
     box-shadow: 0 0 0 2px #009688;
   }
   &:focus + .text,
   &:active + .text,
+  //&:not(:placeholder-shown) + .text,
   &:-webkit-autofill + .text {
     top: -2px;
     left: 12px;
@@ -59,10 +60,10 @@
 .label {
   display: block;
   position: relative;
-  &:hover .input {
-    border: 1.2px solid transparent;
-    box-shadow: 0 0 0 2px #009688;
-  }
+  //&:hover .input {
+  //  border: 1.2px solid transparent;
+  //  box-shadow: 0 0 0 2px #009688;
+  //}
   &:hover .inputError {
     border: 1.2px solid transparent;
     box-shadow: 0 0 0 2px $sizilling-red;

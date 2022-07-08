@@ -31,12 +31,11 @@ type ArrowUpAction = {
 };
 
 type ArrowDownAction = {
-  type: ActionTypes.ArrowDown
+  type: ActionTypes.ArrowDown;
 };
 
 type SelectAction = {
   type: ActionTypes.Select;
-  payload: number;
 };
 
 type ReducerActionTypes = ArrowUpAction | ArrowDownAction | SelectAction;
@@ -88,9 +87,22 @@ export const useSuggestionsDadata = ({
           selectedIndex,
         };
       }
+      case ActionTypes.Select: {
+        return {
+          selectedIndex: -1,
+        };
+      }
     }
   }
 
+  // // focus is input active again
+  // useEffect(() => {
+  //   if (state.selectedIndex === -1) {
+  //     refInput.current?.focus();
+  //   }
+  // }, [state.selectedIndex]);
+
+  // arrow down
   useEffect(() => {
     if (arrowDownPressed) {
       if (state.selectedIndex === -1) {
@@ -100,6 +112,7 @@ export const useSuggestionsDadata = ({
     }
   }, [arrowDownPressed]);
 
+  // arrow up
   useEffect(() => {
     if (arrowUpPressed) {
       if (state.selectedIndex === -1) {
@@ -143,7 +156,7 @@ export const useSuggestionsDadata = ({
   };
 
   const onSuggestionClick = useCallback(
-    (value: string, hideSuggestions = false): void => {
+    (value: string, hideSuggestions = true): void => {
       if (!refInput.current) {
         return;
       }
@@ -152,6 +165,7 @@ export const useSuggestionsDadata = ({
       if (hideSuggestions) {
         setSuggestions([]);
       }
+      dispatch({ type: ActionTypes.Select });
     },
     [setSuggestions],
   );

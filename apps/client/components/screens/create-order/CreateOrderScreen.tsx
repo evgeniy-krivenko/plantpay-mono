@@ -12,6 +12,7 @@ import {
   vendorsWithProductsSelector,
 } from '../../../store/reducers/cart/selectors';
 import { ICustomerAddress } from '@plantpay-mono/types';
+import { AddCustomerAddressPopup } from '../../AddCustomerAddressPopup/AddCustomerAddressPopup';
 
 const addresses: ICustomerAddress[] = [
   {
@@ -59,6 +60,7 @@ export const CreateOrderScreen: FC<CreateOrderScreenProps> = (props) => {
         <div className={styles.ordersInfo}>
           <CreateOrderAddress addresses={addresses} onAddressClick={onAddressClick} actualAddressId={actualAddress} />
           <CreateOrderVendorsList vendors={vendorsWithProducts} />
+          <AddCustomerAddressPopup isOpened={true} onClose={onClick} />
         </div>
         <CheckoutMenu className={styles.checkout}>
           <CheckoutMenu.Title>Итого</CheckoutMenu.Title>

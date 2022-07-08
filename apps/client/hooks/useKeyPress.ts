@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
 
-export const useKeyPress = (targetKey: string): boolean => {
+export const useKeyPress = (targetKey: string, isPreventDefault = true): boolean => {
   const [keyPressed, setKeyPressed] = useState<boolean>(false);
 
   useEffect(() => {
-    function keyDownHandler(this: Window, { key }: KeyboardEvent): any {
-      if (key === targetKey) {
+    const keyDownHandler = (e: KeyboardEvent): void => {
+      if (e.key === targetKey) {
         setKeyPressed(true);
+        isPreventDefault && e.preventDefault();
       }
-    }
+    };
 
-    const keyUpHandler = ({ key }: KeyboardEvent): void => {
-      if (key === targetKey) {
+    const keyUpHandler = (e: KeyboardEvent): void => {
+      if (e.key === targetKey) {
         setKeyPressed(false);
+        isPreventDefault && e.preventDefault();
       }
     };
 

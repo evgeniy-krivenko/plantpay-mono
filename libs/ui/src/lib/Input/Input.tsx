@@ -1,9 +1,17 @@
-import React, { forwardRef, DetailedHTMLProps, InputHTMLAttributes, useEffect, useState, ElementType } from 'react';
+import React, {
+  forwardRef,
+  DetailedHTMLProps,
+  MouseEvent,
+  InputHTMLAttributes,
+  useState,
+  ElementType,
+} from 'react';
 import styles from './Input.module.scss';
 import { ReactComponent as Eye } from './eye-open.svg';
 import { ReactComponent as EyeClosed } from './eye-closed.svg';
 import cn from 'classnames';
 import { FieldError } from 'react-hook-form';
+import { v4 } from 'uuid';
 
 export interface InputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   name: string;
@@ -15,11 +23,21 @@ export interface InputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLIn
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { className, id, placeholder, type, error, tagType: Wrapper = 'input', onBlur, ...otherProps },
+    {
+      className,
+      id,
+      placeholder,
+      type,
+      error,
+      tagType: Wrapper = 'input',
+      onBlur,
+      ...otherProps
+    },
     ref,
   ): JSX.Element => {
     const [isInputFilled, setInputFilled] = useState(false);
     const [localInputType, setIsInputPassword] = useState(type);
+    // const id = v4();
 
     const checkValue = (e: React.FocusEvent<HTMLInputElement, Element>) => {
       if (e.target?.value && e.target.value.length > 0) {
