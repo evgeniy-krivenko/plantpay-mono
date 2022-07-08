@@ -6,6 +6,9 @@ import { useForm } from 'react-hook-form';
 import { usePhoneMask } from '../../hooks/usePhoneMask';
 import { useSuggestionsDadata } from '../../hooks/useSuggestionsDadata';
 import { InputAddressSuggestions } from '@plantpay-mono/ui';
+import {
+  MemorizedInputAddressSuggestions
+} from '../../../../libs/ui/src/lib/InputAddressSuggestions/InputAddressSuggestions';
 
 export interface AddCustomerAddressPopupProps {
   isOpened: boolean;
@@ -22,7 +25,7 @@ interface OrderAddress {
 export const AddCustomerAddressPopup: FC<AddCustomerAddressPopupProps> = ({ isOpened, onClose }) => {
   const { register, handleSubmit } = useForm<OrderAddress>();
   const mask = usePhoneMask();
-  const suggestionsDadata = useSuggestionsDadata({ apiKey: process.env.NX_DADATA_API_KEY });
+  const suggestionsDadata = useSuggestionsDadata({ apiKey: process.env.NX_DADATA_API_KEY, count: 5 });
 
   const submit = (data: OrderAddress) => {
     console.log(data);
@@ -47,8 +50,7 @@ export const AddCustomerAddressPopup: FC<AddCustomerAddressPopupProps> = ({ isOp
             id="surname"
           />
         </div>
-        <InputAddressSuggestions
-
+        <MemorizedInputAddressSuggestions
           className={styles.address}
           name="address"
           placeholder="Адрес"

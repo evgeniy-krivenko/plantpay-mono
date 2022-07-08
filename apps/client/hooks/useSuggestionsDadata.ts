@@ -1,13 +1,20 @@
-import { ChangeEvent, useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  ChangeEventHandler,
+} from 'react';
 import axios, { AxiosPromise } from 'axios';
 import { DaDataAddress, DaDataSuggestion, DaDataSuggestionResponse } from '@plantpay-mono/types';
-import { useKeyPress } from './useKeyPress';
 
 export interface IUseSuggestionsDadata {
   suggestions: DaDataSuggestion<DaDataAddress>[];
   onSuggestionClick: (value: string, hideSuggestions?: boolean) => void;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: ChangeEventHandler<HTMLInputElement> | undefined;
   activeSuggestionIndex: number;
+  addRefToArray: (r: HTMLLIElement | null) => void;
 }
 
 type useSuggestionsInputType = {
@@ -15,32 +22,6 @@ type useSuggestionsInputType = {
   apiKey: string;
   count?: number;
 };
-
-type State = {
-  selectedIndex: number;
-};
-
-enum ActionTypes {
-  ArrowUp = 'ArrowUp',
-  ArrowDown = 'ArrowDown',
-  Select = 'Select',
-}
-
-type ArrowUpAction = {
-  type: ActionTypes.ArrowUp
-};
-
-type ArrowDownAction = {
-  type: ActionTypes.ArrowDown;
-};
-
-type SelectAction = {
-  type: ActionTypes.Select;
-};
-
-type ReducerActionTypes = ArrowUpAction | ArrowDownAction | SelectAction;
-
-const initialState: State = { selectedIndex: -1 };
 
 let timeout;
 
@@ -50,77 +31,41 @@ export const useSuggestionsDadata = ({
   count = 3,
 }: useSuggestionsInputType): IUseSuggestionsDadata => {
   const refInput = useRef<EventTarget & HTMLInputElement>();
-  const initialRefInput = useRef<string>();
+  const [value, setValue] = useState<number>(-1);
   const [suggestions, setSuggestions] = useState<DaDataSuggestion<DaDataAddress>[]>([]);
-  const arrowDownPressed = useKeyPress('ArrowDown');
-  const arrowUpPressed = useKeyPress('ArrowUp');
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const elementsArrayRef = useRef<(HTMLLIElement | null)[]>([]);
 
-  function reducer(state: State, action: ReducerActionTypes): State {
-    switch (action.type) {
-      case ActionTypes.ArrowUp: {
-        let selectedIndex;
-        if (state.selectedIndex === -1) {
-          selectedIndex = suggestions.length - 1;
-          refInput.current.value = suggestions[selectedIndex].value;
-        } else if (state.selectedIndex === 0) {
-          refInput.current.value = initialRefInput.current;
-          selectedIndex = state.selectedIndex - 1;
-        } else {
-          selectedIndex = state.selectedIndex - 1;
-          refInput.current.value = suggestions[selectedIndex].value;
-        }
-        return {
-          selectedIndex,
-        };
-      }
-      case ActionTypes.ArrowDown: {
-        let selectedIndex;
-        if (state.selectedIndex === suggestions.length - 1) {
-          refInput.current.value = initialRefInput.current;
-          selectedIndex = -1;
-        } else {
-          selectedIndex = state.selectedIndex + 1;
-          refInput.current.value = suggestions[selectedIndex].value;
-        }
-        return {
-          selectedIndex,
-        };
-      }
-      case ActionTypes.Select: {
-        return {
-          selectedIndex: -1,
-        };
-      }
-    }
-  }
-
-  // // focus is input active again
-  // useEffect(() => {
-  //   if (state.selectedIndex === -1) {
-  //     refInput.current?.focus();
-  //   }
-  // }, [state.selectedIndex]);
-
-  // arrow down
   useEffect(() => {
-    if (arrowDownPressed) {
-      if (state.selectedIndex === -1) {
-        initialRefInput.current = refInput.current.value;
+    const keyDownHandler = (e: KeyboardEvent): void => {
+      if (e.key === 'ArrowDown') {
+        setValue((state) => (state < suggestions.length - 1 ? state + 1 : 0));
+      } else if (e.key === 'ArrowUp') {
+        setValue((state) => (state <= 0 ? suggestions.length - 1 : state - 1));
       }
-      dispatch({ type: ActionTypes.ArrowDown });
-    }
-  }, [arrowDownPressed]);
+    };
 
-  // arrow up
+    window.addEventListener('keydown', keyDownHandler);
+
+    return (): void => {
+      window.removeEventListener('keydown', keyDownHandler);
+    };
+  }, [suggestions]);
+
+  // focus on element and change input value, when count is changed
   useEffect(() => {
-    if (arrowUpPressed) {
-      if (state.selectedIndex === -1) {
-        initialRefInput.current = refInput.current.value;
-      }
-      dispatch({ type: ActionTypes.ArrowUp });
+    const liRef = elementsArrayRef.current.find((r, index) => index === value);
+    liRef?.focus();
+    if (value >= 0) {
+      refInput.current.value = suggestions[value].value;
     }
-  }, [arrowUpPressed]);
+  }, [value]);
+
+  // add elements by id from DOM
+  const addRefToArray = (r: HTMLLIElement | null) => {
+    if (r) {
+      elementsArrayRef.current[Number(r.id)] = r;
+    }
+  };
 
   const onChangeEventHandler = (e: ChangeEvent<HTMLInputElement>): void => {
     const chars = e.target.value;
@@ -164,8 +109,9 @@ export const useSuggestionsDadata = ({
       refInput.current.value = value;
       if (hideSuggestions) {
         setSuggestions([]);
+        refInput.current.focus();
+        setValue(-1);
       }
-      dispatch({ type: ActionTypes.Select });
     },
     [setSuggestions],
   );
@@ -174,6 +120,7 @@ export const useSuggestionsDadata = ({
     suggestions,
     onSuggestionClick,
     onChange: onChangeEventHandler,
-    activeSuggestionIndex: state.selectedIndex,
+    activeSuggestionIndex: value,
+    addRefToArray,
   };
 };
