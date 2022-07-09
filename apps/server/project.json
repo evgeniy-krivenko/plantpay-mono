@@ -79,12 +79,12 @@
         "envFile": "apps/server/.test.env"
       }
     },
-	"test-docker:up": {
-		"executor": "@nrwl/workspace:run-commands",
-		"options": {
-		  "command": "docker volume prune -f && docker run --name=plantpay-test -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -e POSTGRES_DB=test -p 5433:5432 -d --rm postgres:13.3"
-		}
-	  },
+    "test-docker:up": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "docker volume prune -f && docker run --name=plantpay-test -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -e POSTGRES_DB=test -p 5433:5432 -d --rm postgres:13.3"
+      }
+    },
     "test-docker:down": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {

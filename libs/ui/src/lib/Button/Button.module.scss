@@ -1,44 +1,22 @@
-@import "global";
 
 .button {
-  grid-area: button;
-  border-radius: 3px;
-  transition: .1s all;
-  font-family: 'Montserrat', serif;
+  composes: button from global;
 }
 
 .primary {
-  background-color: $persian-green;
-  color: $white;
-  transition: 200ms all;
-  &:hover {
-    background-color: $teal-blue;
-  }
+  composes: primaryBtn from global;
 }
 
 .ghost {
-  background-color: $cultured;
-  color: $persian-green;
-
-  &:hover {
-    background-color: $mediun-turquoise;
-    color: $white;
-  }
+  composes: ghostBtn from global;
 }
 
 .white {
-  background-color: $white;
-  color: $persian-green;
+  composes: ghostBtn from global;
 }
 
 .disabled {
-  background-color: $cultured;
-  color: $cool-grey-light;
-  cursor: not-allowed;
-  &:hover {
-    background-color: $cultured;
-    color: $cool-grey-light;
-  }
+  composes: disabledBtn from global;
 }
 
 .s {

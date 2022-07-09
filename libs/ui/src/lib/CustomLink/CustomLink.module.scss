@@ -1,0 +1,47 @@
+.link {
+  composes: button from global;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.primary {
+  composes: primaryBtn from global;
+}
+
+.ghost {
+  composes: ghostBtn from global;
+}
+
+.white {
+  composes: ghostBtn from global;
+}
+
+.disabled {
+  composes: disabledBtn from global;
+}
+
+.s {
+  padding: 8px;
+  height: 32px;
+  font-size: 13px;
+}
+
+.m {
+  padding: 10px 24px;
+  font-size: 16px;
+}
+
+.l {
+  height: 48px;
+  font-size: 18px;
+}
+
+.loading {
+  background-color: $mediun-turquoise;
+  cursor: progress;
+}
+
+.loader {
+  margin: -1px auto 0;
+}

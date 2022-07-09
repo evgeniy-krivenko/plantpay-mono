@@ -11,3 +11,5 @@ export * from './lib/VendorInfo';
 export * from './lib/Button';
 export * from './lib/Loader';
 export * from './lib/ProductCartPart';
+export * from './lib/CustomLink';
+export * from './lib/InputAddressSuggestions';

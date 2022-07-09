@@ -18,29 +18,29 @@
         "passWithNoTests": true
       }
     },
-	"migration-save": {
-		"executor": "@nrwl/workspace:run-commands",
-		"options": {
-      "envFile": "./apps/server/.env",
-		  "command": "npx prisma migrate dev --schema ./src/prisma/schema.prisma --name {args.name}",
-		  "cwd": "libs/prisma"
-		}
-	  },
-	  "migration-deploy-test": {
-		"executor": "@nrwl/workspace:run-commands",
-		"options": {
-      "envFile": "apps/server/.test.env",
-		  "command": "npx prisma migrate deploy --schema ./src/prisma/schema.prisma",
-		  "cwd": "libs/prisma"
-		}
-	  },
-	  "migration-deploy": {
-		"executor": "@nrwl/workspace:run-commands",
-		"options": {
-		  "command": "npx prisma migrate deploy --schema ./src/prisma/schema.prisma",
-		  "cwd": "libs/prisma"
-		}
-	  },
+    "migration-save": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "envFile": "./apps/server/.env",
+        "command": "npx prisma migrate dev --schema ./src/prisma/schema.prisma --name {args.name}",
+        "cwd": "libs/prisma"
+      }
+    },
+    "migration-deploy-test": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "envFile": "apps/server/.test.env",
+        "command": "npx prisma migrate deploy --schema ./src/prisma/schema.prisma",
+        "cwd": "libs/prisma"
+      }
+    },
+    "migration-deploy": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx prisma migrate deploy --schema ./src/prisma/schema.prisma",
+        "cwd": "libs/prisma"
+      }
+    },
     "db-push": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
@@ -48,20 +48,20 @@
         "cwd": "libs/prisma"
       }
     },
-	  "seed": {
-		"executor": "@nrwl/workspace:run-commands",
-		"options": {
-			"command": "node src/seed.js",
-			"cwd": "libs/prisma"
-		  }
-	  },
-	  "gen-client": {
-		"executor": "@nrwl/workspace:run-commands",
-		"options": {
-		  "command": "npx prisma generate --schema ./src/prisma/schema.prisma",
-		  "cwd": "libs/prisma"
-		}
-	  }
+    "seed": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "node src/seed.js",
+        "cwd": "libs/prisma"
+      }
+    },
+    "gen-client": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx prisma generate --schema ./src/prisma/schema.prisma",
+        "cwd": "libs/prisma"
+      }
+    }
   },
   "tags": []
 }

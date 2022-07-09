@@ -10,9 +10,10 @@ interface MainPopupProps {
   isOpened: boolean;
   onClose: () => void;
   className?: string;
+  center?: boolean;
 }
 
-export const MainPopup: FC<MainPopupProps> = ({ title, isOpened, onClose, className, children }) => {
+export const MainPopup: FC<MainPopupProps> = ({ title, isOpened, onClose, className, children, center = true }) => {
   return (
     <OverlaingPopup isOpened={isOpened} onClose={onClose}>
       <div

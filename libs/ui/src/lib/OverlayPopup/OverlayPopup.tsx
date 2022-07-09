@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import Portal from '../Portal';
 import styles from './OverlayPopup.module.scss';
 
@@ -9,6 +9,17 @@ interface OverlaingPopupProps {
 }
 
 export const OverlaingPopup: FC<OverlaingPopupProps> = ({ children, isOpened, onClose, overlaid = true }) => {
+
+  useEffect(() => {
+    if (isOpened) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+  }
+  }, [])
+
   if (!isOpened) {
     return null;
   }

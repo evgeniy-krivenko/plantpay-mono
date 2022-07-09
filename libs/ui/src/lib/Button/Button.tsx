@@ -3,7 +3,7 @@ import styles from './Button.module.scss';
 import cn from 'classnames';
 import { Loader } from '../Loader';
 
-interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+export interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   onClickButton?: () => void;
   className?: string;
   text?: string;

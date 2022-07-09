@@ -2,19 +2,6 @@
   "root": "apps/client",
   "sourceRoot": "apps/client",
   "projectType": "application",
-  "architect": {
-    "build": {
-      "executor": "@nrwl/web:build",
-      "options": {
-        "webpackConfig": "./webpack.config.js",
-        "styles": ["libs/shared/styles/_global.scss"]
-      },
-      "stylePreprocessorOptions": {
-          "includePaths": [ "libs/shared/styles" ]
-      },
-      "extractCss": true
-      }
-    },
   "targets": {
     "build": {
       "executor": "@nrwl/next:build",
@@ -29,7 +16,6 @@
         "production": {}
       }
     },
-  
     "serve": {
       "executor": "@nrwl/next:server",
       "options": {
@@ -44,10 +30,7 @@
           }
         ],
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "libs/shared/styles",
-            "libs/ui"
-          ]
+          "includePaths": ["libs/shared/styles", "libs/ui"]
         }
       },
       "configurations": {
