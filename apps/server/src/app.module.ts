@@ -10,6 +10,7 @@ import { CategoryModule } from './modules/category/category.module';
 import { AdminNestModule } from './modules/admin/admin.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { EmailModule } from './modules/email/email.module';
+import { AddressModule } from './modules/address/address.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { EmailModule } from './modules/email/email.module';
     AdminNestModule,
     DashboardModule,
     EmailModule,
+    AddressModule,
   ],
   controllers: [],
   providers: [],

@@ -55,16 +55,11 @@ process.env['JWT_REFRESH_TOKEN_EXPIRATION_DAY'] = '14';
 process.env['SALT'] = '10';
 process.env['BASE_URL'] = 'http://localhost:4200/';
 process.env['SALT'] = '10';
-// process.env['EMAIL_SERVICE'] = 'gmail';
-// process.env['EMAIL_USER'] = 'jako.soll@gmail.com';
-// process.env['EMAIL_PASSWORD'] = 'ltjscifiyxbtzgtq';
 process.env['JWT_VERIFICATION_TOKEN_SECRET'] = '7AnEd5epLmdaJfUrokkR';
 process.env['JWT_VERIFICATION_TOKEN_EXPIRATION_TIME'] = '21600';
 process.env['EMAIL_CONFIRMATION_URL'] = 'http://localhost:4200/confirm-email';
 process.env['JWT_SECRET'] = 'akdjfsdkfsdf';
 var DOCKER_UP = "./tools/executors/api-e2e/docker-run.sh";
-var PRISMA_PUSH = 'npx prisma db push --schema=libs/prisma/src/prisma/schema.prisma';
-var PRISMA_SEED = 'node libs/prisma/src/seed.js';
 var DOCKER_DOWN = 'docker stop plantpay-test';
 function echoExecutor(options, context) {
     var e_1, _a;
@@ -84,7 +79,7 @@ function echoExecutor(options, context) {
                 case 2:
                     _c.sent();
                     return [2 /*return*/, { success: false }];
-                case 3: return [4 /*yield*/, (0, devkit_1.runExecutor)({ project: 'server', target: 'test-e2e' }, {}, context)];
+                case 3: return [4 /*yield*/, (0, devkit_1.runExecutor)({ project: 'server', target: 'test-e2e' }, { detectOpenHandles: true, verbose: true }, context)];
                 case 4:
                     result = _c.sent();
                     _c.label = 5;

@@ -1,1 +1,1 @@
-export { InputAddressSuggestions } from './InputAddressSuggestions';
+export * from './InputAddressSuggestions';

@@ -41,7 +41,7 @@ export default async function echoExecutor(
 
   const result = await runExecutor(
     { project: 'server', target: 'test-e2e' },
-    {},
+    { detectOpenHandles: true, verbose: true },
     context
   )
 
