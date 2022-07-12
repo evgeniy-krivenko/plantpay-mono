@@ -14,3 +14,4 @@ export * from './category';
 export * from './common/data-pagination.interface';
 export * from './common/api-error.intarface';
 export * from './dadata';
+export * from './address';

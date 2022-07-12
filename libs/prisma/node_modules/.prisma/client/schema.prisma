@@ -24,6 +24,17 @@ model UserModel {
   products         ProductModel[]
   cart             CartModel?
   isEmailConfirmed Boolean?
+  addresses        AddressModel[]
+}
+
+model AddressModel {
+  id      String    @id
+  name    String
+  surname String
+  address String
+  phone   String
+  user    UserModel @relation(fields: [userId], references: [id])
+  userId  Int
 }
 
 model RoleModel {

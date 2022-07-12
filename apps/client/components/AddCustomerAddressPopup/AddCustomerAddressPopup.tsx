@@ -1,25 +1,15 @@
 import React, { FC } from 'react';
 import { Button, Input, MainPopup } from '@plantpay-mono/ui';
 import styles from './AddCustomAddressPopup.module.scss';
-import { checkExecutionCtx } from '@plantpay-mono/helpers';
 import { useForm } from 'react-hook-form';
 import { usePhoneMask } from '../../hooks/usePhoneMask';
 import { useSuggestionsDadata } from '../../hooks/useSuggestionsDadata';
-import { InputAddressSuggestions } from '@plantpay-mono/ui';
-import {
-  MemorizedInputAddressSuggestions
-} from '../../../../libs/ui/src/lib/InputAddressSuggestions/InputAddressSuggestions';
+import { MemorizedInputAddressSuggestions } from '@plantpay-mono/ui';
+import { OrderAddress } from '@plantpay-mono/types';
 
 export interface AddCustomerAddressPopupProps {
   isOpened: boolean;
   onClose: () => void;
-}
-
-interface OrderAddress {
-  name: string;
-  surname: string;
-  phone: string;
-  address: string;
 }
 
 export const AddCustomerAddressPopup: FC<AddCustomerAddressPopupProps> = ({ isOpened, onClose }) => {
