@@ -11,6 +11,7 @@ import { AdminNestModule } from './modules/admin/admin.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { EmailModule } from './modules/email/email.module';
 import { AddressModule } from './modules/address/address.module';
+import { OrdersModule } from './modules/orders/orders.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { AddressModule } from './modules/address/address.module';
     AdminNestModule,
     DashboardModule,
     EmailModule,
+    OrdersModule,
     AddressModule,
   ],
   controllers: [],

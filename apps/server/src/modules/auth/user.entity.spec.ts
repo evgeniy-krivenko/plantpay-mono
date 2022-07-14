@@ -8,7 +8,7 @@ describe('UserEntity', () => {
   let byierRole: Role;
 
   beforeEach(() => {
-    user = new User('name', 'surname','email', false, 'asdf', 1, 'asdfa', new Date(), new Date());
+    user = new User('name', 'surname', 'email', false, 'asdf', 1, 'asdfa', new Date(), new Date());
     adminRole = new Role(RoleType.ADMIN, 'descr');
     byierRole = new Role(RoleType.ADMIN, 'descr');
   });

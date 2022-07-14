@@ -3,11 +3,15 @@ import { cartException } from '@plantpay-mono/constants';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { Cart } from './cart.entity';
 import { ProductIdDto } from './dto/add-product.dto';
-import { CartRepository } from './repository/cart.repository';
+import { CartRepository, CartSearchParams } from './repository/cart.repository';
 
 @Injectable()
 export class CartService {
   constructor(private readonly cartRepository: CartRepository) {}
+
+  async getCart(cartSearchParams: CartSearchParams): Promise<Cart> {
+    return this.cartRepository.getCart(cartSearchParams);
+  }
 
   async getOrCreateCart(userId: number | undefined, cartId: string | undefined): Promise<Cart> {
     let userCart: Cart;

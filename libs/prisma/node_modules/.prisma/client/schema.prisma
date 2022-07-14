@@ -11,30 +11,34 @@ datasource db {
 }
 
 model UserModel {
-  id               Int            @id @default(autoincrement())
-  email            String         @unique
-  name             String         @db.VarChar(30)
+  id               Int                @id @default(autoincrement())
+  email            String             @unique
+  name             String             @db.VarChar(30)
   surname          String?
   password         String
   isVendor         Boolean
   hashedToken      String?
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
   roles            UsersOnRoles[]
   products         ProductModel[]
   cart             CartModel?
   isEmailConfirmed Boolean?
   addresses        AddressModel[]
+  userOrders       UserOrderModel[]
+  vendorOrders     VendorOrderModel[]
 }
 
 model AddressModel {
-  id      String    @id
-  name    String
-  surname String
-  address String
-  phone   String
-  user    UserModel @relation(fields: [userId], references: [id])
-  userId  Int
+  id           String             @id
+  name         String
+  surname      String
+  address      String
+  phone        String
+  user         UserModel          @relation(fields: [userId], references: [id])
+  userId       Int
+  vendorOrders VendorOrderModel[]
+  userOrders   UserOrderModel[]
 }
 
 model RoleModel {
@@ -76,6 +80,7 @@ model ProductModel {
   updatedAt   DateTime        @updatedAt
   images      ImageModel[]
   carts       CartOnProduct[]
+  orderItem   OrderItemModel?
 }
 
 enum ProductStatus {
@@ -122,4 +127,55 @@ model CartOnProduct {
   productId String
 
   @@id([cartId, productId])
+}
+
+enum UserOrderStatus {
+  PAID
+  UNPAID
+  CANCELED
+}
+
+model UserOrderModel {
+  id           String             @id
+  status       UserOrderStatus    @default(UNPAID)
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  user         UserModel?         @relation(fields: [userId], references: [id])
+  userId       Int?               @unique
+  address      AddressModel?      @relation(fields: [addressId], references: [id])
+  addressId    String
+  vendorOrders VendorOrderModel[]
+}
+
+enum VendorOrderStatus {
+  CREATED
+  PREPARATION
+  SHIPPED
+  RECIEVED
+  RETURNED
+}
+
+model VendorOrderModel {
+  id          String            @id
+  status      VendorOrderStatus @default(CREATED)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  user        UserModel?        @relation(fields: [userId], references: [id])
+  userId      Int?              @unique
+  address     AddressModel?     @relation(fields: [addressId], references: [id])
+  addressId   String
+  userOrder   UserOrderModel    @relation(fields: [userOrderId], references: [id])
+  userOrderId String
+  orderItems  OrderItemModel[]
+}
+
+model OrderItemModel {
+  id            String           @id
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  vendorOrder   VendorOrderModel @relation(fields: [vendorOrderId], references: [id])
+  vendorOrderId String
+  productModel  ProductModel     @relation(fields: [productId], references: [id])
+  productId     String           @unique
+  price         Decimal          @db.Decimal(9, 2)
 }

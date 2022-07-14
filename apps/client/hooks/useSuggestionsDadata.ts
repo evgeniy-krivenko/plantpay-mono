@@ -39,8 +39,10 @@ export const useSuggestionsDadata = ({
     const keyDownHandler = (e: KeyboardEvent): void => {
       if (e.key === 'ArrowDown') {
         setValue((state) => (state < suggestions.length - 1 ? state + 1 : 0));
+        e.preventDefault();
       } else if (e.key === 'ArrowUp') {
         setValue((state) => (state <= 0 ? suggestions.length - 1 : state - 1));
+        e.preventDefault();
       }
     };
 
@@ -56,7 +58,7 @@ export const useSuggestionsDadata = ({
     const liRef = elementsArrayRef.current.find((r, index) => index === value);
     liRef?.focus();
     if (value >= 0) {
-      refInput.current.value = suggestions[value].value;
+      refInput.current.value = suggestions[value]?.value;
     }
   }, [value]);
 

@@ -1,0 +1,1 @@
+export { SuccessModalPopup } from './SuccessModalPopup';

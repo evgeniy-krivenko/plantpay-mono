@@ -37,4 +37,8 @@ export class AddressService {
   async delete(id: string): Promise<void> {
     await this.prismaService.addressModel.delete({ where: { id } });
   }
+
+  async getOne(addressId: string, userId: number): Promise<AddressModel> {
+    return this.prismaService.addressModel.findFirst({ where: { id: addressId, userId } });
+  }
 }

@@ -13,5 +13,6 @@ export * from './cart/cart';
 export * from './category';
 export * from './common/data-pagination.interface';
 export * from './common/api-error.intarface';
+export * from './orders/create-orders.interface';
 export * from './dadata';
 export * from './address';

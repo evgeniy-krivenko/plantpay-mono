@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Button, Input, MainPopup } from '@plantpay-mono/ui';
 import styles from './AddCustomAddressPopup.module.scss';
 import { useForm } from 'react-hook-form';
@@ -6,6 +6,7 @@ import { usePhoneMask } from '../../hooks/usePhoneMask';
 import { useSuggestionsDadata } from '../../hooks/useSuggestionsDadata';
 import { MemorizedInputAddressSuggestions } from '@plantpay-mono/ui';
 import { OrderAddress } from '@plantpay-mono/types';
+import { useAddAddressMutation } from '../../store/reducers/addresses/addressApi';
 
 export interface AddCustomerAddressPopupProps {
   isOpened: boolean;
@@ -14,15 +15,22 @@ export interface AddCustomerAddressPopupProps {
 
 export const AddCustomerAddressPopup: FC<AddCustomerAddressPopupProps> = ({ isOpened, onClose }) => {
   const { register, handleSubmit } = useForm<OrderAddress>();
+  const [addAddress, { isLoading, isSuccess }] = useAddAddressMutation();
   const mask = usePhoneMask();
   const suggestionsDadata = useSuggestionsDadata({ apiKey: process.env.NX_DADATA_API_KEY, count: 5 });
 
   const submit = (data: OrderAddress) => {
-    console.log(data);
-  }
+    addAddress(data);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      onClose();
+    }
+  }, [isSuccess]);
 
   return (
-    <MainPopup className={styles.popup} isOpened={true} onClose={onClose} title="Добавить адрес доставки">
+    <MainPopup className={styles.popup} isOpened={isOpened} onClose={onClose} title="Добавить адрес доставки">
       <form onSubmit={handleSubmit(submit)} autoComplete="off">
         <div className={styles.infoWrapper}>
           <Input
@@ -41,6 +49,7 @@ export const AddCustomerAddressPopup: FC<AddCustomerAddressPopupProps> = ({ isOp
           />
         </div>
         <MemorizedInputAddressSuggestions
+          {...register('address')}
           className={styles.address}
           name="address"
           placeholder="Адрес"
@@ -60,7 +69,7 @@ export const AddCustomerAddressPopup: FC<AddCustomerAddressPopupProps> = ({ isOp
           <Button appearance="white" size="m" >
             Отменить
           </Button>
-          <Button appearance="primary" size="m">
+          <Button isLoading={isLoading} appearance="primary" size="m">
             Добавить
           </Button>
         </div>
