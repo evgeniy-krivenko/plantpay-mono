@@ -20,7 +20,8 @@
 }
 
 .s {
-  padding: 8px;
+  min-width: 112px;
+  padding: 8px 16px;
   height: 32px;
   font-size: 13px;
 }
@@ -31,6 +32,9 @@
 }
 
 .l {
+  min-width: 112px;
+  text-align: center;
+  padding: 8px 8px;
   height: 48px;
   font-size: 18px;
 }

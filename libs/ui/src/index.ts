@@ -13,3 +13,4 @@ export * from './lib/Loader';
 export * from './lib/ProductCartPart';
 export * from './lib/CustomLink';
 export * from './lib/InputAddressSuggestions';
+export * from './lib/SuccessModalPopup';

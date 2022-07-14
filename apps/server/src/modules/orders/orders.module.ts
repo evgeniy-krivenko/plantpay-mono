@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { OrdersController } from './orders.controller';
 import { CartModule } from '../cart/cart.module';
-import { CustomerOrderService } from './customer-order.service';
-import { VendorOrderService } from './vendor-order.service';
+import { OrdersService } from './orders.service';
+import { AddressModule } from '../address/address.module';
+import { PrismaModule } from '@plantpay-mono/prisma';
 
 @Module({
-  imports: [CartModule],
+  imports: [CartModule, AddressModule, PrismaModule],
   controllers: [OrdersController],
-  providers: [CustomerOrderService, VendorOrderService],
+  providers: [OrdersService],
 })
 export class OrdersModule {}

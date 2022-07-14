@@ -60,7 +60,7 @@ $api.interceptors.response.use(
     if (error.response?.status === 401 && error.config && !originalRequest._isRetry && !isAuthRequest) {
       originalRequest._isRetry = true;
       try {
-        const { data, headers } = await axios.get<IRefresh>(`/auth/refresh`, {
+        const { data, headers } = await axios.get<IRefresh>(`${BASE_SERVER_URL}/auth/refresh`, {
           headers: originalRequest.headers,
         });
         originalRequest.headers.Authorization = `bearer ${data.access_token}`;

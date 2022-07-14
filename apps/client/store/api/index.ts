@@ -5,6 +5,8 @@ import { axiosBaseQuery } from './axiosBaseQuery';
 export const tagTypes = {
   products: 'Products',
   inCart: 'InCart',
+  addresses: 'Addresses',
+  orders: 'Orders',
 } as const;
 
 export type TagType = typeof tagTypes[keyof typeof tagTypes];

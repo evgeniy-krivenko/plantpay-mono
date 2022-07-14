@@ -5,4 +5,6 @@ export class CreateOrdersDto implements ICreateOrders {
   @ArrayMinSize(1)
   @IsUUID('4', { each: true })
   checkedProductInCart: string[];
+  @IsUUID('4')
+  addressId: string;
 }

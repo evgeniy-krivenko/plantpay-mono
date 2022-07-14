@@ -1,26 +1,48 @@
-import { BadRequestException, Controller, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  BadRequestException, Body,
+  Controller,
+  InternalServerErrorException,
+  Post,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { CreateOrdersDto } from './dto/create-orders.dto';
 import { CartService } from '../cart/cart.service';
 import { UserFromReq } from '../auth/decorators/user.decorator';
 import { User } from '../auth/user.entity';
-import { VendorOrderService } from './vendor-order.service';
-import { CustomerOrderService } from './customer-order.service';
+import { OrdersService } from './orders.service';
+import { AddressService } from '../address/address.service';
+import { JwtAccessGuard } from '../auth/guards/jwt-access.guard';
 
+@UseGuards(JwtAccessGuard)
 @UsePipes(ValidationPipe)
 @Controller('orders')
 export class OrdersController {
   constructor(
     private readonly cartService: CartService,
-    private readonly vendorOrderService: VendorOrderService,
-    private readonly customerOrderService: CustomerOrderService,
+    private readonly addressService: AddressService,
+    private readonly vendorOrderService: OrdersService,
   ) {}
 
   @Post('')
-  async createOrders(@UserFromReq() user: User | undefined, { checkedProductInCart }: CreateOrdersDto): Promise<void> {
+  async createOrders(@UserFromReq() user: User | undefined, @Body() dto: CreateOrdersDto): Promise<void> {
     const cart = await this.cartService.getCart({ userId: user.id });
+
+    console.log(dto);
+    if (!dto) {
+      throw new InternalServerErrorException('Something wrong');
+    }
+    const { checkedProductInCart, addressId } = dto;
 
     if (!cart) {
       throw new BadRequestException(`Неверный ID корзины`);
+    }
+
+    const address = await this.addressService.getOne(addressId, user.id);
+
+    if (!address) {
+      throw new BadRequestException(`Неверный адрес`);
     }
 
     const productIdsFromCart = cart.getProductIds();
@@ -32,13 +54,7 @@ export class OrdersController {
     }
 
     const vendors = cart.getVendorsWithProducts(checkedProductInCart);
-
-    const vendorOrderIds: string[] = [];
-
-    for (const vendor of vendors) {
-      const vendorOrderId = await this.vendorOrderService.createOrder(vendor);
-      vendorOrderIds.push(vendorOrderId);
-    }
+    await this.vendorOrderService.createOrder(user, vendors, addressId, cart.id);
 
     // const customerOrderId = await this.customerOrderService.createOrder(user, vendorOrderIds);
   }
