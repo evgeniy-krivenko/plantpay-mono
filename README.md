@@ -4,8 +4,6 @@
 
 This project was generated using [Nx](https://nx.dev).
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
-
 Below are our core plugins:
 
 - [React](https://reactjs.org)
@@ -18,7 +16,16 @@ This pet-project is ecommerce marketplace platform for trading plants
 ## Now implemented
 
 * Authorization with JWT (access and refresh tokens)
-* Pipeline for e2e tests
+* Registration with email confirmation
+* Pipeline for integration e2e tests
+* GH actions for unit and integration test
+* Catalog with category's sidebar
+* One product view page
+* Cart
+* Page for orders where user can add shipment address
+* Logic for creating ordrers for vendors and order for customers
+* Vendor dashboard (in progress yet)
+* Multi step pop up for product addition (drug and drop, loading progress for addition imgs)
 
 ## How to start
 
@@ -48,6 +55,12 @@ This app was created with Nest.JS framework
 
 ```
 nx serve server
+```
+
+### Starting web app
+
+```
+nx serve client
 ```
 
 ### e2e test
